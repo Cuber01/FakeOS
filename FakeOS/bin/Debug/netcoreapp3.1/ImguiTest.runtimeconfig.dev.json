@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "/home/cubeq/.dotnet/store/|arch|/|tfm|",
+      "/home/cubeq/.nuget/packages"
+    ]
+  }
+}

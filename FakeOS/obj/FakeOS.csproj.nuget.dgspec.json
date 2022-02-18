@@ -1,0 +1,74 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/cubeq/RiderProjects/FakeOS/FakeOS/FakeOS.csproj": {}
+  },
+  "projects": {
+    "/home/cubeq/RiderProjects/FakeOS/FakeOS/FakeOS.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/cubeq/RiderProjects/FakeOS/FakeOS/FakeOS.csproj",
+        "projectName": "FakeOS",
+        "projectPath": "/home/cubeq/RiderProjects/FakeOS/FakeOS/FakeOS.csproj",
+        "packagesPath": "/home/cubeq/.nuget/packages/",
+        "outputPath": "/home/cubeq/RiderProjects/FakeOS/FakeOS/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/cubeq/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "netcoreapp6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "netcoreapp6.0",
+          "dependencies": {
+            "ImGui.NET": {
+              "target": "Package",
+              "version": "[1.87.2, )"
+            },
+            "MonoGame.Content.Builder.Task": {
+              "target": "Package",
+              "version": "[3.8.0.1641, )"
+            },
+            "MonoGame.Framework.DesktopGL": {
+              "target": "Package",
+              "version": "[3.8.0.1641, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.102/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

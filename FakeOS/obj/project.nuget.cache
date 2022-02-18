@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "3coqMiafvnDT6c3ppDz4CdLE+ieefI8Ns5I3N6tyH52EI4odIyEzYRoPXz0/i4mtMlpf0QxBHQPW7fo0bhGLbg==",
+  "success": true,
+  "projectFilePath": "/home/cubeq/RiderProjects/FakeOS/FakeOS/FakeOS.csproj",
+  "expectedPackageFiles": [
+    "/home/cubeq/.nuget/packages/imgui.net/1.87.2/imgui.net.1.87.2.nupkg.sha512",
+    "/home/cubeq/.nuget/packages/monogame.content.builder.task/3.8.0.1641/monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
+    "/home/cubeq/.nuget/packages/monogame.framework.desktopgl/3.8.0.1641/monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512",
+    "/home/cubeq/.nuget/packages/system.buffers/4.4.0/system.buffers.4.4.0.nupkg.sha512",
+    "/home/cubeq/.nuget/packages/system.numerics.vectors/4.4.0/system.numerics.vectors.4.4.0.nupkg.sha512",
+    "/home/cubeq/.nuget/packages/system.runtime.compilerservices.unsafe/4.4.0/system.runtime.compilerservices.unsafe.4.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}
