@@ -14,14 +14,19 @@ public class ImGuiHelper
         this.renderer = renderer;
         this.io = io;
     }
-    
-    public void loadFont(string path, int size)
+
+    public void initializeDefaultSettings()
     {
-        throw new NotImplementedException("Doesn't work");
         
-        ImFontPtr font = io.Fonts.AddFontFromFileTTF(path, size);
-        ImGui.PushFont(font);
-        renderer.RebuildFontAtlas();
     }
+    
+    // public void loadFont(string path, int size)
+    // {
+    //     throw new NotImplementedException("Doesn't work");
+    //     
+    //     ImFontPtr font = io.Fonts.AddFontFromFileTTF(path, size);
+    //     ImGui.PushFont(font);
+    //     renderer.RebuildFontAtlas();
+    // }
     
 }

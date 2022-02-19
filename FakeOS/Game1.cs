@@ -63,7 +63,7 @@ namespace FakeOS
             graphics.GraphicsDevice.Clear(Color.Gray);
 
             guiRenderer.BeforeLayout(gameTime);
-            //ImGui.ShowDemoWindow();
+            ImGui.ShowDemoWindow();
 
             foreach (var window in windows)
             {

@@ -7,7 +7,7 @@ namespace FakeOS.Software;
 public class TextEditor : GuiSoftware
 {
     private string text = "";
-    private readonly ImGuiInputTextFlags multilineTextFlags = ImGuiInputTextFlags.AllowTabInput;
+    private readonly ImGuiInputTextFlags multilineTextFlags = ImGuiInputTextFlags.CallbackCharFilter | ImGuiInputTextFlags.AllowTabInput;
     
     public TextEditor()
     {
@@ -15,13 +15,19 @@ public class TextEditor : GuiSoftware
         running = true;
     }
     
-    public override void draw()
+    public unsafe override void draw()
     {
         ImGui.Begin(name, ref running);
-       
-        ImGui.InputTextMultiline("", ref text, UInt32.MaxValue, new Vector2(400,  ImGui.GetTextLineHeight() * 16), 
-            multilineTextFlags);
+
+        ImGui.InputTextMultiline("", ref text, UInt16.MaxValue, new Vector2(1000, 1000),
+            multilineTextFlags, processData);
 
         ImGui.End();
     }
+
+    private unsafe int processData(ImGuiInputTextCallbackData* data)
+    {
+        return 0;
+    }
+    
 }
