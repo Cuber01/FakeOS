@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using FakeOS.Gui;
+using FakeOS.Software;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ImGuiNET;
 
@@ -7,10 +12,12 @@ namespace FakeOS
 {
     public class Game1 : Game
     {
-        
+        private List<GuiSoftware> windows = new List<GuiSoftware>();
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private ImGuiRenderer GuiRenderer;
+        private ImGuiRenderer guiRenderer;
+        private ImGuiHelper guiHelper;
     
         public Game1()
         {
@@ -28,10 +35,15 @@ namespace FakeOS
             graphics.PreferredBackBufferWidth= 1000;
             graphics.ApplyChanges();
 
-            GuiRenderer = new ImGuiRenderer(this);
-            GuiRenderer.RebuildFontAtlas();
+            guiRenderer = new ImGuiRenderer(this);
+            guiHelper = new ImGuiHelper(guiRenderer, ImGui.GetIO());
             
-            GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
+            guiRenderer.RebuildFontAtlas();
+            
+            StyleChooser.darkTheme();
+            
+            windows.Add(new TextEditor());
+
         }
 
         protected override void LoadContent()
@@ -48,16 +60,18 @@ namespace FakeOS
 
         protected override void Draw(GameTime gameTime)
         {
-            graphics.GraphicsDevice.Clear(Color.Coral);
+            graphics.GraphicsDevice.Clear(Color.Gray);
 
-            //var oldSamplerState = GraphicsDevice.SamplerStates[0];
+            guiRenderer.BeforeLayout(gameTime);
+            //ImGui.ShowDemoWindow();
 
-            GuiRenderer.BeforeLayout(gameTime);
-            ImGui.LabelText("Hello World", "");
+            foreach (var window in windows)
+            {
+                window.draw();
+            }
 
-            GuiRenderer.AfterLayout();
+            guiRenderer.AfterLayout();
             
-            //GraphicsDevice.SamplerStates[0] = oldSamplerState;
 
             base.Draw(gameTime);
         }
