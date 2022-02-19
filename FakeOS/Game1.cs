@@ -55,7 +55,10 @@ namespace FakeOS
         
         protected override void Update(GameTime gameTime)
         { 
-            base.Update(gameTime);
+            foreach (var window in windows)
+            {
+                window.update();
+            }
         }
 
         protected override void Draw(GameTime gameTime)
