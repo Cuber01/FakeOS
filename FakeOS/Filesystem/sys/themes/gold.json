@@ -1,0 +1,308 @@
+{
+  "FramePadding" : {"X":4, "Y":2},
+  "ItemSpacing" :  {"X":10, "Y":2},
+  "IndentSpacing" : 12,
+  "ScrollbarSize" : 10,
+
+  "WindowRounding" : 4,
+  "FrameRounding" : 4,
+  "PopupRounding" : 4,
+  "ScrollbarRounding" : 6,
+  "GrabRounding" : 4,
+  "TabRounding" : 4,
+
+  "WindowTitleAlign" :       {"X":1.0,"Y": 0.5},
+  "DisplaySafeAreaPadding" : {"X":4, "Y":4},
+
+  "Colors": {
+    "Text": [
+      0.92,
+      0.92,
+      0.92,
+      1.00
+    ],
+    "TextDisabled": [
+      0.44,
+      0.44,
+      0.44,
+      1.00
+    ],
+    "WindowBg": [
+      0.06,
+      0.06,
+      0.06,
+      1.00
+    ],
+    "ChildBg": [
+      0.00,
+      0.00,
+      0.00,
+      0.00
+    ],
+    "PopupBg": [
+      0.08,
+      0.08,
+      0.08,
+      0.94
+    ],
+    "Border": [
+      0.51,
+      0.36,
+      0.15,
+      1.00
+    ],
+    "BorderShadow": [
+      0.00,
+      0.00,
+      0.00,
+      0.00
+    ],
+    "FrameBg": [
+      0.11,
+      0.11,
+      0.11,
+      1.00
+    ],
+    "FrameBgHovered": [
+      0.51,
+      0.36,
+      0.15,
+      1.00
+    ],
+    "FrameBgActive": [
+      0.78,
+      0.55,
+      0.21,
+      1.00
+    ],
+    "TitleBg": [
+      0.51,
+      0.36,
+      0.15,
+      1.00
+    ],
+    "TitleBgActive": [
+      0.91,
+      0.64,
+      0.13,
+      1.00
+    ],
+    "TitleBgCollapsed": [
+      0.00,
+      0.00,
+      0.00,
+      0.51
+    ],
+    "MenuBarBg": [
+      0.11,
+      0.11,
+      0.11,
+      1.00
+    ],
+    "ScrollbarBg": [
+      0.06,
+      0.06,
+      0.06,
+      0.53
+    ],
+    "ScrollbarGrab": [
+      0.21,
+      0.21,
+      0.21,
+      1.00
+    ],
+    "ScrollbarGrabHovered": [
+      0.47,
+      0.47,
+      0.47,
+      1.00
+    ],
+    "ScrollbarGrabActive": [
+      0.81,
+      0.83,
+      0.81,
+      1.00
+    ],
+    "CheckMark": [
+      0.78,
+      0.55,
+      0.21,
+      1.00
+    ],
+    "SliderGrab": [
+      0.91,
+      0.64,
+      0.13,
+      1.00
+    ],
+    "SliderGrabActive": [
+      0.91,
+      0.64,
+      0.13,
+      1.00
+    ],
+    "Button": [
+      0.51,
+      0.36,
+      0.15,
+      1.00
+    ],
+    "ButtonHovered": [
+      0.91,
+      0.64,
+      0.13,
+      1.00
+    ],
+    "ButtonActive": [
+      0.78,
+      0.55,
+      0.21,
+      1.00
+    ],
+    "Header": [
+      0.51,
+      0.36,
+      0.15,
+      1.00
+    ],
+    "HeaderHovered": [
+      0.91,
+      0.64,
+      0.13,
+      1.00
+    ],
+    "HeaderActive": [
+      0.93,
+      0.65,
+      0.14,
+      1.00
+    ],
+    "Separator": [
+      0.21,
+      0.21,
+      0.21,
+      1.00
+    ],
+    "SeparatorHovered": [
+      0.91,
+      0.64,
+      0.13,
+      1.00
+    ],
+    "SeparatorActive": [
+      0.78,
+      0.55,
+      0.21,
+      1.00
+    ],
+    "ResizeGrip": [
+      0.21,
+      0.21,
+      0.21,
+      1.00
+    ],
+    "ResizeGripHovered": [
+      0.91,
+      0.64,
+      0.13,
+      1.00
+    ],
+    "ResizeGripActive": [
+      0.78,
+      0.55,
+      0.21,
+      1.00
+    ],
+    "Tab": [
+      0.51,
+      0.36,
+      0.15,
+      1.00
+    ],
+    "TabHovered": [
+      0.91,
+      0.64,
+      0.13,
+      1.00
+    ],
+    "TabActive": [
+      0.78,
+      0.55,
+      0.21,
+      1.00
+    ],
+    "TabUnfocused": [
+      0.07,
+      0.10,
+      0.15,
+      0.97
+    ],
+    "TabUnfocusedActive": [
+      0.14,
+      0.26,
+      0.42,
+      1.00
+    ],
+    "PlotLines": [
+      0.61,
+      0.61,
+      0.61,
+      1.00
+    ],
+    "PlotLinesHovered": [
+      1.00,
+      0.43,
+      0.35,
+      1.00
+    ],
+    "PlotHistogram": [
+      0.90,
+      0.70,
+      0.00,
+      1.00
+    ],
+    "PlotHistogramHovered": [
+      1.00,
+      0.60,
+      0.00,
+      1.00
+    ],
+    "TextSelectedBg": [
+      0.26,
+      0.59,
+      0.98,
+      0.35
+    ],
+    "DragDropTarget": [
+      1.00,
+      1.00,
+      0.00,
+      0.90
+    ],
+    "NavHighlight": [
+      0.26,
+      0.59,
+      0.98,
+      1.00
+    ],
+    "NavWindowingHighlight": [
+      1.00,
+      1.00,
+      1.00,
+      0.70
+    ],
+    "NavWindowingDimBg": [
+      0.80,
+      0.80,
+      0.80,
+      0.20
+    ],
+    "ModalWindowDimBg": [
+      0.80,
+      0.80,
+      0.80,
+      0.35
+    ]
+  }
+
+}

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ImGuiNET;
 using System.Numerics;
+using Newtonsoft.Json;
 
 namespace FakeOS.Json;
 
