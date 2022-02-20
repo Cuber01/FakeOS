@@ -16,6 +16,7 @@ namespace FakeOS
         private SpriteBatch spriteBatch;
         private ImGuiRenderer guiRenderer;
         private ImGuiHelper guiHelper;
+        private StyleManager styleManager;
     
         public Game1()
         {
@@ -42,7 +43,7 @@ namespace FakeOS
 
             guiRenderer.RebuildFontAtlas();
 
-            StyleChooser.yetAnotherDark();
+            StyleManager.retroDark();
             
             windows.Add(new TextEditor());
 
