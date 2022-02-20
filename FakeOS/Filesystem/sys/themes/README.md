@@ -36,6 +36,8 @@ You need to edit all thing.x or thing.y to thing.X and thing.Y respectively.
 
 This script is mostly a dev tool, hence why it is so poor.
 
+2d Vectors should be changed from [10, 20] to {"X":10, "Y":20}
+
 # Credits
 
 retroDark - https://github.com/ocornut/imgui/issues/707#issuecomment-252413954
