@@ -58,3 +58,4 @@
 /home/cubeq/RiderProjects/FakeOS/FakeOS/obj/Debug/netcoreapp6.0/ref/FakeOS.dll
 /home/cubeq/RiderProjects/FakeOS/FakeOS/obj/Debug/netcoreapp6.0/FakeOS.pdb
 /home/cubeq/RiderProjects/FakeOS/FakeOS/obj/Debug/netcoreapp6.0/FakeOS.genruntimeconfig.cache
+/home/cubeq/RiderProjects/FakeOS/FakeOS/bin/Debug/netcoreapp6.0/Newtonsoft.Json.dll

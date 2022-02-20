@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FakeOS.General;
 using FakeOS.Gui;
 using FakeOS.Software;
 using Microsoft.Xna.Framework;
@@ -36,15 +37,12 @@ namespace FakeOS
 
             guiRenderer = new ImGuiRenderer(this);
             guiHelper = new ImGuiHelper(guiRenderer, ImGui.GetIO());
-
-           // guiHelper.loadFont("/home/cubeq/RiderProjects/FakeOS/FakeOS/Filesystem/sys/fonts/Roboto-Regular.ttf", 18);
-            //ImGui.GetIO().Fonts.AddFontDefault();
-           // ImGui.GetIO().Fonts.Build();
-
-            guiRenderer.RebuildFontAtlas();
-
-            StyleManager.retroDark();
+            styleManager = new StyleManager("./Filesystem/sys/themes/", ImGui.GetStyle());
             
+            guiRenderer.RebuildFontAtlas();
+            
+            styleManager.setTheme("lightGreen");
+
             windows.Add(new TextEditor());
 
         }

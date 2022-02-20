@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace FakeOS
+namespace FakeOS.tools
 {
     public static class FileReader
     {
