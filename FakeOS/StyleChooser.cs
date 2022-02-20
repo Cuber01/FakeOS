@@ -6,7 +6,7 @@ namespace FakeOS;
 public static class StyleChooser 
 {
     // https://github.com/ocornut/imgui/issues/707#issuecomment-252413954
-    public static void codzDark()
+    public static void retroDark()
     {
         ImGuiStylePtr style = ImGui.GetStyle();
         style.WindowRounding = 5.3f;
@@ -117,6 +117,7 @@ public static class StyleChooser
         style.Colors[(int)ImGuiCol.NavWindowingHighlight] = new Vector4(0.70f, 0.70f, 0.70f, 0.70f);
     }
 
+    // https://github.com/ocornut/imgui/issues/707#issuecomment-463758243
     public static void charcoalGray()
     {
         ImGuiStylePtr style = ImGui.GetStyle();
@@ -184,6 +185,7 @@ public static class StyleChooser
 		style.WindowRounding = 4.0f;
     }
 
+    // https://github.com/ocornut/imgui/issues/707#issuecomment-512669512
     public static void yetAnotherDark()
     {
 	        //imGuiIO.Fonts->AddFontFromFileTTF("../data/Fonts/Ruda-Bold.ttf", 15.0f, &config); TODO
