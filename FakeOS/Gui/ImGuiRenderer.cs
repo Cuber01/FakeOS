@@ -185,7 +185,8 @@ namespace FakeOS
             //};
             ///////////////////////////////////////////
 
-            ImGui.GetIO().Fonts.AddFontDefault();
+            //ImGui.GetIO().Fonts.AddFontDefault();
+            ImGui.GetIO().Fonts.AddFontFromFileTTF("/home/cubeq/RiderProjects/FakeOS/FakeOS/Filesystem/sys/fonts/Roboto-Regular.ttf", 18);
         }
 
         /// <summary>

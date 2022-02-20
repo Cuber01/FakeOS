@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using FakeOS.Gui;
 using FakeOS.Software;
 using Microsoft.Xna.Framework;
@@ -24,7 +22,7 @@ namespace FakeOS
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
-        
+
         protected override void Initialize()
         {
             base.Initialize();
@@ -37,9 +35,13 @@ namespace FakeOS
 
             guiRenderer = new ImGuiRenderer(this);
             guiHelper = new ImGuiHelper(guiRenderer, ImGui.GetIO());
-            
+
+           // guiHelper.loadFont("/home/cubeq/RiderProjects/FakeOS/FakeOS/Filesystem/sys/fonts/Roboto-Regular.ttf", 18);
+            //ImGui.GetIO().Fonts.AddFontDefault();
+           // ImGui.GetIO().Fonts.Build();
+
             guiRenderer.RebuildFontAtlas();
-            
+
             StyleChooser.darkTheme();
             
             windows.Add(new TextEditor());
@@ -66,12 +68,13 @@ namespace FakeOS
             graphics.GraphicsDevice.Clear(Color.Gray);
 
             guiRenderer.BeforeLayout(gameTime);
-            ImGui.ShowDemoWindow();
 
             foreach (var window in windows)
             {
                 window.draw();
             }
+            
+            ImGui.ShowDemoWindow();
 
             guiRenderer.AfterLayout();
             

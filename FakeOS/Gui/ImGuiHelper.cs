@@ -20,13 +20,10 @@ public class ImGuiHelper
         
     }
     
-    // public void loadFont(string path, int size)
-    // {
-    //     throw new NotImplementedException("Doesn't work");
-    //     
-    //     ImFontPtr font = io.Fonts.AddFontFromFileTTF(path, size);
-    //     ImGui.PushFont(font);
-    //     renderer.RebuildFontAtlas();
-    // }
+    public void loadFont(string path, int size)
+    {
+       io.Fonts.AddFontFromFileTTF(path, size);
+        //renderer.RebuildFontAtlas();
+    }
     
 }
