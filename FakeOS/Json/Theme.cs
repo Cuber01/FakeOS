@@ -43,11 +43,12 @@ public class Theme
     public Vector2?      DisplaySafeAreaPadding { get; set; } = null;     // If you cannot see the edges of your screen (e.g. on a TV) increase the safe area padding. Apply to popups/tooltips as well regular windows. NB: Prefer configuring your TV sets correctly!
     public float?        MouseCursorScale { get; set; } = null;           // Scale software rendered mouse cursor (when io.MouseDrawCursor is enabled). May be removed later.
     public bool?         AntiAliasedLines { get; set; } = null;           // Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
+    
     public bool?         AntiAliasedLinesUseTex { get; set; } = null;     // Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering. Latched at the beginning of the frame (copied to ImDrawList).
     public bool?         AntiAliasedFill { get; set; } = null;            // Enable anti-aliased edges around filled shapes (rounded rectangles, circles, etc.). Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
     public float?        CurveTessellationTol { get; set; } = null;       // Tessellation tolerance when using PathBezierCurveTo() without a specific number of segments. Decrease for highly tessellated curves (higher quality, more polygons), increase to reduce quality.
     public float?        CircleTessellationMaxError { get; set; } = null; // Maximum error (in pixels) allowed when using AddCircle()/AddCircleFilled() or drawing rounded corner rectangles with no explicit segment count specified. Decrease for higher quality but more geometry.
     
-    //public Dictionary<string, float[]> Colors { get; set; } = null;
+    public Dictionary<string, List<float>> Colors { get; set; } = null;
 
 } 

@@ -1,8 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO;
+using System.Linq;
+using System.Numerics;
+using System.Reflection;
 using FakeOS.Json;
-using FakeOS.tools;
+using FakeOS.Tools;
 using ImGuiNET;
 using Newtonsoft.Json;
 
@@ -73,6 +77,22 @@ public class StyleManager
         style.AntiAliasedFill = theme.AntiAliasedFill ?? style.AntiAliasedFill;
         style.CurveTessellationTol = theme.CurveTessellationTol ?? style.CurveTessellationTol;
         style.CircleTessellationMaxError = theme.CircleTessellationMaxError ?? style.CircleTessellationMaxError;
+        style.AntiAliasedLinesUseTex = theme.AntiAliasedLinesUseTex ?? style.AntiAliasedLinesUseTex;
+        
+        // style.Colors[(int)ImGuiCol.Text]
+
+        for(int i = 0; i < theme.Colors.Count; i++)
+        {
+            // Get index from enum by name
+            int colorIndex = (int)(ImGuiCol)Enum.Parse(typeof(ImGuiCol), theme.Colors.Keys.ElementAt(i));
+
+            // Reassign a list to Vector4
+            List<float> cv = theme.Colors.Values.ElementAt(i);
+            Vector4 color = new Vector4(cv[0], cv[1], cv[2], cv[3]);
+
+            // Set color
+            style.Colors[colorIndex] = color;
+        }
     }
 
 }
