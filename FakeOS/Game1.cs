@@ -42,7 +42,7 @@ namespace FakeOS
 
             guiRenderer.RebuildFontAtlas();
 
-            StyleChooser.darkTheme();
+            StyleChooser.yetAnotherDark();
             
             windows.Add(new TextEditor());
 
