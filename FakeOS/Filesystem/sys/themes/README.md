@@ -32,9 +32,16 @@ The color values should be enclosed in "Colors": {}
 
 You need to edit non-color values to include " at the end.
 
+You need to edit all thing.x or thing.y to thing.X and thing.Y respectively.
+
+This script is mostly a dev tool, hence why it is so poor.
+
 # Credits
 
 retroDark - https://github.com/ocornut/imgui/issues/707#issuecomment-252413954
+
 lightGreen - https://github.com/ocornut/imgui/pull/1776
+
 charcoalGray - https://github.com/ocornut/imgui/issues/707#issuecomment-463758243
+
 yetAnotherDark - https://github.com/ocornut/imgui/issues/707#issuecomment-512669512
