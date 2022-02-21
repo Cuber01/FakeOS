@@ -38,7 +38,7 @@ namespace FakeOS
             guiRenderer = new ImGuiRenderer(this);
             guiHelper = new ImGuiHelper(guiRenderer, ImGui.GetIO());
             styleManager = new StyleManager("./Filesystem/sys/themes/", ImGui.GetStyle());
-            
+
             guiRenderer.RebuildFontAtlas();
             
             styleManager.setTheme("steam");

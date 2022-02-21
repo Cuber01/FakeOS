@@ -25,7 +25,7 @@ public class TextEditor : GuiSoftware
     */
     
     private string text = "";
-    private const ImGuiInputTextFlags multilineTextFlags = ImGuiInputTextFlags.CallbackCharFilter | ImGuiInputTextFlags.AllowTabInput;
+    private const ImGuiInputTextFlags multilineTextFlags = ImGuiInputTextFlags.AllowTabInput;
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
 
     public TextEditor()
@@ -78,6 +78,18 @@ public class TextEditor : GuiSoftware
                 //Do something
             }
 
+            ImGui.Separator();
+            
+            if(ImGui.MenuItem("Options"))
+            {
+                //Do something
+            }
+            
+            if(ImGui.MenuItem("Help"))
+            {
+                //Do something
+            }
+            
             ImGui.Separator();
             
             if(ImGui.MenuItem("Quit", "Alt + F4"))
