@@ -25,8 +25,8 @@ public class TextEditor : GuiSoftware
     */
     
     private string text = "";
-    private readonly ImGuiInputTextFlags multilineTextFlags = ImGuiInputTextFlags.CallbackCharFilter | ImGuiInputTextFlags.AllowTabInput;
-    private readonly ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
+    private const ImGuiInputTextFlags multilineTextFlags = ImGuiInputTextFlags.CallbackCharFilter | ImGuiInputTextFlags.AllowTabInput;
+    private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
 
     public TextEditor()
     {
@@ -35,8 +35,10 @@ public class TextEditor : GuiSoftware
     }
     
 
-    public unsafe override void draw()
+    public override void draw()
     {
+        if (!running) return;
+
         ImGui.Begin(name, ref running, windowFlags);
 
         ImGui.InputTextMultiline("", ref text, UInt16.MaxValue, new Vector2(1000, 1000),
@@ -45,6 +47,7 @@ public class TextEditor : GuiSoftware
         menuBar();
 
         ImGui.End();
+
     }
 
     private void menuBar()
