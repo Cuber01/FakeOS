@@ -78,13 +78,20 @@ public class StyleManager
         style.CurveTessellationTol = theme.CurveTessellationTol ?? style.CurveTessellationTol;
         style.CircleTessellationMaxError = theme.CircleTessellationMaxError ?? style.CircleTessellationMaxError;
         style.AntiAliasedLinesUseTex = theme.AntiAliasedLinesUseTex ?? style.AntiAliasedLinesUseTex;
-        
-        // style.Colors[(int)ImGuiCol.Text]
 
         for(int i = 0; i < theme.Colors.Count; i++)
         {
-            // Get index from enum by name
-            int colorIndex = (int)(ImGuiCol)Enum.Parse(typeof(ImGuiCol), theme.Colors.Keys.ElementAt(i));
+            int colorIndex;
+
+            try
+            {
+                // Get index from enum by name
+                colorIndex = (int)(ImGuiCol)Enum.Parse(typeof(ImGuiCol), theme.Colors.Keys.ElementAt(i));
+            } catch (ArgumentException)
+            {
+                // Not all colors have to be satisfied
+                continue;
+            }
 
             // Reassign a list to Vector4
             List<float> cv = theme.Colors.Values.ElementAt(i);

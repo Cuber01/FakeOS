@@ -41,7 +41,7 @@ namespace FakeOS
 
             guiRenderer.RebuildFontAtlas();
             
-            styleManager.setTheme("steam");
+            styleManager.setTheme("retroDark");
 
             windows.Add(new TextEditor());
 
