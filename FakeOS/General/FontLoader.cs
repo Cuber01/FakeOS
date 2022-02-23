@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using ImGuiNET;
 
 namespace FakeOS.General;
@@ -13,27 +14,49 @@ public class FontLoader
     public FontLoader(string fontPath, ImGuiIOPtr io)
     {
         this.io = io;
-        
+        mergeFontAwesome();
+
         string[] fontFiles = Directory.GetFiles(fontPath);
 
-        fonts.Add("ImGuiDefault", io.Fonts.AddFontDefault());
-        
         foreach (var file in fontFiles)
         {
             if(Path.GetExtension(file) != ".ttf") continue;
             
             fonts.Add(Path.GetFileNameWithoutExtension(file), io.Fonts.AddFontFromFileTTF(file, Consts.defaultFontSize));
+            mergeFontAwesome();
         }
     }
 
-    public void mergeFontAwesome(string path)
+    // TODO fontAwesome is 1 smaller than other fonts. Not sure if it's a good idea at this point in time but it looked off.
+    private void mergeFontAwesome() => mergeIconFont(Consts.fontAwesomeLocation, Consts.defaultFontSize - 1, (AwesomeIcons.IconMin, AwesomeIcons.IconMax));
+    
+    private unsafe ImFontPtr mergeIconFont(string path, int size, (ushort, ushort) range)
     {
-        ImFontConfigPtr config = new ImFontConfigPtr();
-        config.MergeMode = true;
-        config.GlyphMinAdvanceX = Consts.defaultFontSize;
+        ImFontConfigPtr configuration = ImGuiNative.ImFontConfig_ImFontConfig();
 
-        //IntPtr iconRanges = new IntPtr() { FontAwesome.IconMin, FontAwesome.IconMax, 0 };
-        //ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
-        io.Fonts.AddFontFromFileTTF(path, Consts.defaultFontSize, config);
+        configuration.MergeMode  = true;
+        configuration.PixelSnapH = true;
+
+        GCHandle rangeHandle = GCHandle.Alloc(new ushort[]
+        {
+            range.Item1,
+            range.Item2,
+            0
+        }, GCHandleType.Pinned);
+
+        try
+        {
+            return ImGui.GetIO().Fonts.AddFontFromFileTTF(path, size, configuration, rangeHandle.AddrOfPinnedObject());
+        }
+        finally
+        {
+            configuration.Destroy();
+
+            if (rangeHandle.IsAllocated)
+            {
+                rangeHandle.Free();
+            }
+        }
     }
+    
 }

@@ -32,17 +32,17 @@ namespace FakeOS
             IsMouseVisible = true;
             
             graphics.PreferredBackBufferHeight = 1000;
-            graphics.PreferredBackBufferWidth= 1000;
+            graphics.PreferredBackBufferWidth = 1000;
             graphics.ApplyChanges();
 
             guiRenderer = new ImGuiRenderer(this);
             styleManager = new StyleManager(Consts.themeLocation, ImGui.GetStyle());
             fontLoader = new FontLoader(Consts.fontsLocation, ImGui.GetIO());
-            
-            fontLoader.mergeFontAwesome(Consts.fontAwesomeLocation);
+
+           // fontLoader.loadIconFont(Consts.fontAwesomeLocation, Consts.defaultFontSize, (AwesomeIcons.IconMin, AwesomeIcons.IconMax));
             
             guiRenderer.RebuildFontAtlas();
-            
+
             styleManager.setTheme("yetAnotherDark");
 
             windows.Add(new TextEditor());

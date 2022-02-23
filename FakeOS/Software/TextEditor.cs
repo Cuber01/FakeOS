@@ -1,5 +1,6 @@
 using System;
 using System.Numerics;
+using FakeOS.General;
 using ImGuiNET;
 
 namespace FakeOS.Software;
@@ -30,7 +31,7 @@ public class TextEditor : GuiSoftware
 
     public TextEditor()
     {
-        this.name = "Text Editor";
+        this.name = "Text Editor " + AwesomeIcons.File;
         running = true;
     }
     
