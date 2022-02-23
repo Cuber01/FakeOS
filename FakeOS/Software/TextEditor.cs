@@ -31,7 +31,7 @@ public class TextEditor : GuiSoftware
 
     public TextEditor()
     {
-        this.name = "Text Editor " + AwesomeIcons.File;
+        this.name = "Text Editor";
         running = true;
     }
     
