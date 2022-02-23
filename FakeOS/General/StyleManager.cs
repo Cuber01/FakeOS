@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Reflection;
 using FakeOS.Json;
 using FakeOS.Tools;
 using ImGuiNET;
@@ -14,15 +12,14 @@ namespace FakeOS.General;
 
 public class StyleManager
 {
-    private Dictionary<string, Theme> themes = new Dictionary<string, Theme>();
-    private string[] themeFiles;
-    
+    private readonly Dictionary<string, Theme> themes = new Dictionary<string, Theme>();
+
     private ImGuiStylePtr style;
     
     public StyleManager(string pathToThemes, ImGuiStylePtr style)
     {
         
-        themeFiles = Directory.GetFiles(pathToThemes);
+        string[] themeFiles = Directory.GetFiles(pathToThemes);
         this.style = style;
         
         foreach (var file in themeFiles)

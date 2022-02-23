@@ -12,13 +12,13 @@ namespace FakeOS
     public class Game1 : Game
     {
         private List<GuiSoftware> windows = new List<GuiSoftware>();
-
+        
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private ImGuiRenderer guiRenderer;
-        private ImGuiHelper guiHelper;
         private StyleManager styleManager;
-    
+        private FontLoader fontLoader;
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -36,9 +36,11 @@ namespace FakeOS
             graphics.ApplyChanges();
 
             guiRenderer = new ImGuiRenderer(this);
-            guiHelper = new ImGuiHelper(guiRenderer, ImGui.GetIO());
-            styleManager = new StyleManager("./Filesystem/sys/themes/", ImGui.GetStyle());
-
+            styleManager = new StyleManager(Consts.themeLocation, ImGui.GetStyle());
+            fontLoader = new FontLoader(Consts.fontsLocation, ImGui.GetIO());
+            
+            fontLoader.mergeFontAwesome(Consts.fontAwesomeLocation);
+            
             guiRenderer.RebuildFontAtlas();
             
             styleManager.setTheme("yetAnotherDark");
