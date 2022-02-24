@@ -1,6 +1,5 @@
 using System;
 using System.Numerics;
-using FakeOS.General;
 using ImGuiNET;
 
 namespace FakeOS.Software;
@@ -26,6 +25,7 @@ public class TextEditor : GuiSoftware
     */
     
     private string text = "";
+    private const ImGuiTabBarFlags tabBarFlags = ImGuiTabBarFlags.Reorderable | ImGuiTabBarFlags.FittingPolicyDefault;
     private const ImGuiInputTextFlags multilineTextFlags = ImGuiInputTextFlags.AllowTabInput;
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
 
@@ -42,8 +42,22 @@ public class TextEditor : GuiSoftware
 
         ImGui.Begin(name, ref running, windowFlags);
 
-        ImGui.InputTextMultiline("", ref text, UInt16.MaxValue, new Vector2(1000, 1000),
-            multilineTextFlags);
+        ImGui.BeginTabBar("#main", tabBarFlags);
+
+        if (ImGui.BeginTabItem("Stuff"))
+        {
+            ImGui.InputTextMultiline("", ref text, UInt16.MaxValue, new Vector2(1000, 1000),
+                multilineTextFlags);
+        
+            ImGui.EndTabItem();    
+        }
+
+        if (ImGui.BeginTabItem("Eee"))
+        {
+            ImGui.EndTabItem();
+        }
+        
+        ImGui.EndTabBar();
 
         menuBar();
 
