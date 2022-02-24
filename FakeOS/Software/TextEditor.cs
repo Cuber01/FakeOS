@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using ImGuiNET;
 
@@ -23,15 +24,29 @@ public class TextEditor : GuiSoftware
         }
     
     */
+
+    private const string defaultDocName = "Unsaved Document";
+        
+    // ImGui can't handle 2 tabs with the same name properly
+    private int defaultDocNameCount = 0;
+
+    private TextEditorTabs tabBar = new TextEditorTabs();
+
+    private const ImGuiTabBarFlags tabBarFlags = ImGuiTabBarFlags.Reorderable | 
+                                                 ImGuiTabBarFlags.FittingPolicyDefault |
+                                                 ImGuiTabBarFlags.AutoSelectNewTabs |
+                                                 ImGuiTabBarFlags.NoCloseWithMiddleMouseButton;
     
-    private string text = "";
-    private const ImGuiTabBarFlags tabBarFlags = ImGuiTabBarFlags.Reorderable | ImGuiTabBarFlags.FittingPolicyDefault;
     private const ImGuiInputTextFlags multilineTextFlags = ImGuiInputTextFlags.AllowTabInput;
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
 
     public TextEditor()
     {
         this.name = "Text Editor";
+        this.tabBar.tabs.Add(new TextEditorTabs.ImGuiTab(defaultDocName));
+
+        defaultDocNameCount++;
+        
         running = true;
     }
     
@@ -44,17 +59,9 @@ public class TextEditor : GuiSoftware
 
         ImGui.BeginTabBar("#main", tabBarFlags);
 
-        if (ImGui.BeginTabItem("Stuff"))
+        foreach (var tab in tabBar.tabs)
         {
-            ImGui.InputTextMultiline("", ref text, UInt16.MaxValue, new Vector2(1000, 1000),
-                multilineTextFlags);
-        
-            ImGui.EndTabItem();    
-        }
-
-        if (ImGui.BeginTabItem("Eee"))
-        {
-            ImGui.EndTabItem();
+            tab.show();
         }
         
         ImGui.EndTabBar();
@@ -73,7 +80,8 @@ public class TextEditor : GuiSoftware
         {
             if(ImGui.MenuItem("New"))
             {
-                //Do something
+                tabBar.tabs.Add(new TextEditorTabs.ImGuiTab(defaultDocName + ' ' + defaultDocNameCount));
+                defaultDocNameCount++;
             }
             
             if(ImGui.MenuItem("Open", "Ctrl + O"))
@@ -117,31 +125,36 @@ public class TextEditor : GuiSoftware
 
         
         ImGui.EndMenuBar();
-        
-        //
-        // ImGui.MenuItem("(demo menu)", null, false, false);
-        // if (ImGui.MenuItem("New")) {}
-        // if (ImGui.MenuItem("Open", "Ctrl+O")) {}
-        // if (ImGui.BeginMenu("Open Recent"))
-        // {
-        //     ImGui.MenuItem("fish_hat.c");
-        //     ImGui.MenuItem("fish_hat.inl");
-        //     ImGui.MenuItem("fish_hat.h");
-        //     if (ImGui.BeginMenu("More.."))
-        //     {
-        //         ImGui.MenuItem("Hello");
-        //         ImGui.MenuItem("Sailor");
-        //         if (ImGui.BeginMenu("Recurse.."))
-        //         {
-        //             ImGui.EndMenu();
-        //         }
-        //         ImGui.EndMenu();
-        //     }
-        //     ImGui.EndMenu();
-        // }
-        // if (ImGui.MenuItem("Save", "Ctrl+S")) {}
-        // if (ImGui.MenuItem("Save As..")) {}
+    }
 
+    public class TextEditorTabs
+    {
+        public List<ImGuiTab> tabs = new List<ImGuiTab>();
+
+        public class ImGuiTab
+        {
+            private readonly string name;
+            private string text = "";
+        
+            public ImGuiTab(string name)
+            {
+                this.name = name;
+            }
+
+            public void show()
+            {
+                
+                if (ImGui.BeginTabItem(name))
+                {
+                    ImGui.InputTextMultiline("", ref text, UInt16.MaxValue, new Vector2(1000, 1000),
+                        multilineTextFlags);
+                    
+                    ImGui.EndTabItem();
+                }
+                
+            }
+        
+        }
     }
     
     
