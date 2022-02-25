@@ -57,11 +57,19 @@ namespace FakeOS
         }
         
         protected override void Update(GameTime gameTime)
-        { 
-            foreach (var window in windows)
+        {
+            
+            for (int i = 0; i < windows.Count; i++)
             {
-                window.update();
+                if (!windows[i].running)
+                {
+                    windows.Remove(windows[i]);
+                    continue;
+                }
+                
+                windows[i].update();
             }
+            
         }
 
         protected override void Draw(GameTime gameTime)

@@ -36,6 +36,8 @@ public class TextEditor : GuiSoftware
                                                  ImGuiTabBarFlags.FittingPolicyDefault |
                                                  ImGuiTabBarFlags.AutoSelectNewTabs |
                                                  ImGuiTabBarFlags.NoCloseWithMiddleMouseButton;
+
+    private const ImGuiTabItemFlags tabItemFlags = ImGuiTabItemFlags.None;
     
     private const ImGuiInputTextFlags multilineTextFlags = ImGuiInputTextFlags.AllowTabInput;
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
@@ -86,26 +88,26 @@ public class TextEditor : GuiSoftware
             
             if(ImGui.MenuItem("Open", "Ctrl + O"))
             {
-                //Do something
+                // TODO
             }
             
             ImGui.Separator();
             
             if(ImGui.MenuItem("Save", "Ctrl + S"))
             {
-                //Do something
+                // TODO
             }
             
             if(ImGui.MenuItem("Save as"))
             {
-                //Do something
+                // TODO
             }
 
             ImGui.Separator();
             
             if(ImGui.MenuItem("Options"))
             {
-                //Do something
+                // TODO
             }
             
             if(ImGui.MenuItem("Help"))
@@ -117,7 +119,7 @@ public class TextEditor : GuiSoftware
             
             if(ImGui.MenuItem("Quit", "Alt + F4"))
             {
-                //Do something
+                running = false;
             }
             
             ImGui.EndMenu();
@@ -134,17 +136,20 @@ public class TextEditor : GuiSoftware
         public class ImGuiTab
         {
             private readonly string name;
+
+            private bool open = true;
             private string text = "";
         
-            public ImGuiTab(string name)
+            public ImGuiTab(string name, string defaultText = "")
             {
                 this.name = name;
+                this.text = text;
             }
 
             public void show()
             {
                 
-                if (ImGui.BeginTabItem(name))
+                if (ImGui.BeginTabItem(name, ref open, tabItemFlags))
                 {
                     ImGui.InputTextMultiline("", ref text, UInt16.MaxValue, new Vector2(1000, 1000),
                         multilineTextFlags);
