@@ -27,44 +27,47 @@ public class FileManager : GuiSoftware
     {
         name = "File Manager";
         this.pathToFilesystem = pathToFilesystem;
+        
+        getFilesAndTypes(pathToFilesystem);
     }
 
     public override void draw()
     {
-        if (!running) return;
-        
-        ImGui.Begin(name, ref running, windowFlags);
-        
-        ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(2, 2));
-        
-        showTable();
-        
-        ImGui.PopStyleVar();
-        
-        ImGui.End();
+        // if (!running) return;
+        //
+        // ImGui.Begin(name, ref running, windowFlags);
+        //
+        // ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(2, 2));
+        //
+        // showTable();
+        //
+        // ImGui.PopStyleVar();
+        //
+        // ImGui.End();
     }
     
     public override void update()
     {
-        if (!running) return;
-
-        fileCheckTimer++;
-        if (fileCheckTimer == framesBetweenFileChecks)
-        {
-            fileCheckTimer = 0;
-            getFilesAndTypes();
-        }
+        // if (!running) return;
+        //
+        // fileCheckTimer++;
+        // if (fileCheckTimer == framesBetweenFileChecks)
+        // {
+        //     fileCheckTimer = 0;
+        //     getFilesAndTypes();
+        // }
     }
 
-    private void getFilesAndTypes()
+    private void getFilesAndTypes(string directory)
     {
-        string[] files = Directory.GetFiles(pathToFilesystem);
-
-        for(int i = 0; i <= files.Length; i++)
+        foreach (string file in Directory.EnumerateFiles(directory, "*.*", SearchOption.AllDirectories))
         {
-            filesAndTypes.Add(files[i], MimeTypes.GetContentType(files[i]));
+            filesAndTypes.Add(file, MimeTypes.GetContentType(file));
+            Console.WriteLine(file);
         }
     }
+
+    
     
     private void showTable()
     {
@@ -92,37 +95,42 @@ public class FileManager : GuiSoftware
 
         if (nodeOpen)
         {
+            
             for (int i = 0; i < filesAndTypes.Count; i++)
             {
-                ImGui.PushID(i);
+                displayFile(filesAndTypes, i);
+            }
+            
+        }
+        
+        ImGui.PopID();
+        
+    }
 
-                // If it's a folder, we go further
-                if (filesAndTypes.Values.ElementAt(i) == Consts.folderType)
-                {
-                    string[] otherFiles = Directory.GetFiles(filesAndTypes.Keys.ElementAt(i));
+    private void displayFile(Dictionary<string, string> files,int i)
+    {
+        ImGui.PushID(i);
 
-                    // If the folder is empty, just display it
-                    if (otherFiles.Length == 0)
-                    {
-                        ImGui.AlignTextToFramePadding();
-                        ImGui.TreeNodeEx("#file" + i, fileFlags, Path.GetFileName(filesAndTypes.Keys.ElementAt(i)));
-                        break;
-                    }
+        // If it's a folder, we go further
+        if (filesAndTypes.Values.ElementAt(i) == Consts.folderType)
+        {
+            string[] otherFiles = Directory.GetFiles(filesAndTypes.Keys.ElementAt(i));
 
-                    Console.WriteLine();
-                }
-                else
-                {
-                    ImGui.AlignTextToFramePadding();
-                    ImGui.TreeNodeEx("#file" + i, fileFlags, Path.GetFileName(filesAndTypes.Keys.ElementAt(i)));
-                }
-
-                ImGui.PopID();
-
+            // If the folder is empty, just display it
+            if (otherFiles.Length == 0)
+            {
+                ImGui.AlignTextToFramePadding();
+                ImGui.TreeNodeEx("#file" + i, fileFlags, Path.GetFileName(filesAndTypes.Keys.ElementAt(i)));
             }
 
-            ImGui.PopID();
         }
+        else
+        {
+            ImGui.AlignTextToFramePadding();
+            ImGui.TreeNodeEx("#file" + i, fileFlags, Path.GetFileName(filesAndTypes.Keys.ElementAt(i)));
+        }
+
+        ImGui.PopID();
     }
 
 //     for (int i = 0; i < 6; i++)
