@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Numerics;
-using FakeOS.General;
 using FakeOS.Tools;
 using ImGuiNET;
 
@@ -15,7 +13,7 @@ public class FileManager : GuiSoftware
     private readonly string pathToFilesystem;
     private string currentPath = Consts.filesystemLocation;
 
-    private const int framesBetweenFileChecks = 60;
+    private const int framesBetweenFileChecks = 1000;
     private int fileCheckTimer = 0;
     
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
@@ -55,7 +53,7 @@ public class FileManager : GuiSoftware
         if (fileCheckTimer == framesBetweenFileChecks)
         {
             fileCheckTimer = 0;
-            getFilesAndTypes(pathToFilesystem);
+            getFilesAndTypes(currentPath);
         }
     }
 
@@ -63,10 +61,9 @@ public class FileManager : GuiSoftware
     {
         filesAndTypes.Clear();
         
-        foreach (string file in Directory.EnumerateFiles(directory, "*.*", SearchOption.AllDirectories))
+        foreach (string file in Directory.GetFileSystemEntries(directory))
         {
             filesAndTypes.Add(file, MimeTypes.GetContentType(file));
-            Console.WriteLine(file);
         }
     }
 
@@ -102,7 +99,7 @@ public class FileManager : GuiSoftware
             {
                 if (file.Key.Contains(currentPath))
                 {
-                    displayFile(file.Key, i);
+                    displayFile((file.Key, file.Value), i);
                 }
                 
                 i++;
@@ -119,7 +116,7 @@ public class FileManager : GuiSoftware
         ImGui.PushID(id);
 
         ImGui.AlignTextToFramePadding();
-        ImGui.Text();
+        ImGui.Text(Path.GetFileNameWithoutExtension(file.Item1));
         
         ImGui.PopID();
     }

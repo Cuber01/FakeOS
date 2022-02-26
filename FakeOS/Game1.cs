@@ -45,7 +45,7 @@ namespace FakeOS
 
             styleManager.setTheme("yetAnotherDark");
 
-            windows.Add(new FileManager(Consts.filesystemLocation));
+            windows.Add(new FileManager("./Filesystem/sys/fonts/"));
 
         }
 
