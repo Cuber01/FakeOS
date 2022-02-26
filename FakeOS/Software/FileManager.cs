@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using FakeOS.General;
+using FakeOS.Tools;
 using ImGuiNET;
 
 namespace FakeOS.Software;
@@ -17,6 +19,8 @@ public class FileManager : GuiSoftware
     public FileManager()
     {
         name = "File Manager";
+        
+        showFilesystem("/home/cubeq/");
     }
 
     public override void draw()
@@ -36,6 +40,7 @@ public class FileManager : GuiSoftware
 
     private void showTable()
     {
+
         if (ImGui.BeginTable("split", 2, tableFlags))
         {
 
@@ -45,6 +50,16 @@ public class FileManager : GuiSoftware
             }
             
             ImGui.EndTable();
+        }
+    }
+
+    private void showFilesystem(string path)
+    {
+        string[] files = Directory.GetFiles(path);
+
+        foreach (var file in files)
+        {
+            Console.WriteLine(MimeTypes.GetContentType(file));
         }
     }
 
