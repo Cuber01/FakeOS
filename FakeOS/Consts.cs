@@ -17,4 +17,6 @@ public static class Consts
    public static string fontAwesomeLocation = (String.Format(".{0}Filesystem{0}sys{0}fonts{0}misc{0}fontawesome-webfont.ttf", Path.DirectorySeparatorChar));
 
    public const int defaultFontSize = 20;
+   
+   public const string folderType = "application/octet-stream";
 } 

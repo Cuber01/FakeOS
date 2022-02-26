@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using FakeOS.General;
 using FakeOS.Tools;
@@ -67,34 +68,17 @@ public class FileManager : GuiSoftware
     
     private void showTable()
     {
-
-        if (ImGui.BeginTable("split", 1, tableFlags))
+        if (ImGui.BeginTable("#main", 1, tableFlags))
         {
-            showFile("Filesystem", 1);
+            showFiles();
             
             ImGui.EndTable();
         }
     }
 
-    private void showFilesystem(string path)
+    private void showFiles()
     {
-        string[] files = Directory.GetFiles(path);
-
-        for(int i = 0; i <= files.Length; i++)
-        {
-            showFile(files[i], i);
-        }
-    }
-
-    private void showFile(string file, int id)
-    {
-        // if (MimeTypes.GetContentType(file) == "application/octet-stream")
-        // {
-        //     string[] otherFiles = Directory.GetFiles(file);
-        //
-        //     if (otherFiles.Length == 0) continue;
-        // }
-        //
+        int id = 0;
         
         // Use object uid as identifier. Most commonly you could also use the object pointer as a base ID.
         ImGui.PushID(id);
@@ -104,35 +88,67 @@ public class FileManager : GuiSoftware
         ImGui.TableSetColumnIndex(0);
         ImGui.AlignTextToFramePadding();
         
-        bool nodeOpen = ImGui.TreeNode("#file" + id, file);
+        bool nodeOpen = ImGui.TreeNode("#filesystem" + id, "Filesystem");
 
         if (nodeOpen)
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < filesAndTypes.Count; i++)
             {
-                ImGui.PushID(i); // Use field index as identifier.
-                if (i < 2)
+                ImGui.PushID(i);
+
+                // If it's a folder, we go further
+                if (filesAndTypes.Values.ElementAt(i) == Consts.folderType)
                 {
-                    ImGui.AlignTextToFramePadding();
-                    ImGui.TreeNodeEx("Field", fileFlags, AwesomeIcons.FolderO + " Folder" + i);
+                    string[] otherFiles = Directory.GetFiles(filesAndTypes.Keys.ElementAt(i));
+
+                    // If the folder is empty, just display it
+                    if (otherFiles.Length == 0)
+                    {
+                        ImGui.AlignTextToFramePadding();
+                        ImGui.TreeNodeEx("#file" + i, fileFlags, Path.GetFileName(filesAndTypes.Keys.ElementAt(i)));
+                        break;
+                    }
+
+                    Console.WriteLine();
                 }
                 else
                 {
-                    // Here we use a TreeNode to highlight on hover (we could use e.g. Selectable as well)
-                    ImGui.TableNextRow();
-                    ImGui.TableSetColumnIndex(0);
                     ImGui.AlignTextToFramePadding();
-                    
-                    ImGui.TreeNodeEx("Field", fileFlags, AwesomeIcons.FileImageO + " Field_" + i);
+                    ImGui.TreeNodeEx("#file" + i, fileFlags, Path.GetFileName(filesAndTypes.Keys.ElementAt(i)));
                 }
-                
+
                 ImGui.PopID();
+
             }
-            
-            ImGui.TreePop();
+
+            ImGui.PopID();
         }
-        
-        ImGui.PopID();
     }
+
+//     for (int i = 0; i < 6; i++)
+//     {
+//         ImGui.PushID(i); // Use field index as identifier.
+//         if (i < 2)
+//         {
+//             ImGui.AlignTextToFramePadding();
+//             ImGui.TreeNodeEx("Field", fileFlags, AwesomeIcons.FolderO + " Folder" + i);
+//         }
+//         else
+//         {
+//             // Here we use a TreeNode to highlight on hover (we could use e.g. Selectable as well)
+//             ImGui.TableNextRow();
+//             ImGui.TableSetColumnIndex(0);
+//             ImGui.AlignTextToFramePadding();
+//                     
+//             ImGui.TreeNodeEx("Field", fileFlags, AwesomeIcons.FileImageO + " Field_" + i);
+//         }
+//                 
+//         ImGui.PopID();
+//     }
+//             
+//     ImGui.TreePop();
+// }
+//         
+// ImGui.PopID();
     
 }
