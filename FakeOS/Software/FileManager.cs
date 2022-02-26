@@ -19,9 +19,6 @@ public class FileManager : GuiSoftware
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
     private const ImGuiTableFlags tableFlags = ImGuiTableFlags.BordersOuter | ImGuiTableFlags.Resizable;
 
-    private const ImGuiTreeNodeFlags folderFlags = ImGuiTreeNodeFlags.Leaf | ImGuiTreeNodeFlags.NoTreePushOnOpen | ImGuiTreeNodeFlags.Bullet;
-    private const ImGuiTreeNodeFlags fileFlags = ImGuiTreeNodeFlags.Leaf | ImGuiTreeNodeFlags.NoTreePushOnOpen;
-
     public FileManager(string pathToFilesystem)
     {
         name = "File Manager";
@@ -116,7 +113,7 @@ public class FileManager : GuiSoftware
         ImGui.PushID(id);
 
         ImGui.AlignTextToFramePadding();
-        ImGui.Text(Path.GetFileNameWithoutExtension(file.Item1));
+        ImGui.Text(Path.GetFileName(file.Item1 + ' ' + file.Item2));
         
         ImGui.PopID();
     }
