@@ -45,7 +45,7 @@ namespace FakeOS
 
             styleManager.setTheme("yetAnotherDark");
 
-            windows.Add(new TextEditor());
+            windows.Add(new FileManager());
 
         }
 

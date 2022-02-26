@@ -48,8 +48,6 @@ public class TextEditor : GuiSoftware
         this.tabBar.tabs.Add(new TextEditorTabs.ImGuiTab(defaultDocName));
 
         defaultDocNameCount++;
-        
-        running = true;
     }
     
 
@@ -148,6 +146,7 @@ public class TextEditor : GuiSoftware
 
             public void show()
             {
+                
                 
                 if (ImGui.BeginTabItem(name, ref open, tabItemFlags))
                 {
