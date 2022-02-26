@@ -13,6 +13,7 @@ public class FileManager : GuiSoftware
 {
     private Dictionary<string, string> filesAndTypes = new Dictionary<string, string>();
     private readonly string pathToFilesystem;
+    private string currentPath = Consts.filesystemLocation;
 
     private const int framesBetweenFileChecks = 60;
     private int fileCheckTimer = 0;
@@ -33,33 +34,35 @@ public class FileManager : GuiSoftware
 
     public override void draw()
     {
-        // if (!running) return;
-        //
-        // ImGui.Begin(name, ref running, windowFlags);
-        //
-        // ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(2, 2));
-        //
-        // showTable();
-        //
-        // ImGui.PopStyleVar();
-        //
-        // ImGui.End();
+        if (!running) return;
+        
+        ImGui.Begin(name, ref running, windowFlags);
+        
+        ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(2, 2));
+        
+        showTable();
+        
+        ImGui.PopStyleVar();
+        
+        ImGui.End();
     }
     
     public override void update()
     {
-        // if (!running) return;
-        //
-        // fileCheckTimer++;
-        // if (fileCheckTimer == framesBetweenFileChecks)
-        // {
-        //     fileCheckTimer = 0;
-        //     getFilesAndTypes();
-        // }
+        if (!running) return;
+        
+        fileCheckTimer++;
+        if (fileCheckTimer == framesBetweenFileChecks)
+        {
+            fileCheckTimer = 0;
+            getFilesAndTypes(pathToFilesystem);
+        }
     }
 
     private void getFilesAndTypes(string directory)
     {
+        filesAndTypes.Clear();
+        
         foreach (string file in Directory.EnumerateFiles(directory, "*.*", SearchOption.AllDirectories))
         {
             filesAndTypes.Add(file, MimeTypes.GetContentType(file));
@@ -73,16 +76,15 @@ public class FileManager : GuiSoftware
     {
         if (ImGui.BeginTable("#main", 1, tableFlags))
         {
-            showFiles();
+            showFiles(0);
             
             ImGui.EndTable();
         }
     }
 
-    private void showFiles()
+    private void showFiles(int id)
     {
-        int id = 0;
-        
+
         // Use object uid as identifier. Most commonly you could also use the object pointer as a base ID.
         ImGui.PushID(id);
         
@@ -95,10 +97,15 @@ public class FileManager : GuiSoftware
 
         if (nodeOpen)
         {
-            
-            for (int i = 0; i < filesAndTypes.Count; i++)
+            int i = 0;
+            foreach (var file in filesAndTypes)
             {
-                displayFile(filesAndTypes, i);
+                if (file.Key.Contains(currentPath))
+                {
+                    displayFile(file.Key, i);
+                }
+                
+                i++;
             }
             
         }
@@ -107,29 +114,13 @@ public class FileManager : GuiSoftware
         
     }
 
-    private void displayFile(Dictionary<string, string> files,int i)
+    private void displayFile((string, string) file, int id)
     {
-        ImGui.PushID(i);
+        ImGui.PushID(id);
 
-        // If it's a folder, we go further
-        if (filesAndTypes.Values.ElementAt(i) == Consts.folderType)
-        {
-            string[] otherFiles = Directory.GetFiles(filesAndTypes.Keys.ElementAt(i));
-
-            // If the folder is empty, just display it
-            if (otherFiles.Length == 0)
-            {
-                ImGui.AlignTextToFramePadding();
-                ImGui.TreeNodeEx("#file" + i, fileFlags, Path.GetFileName(filesAndTypes.Keys.ElementAt(i)));
-            }
-
-        }
-        else
-        {
-            ImGui.AlignTextToFramePadding();
-            ImGui.TreeNodeEx("#file" + i, fileFlags, Path.GetFileName(filesAndTypes.Keys.ElementAt(i)));
-        }
-
+        ImGui.AlignTextToFramePadding();
+        ImGui.Text();
+        
         ImGui.PopID();
     }
 

@@ -1,2 +1,41 @@
 /bin/*
 /obj/*
+
+
+  typesIcons = new Dictionary<string, AwesomeIcons. }, string> {
+            { "text/plain", AwesomeIcons. },
+            { "text/html", AwesomeIcons. },
+            { "text/xml", AwesomeIcons. },
+            { "text/richtext", AwesomeIcons. },
+            { "text/scriptlet", AwesomeIcons. },
+            { "audio/x-aiff", AwesomeIcons. },
+            { "audio/basic", AwesomeIcons. },
+            { "audio/mid", AwesomeIcons. },
+            { "audio/wav", AwesomeIcons. },
+            { "image/gif", AwesomeIcons. },
+            { "image/jpeg", AwesomeIcons. },
+            { "image/pjpeg", AwesomeIcons. },
+            { "image/png", AwesomeIcons. },
+            { "image/x-png", AwesomeIcons. },
+            { "image/tiff", AwesomeIcons. },
+            { "image/bmp", AwesomeIcons. },
+            { "image/x-xbitmap", AwesomeIcons. },
+            { "image/x-jg", AwesomeIcons. },
+            { "image/x-emf", AwesomeIcons. },
+            { "image/x-wmf", AwesomeIcons. },
+            { "video/avi", AwesomeIcons. },
+            { "video/mpeg", AwesomeIcons. },
+            { "application/octet-stream", AwesomeIcons. },
+            { "application/postscript", AwesomeIcons. },
+            { "application/base64", AwesomeIcons. },
+            { "application/macbinhex40", AwesomeIcons. },
+            { "application/pdf", AwesomeIcons. },
+            { "application/xml", AwesomeIcons. },
+            { "application/atom+xml", AwesomeIcons. },
+            { "application/rss+xml", AwesomeIcons. },
+            { "application/x-compressed", AwesomeIcons. },
+            { "application/x-zip-compressed", AwesomeIcons. },
+            { "application/x-gzip-compressed", AwesomeIcons. },
+            { "application/java", AwesomeIcons. },
+            { "application/x-msdownload", AwesomeIcons. }
+        }
