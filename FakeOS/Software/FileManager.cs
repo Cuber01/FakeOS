@@ -23,7 +23,7 @@ public class FileManager : GuiSoftware
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
     private const ImGuiTableFlags tableFlags = ImGuiTableFlags.BordersOuter | ImGuiTableFlags.Resizable | ImGuiTableFlags.Sortable;
 
-    private readonly string filesystemPrefix = $".{Path.PathSeparator}Filesystem";
+    private readonly string filesystemPrefix = $".{Path.DirectorySeparatorChar}Filesystem";
 
     public FileManager(string path)
     {
@@ -154,19 +154,46 @@ public class FileManager : GuiSoftware
     
     #region upperUIBar
 
-    private void showUpperUI()
+    private unsafe void showUpperUI()
     {
         ImGui.Button(AwesomeIcons.ArrowLeft, new Vector2(25,25));
         ImGui.SameLine();
         ImGui.Button(AwesomeIcons.ArrowRight, new Vector2(25,25));
         ImGui.SameLine();
 
-        ImGui.InputText("", ref currentPathInputField, UInt16.MaxValue);
+        ImGui.InputText("", ref currentPathInputField, UInt16.MaxValue, ImGuiInputTextFlags.CallbackAlways,
+            data =>
+            {
+                if (ImGui.IsKeyDown(ImGuiKey.Enter))
+                {
+                    // Submit the path on enter press
+                    useTypedPath();
+                }
+
+                return 0;
+            }
+
+        );
     }
 
     private void useTypedPath()
     {
         int lastSlash = currentPathInputField.LastIndexOf(Path.PathSeparator);
+        
+        // Remove any artifcats after the last slash
+        if (lastSlash >= 0)
+        {
+            currentPathInputField = currentPathInputField.Substring(0, lastSlash + 1);
+        }
+
+        // If the directory exists, we can safely move there
+        if (Directory.Exists(currentPathInputField))
+        {
+            currentPath = currentPathInputField;
+            currentPath = currentPath.Insert(0, filesystemPrefix);
+            
+            getFilesAndTypes(currentPath);
+        }
     }
     
     #endregion
@@ -177,7 +204,6 @@ public class FileManager : GuiSoftware
     {
         currentPath = path;
         
-        fileCheckTimer = 0;
         getFilesAndTypes(currentPath);
     }
 
