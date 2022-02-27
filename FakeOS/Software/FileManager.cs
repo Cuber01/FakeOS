@@ -178,13 +178,7 @@ public class FileManager : GuiSoftware
 
     private void useTypedPath()
     {
-        int lastSlash = currentPathInputField.LastIndexOf(Path.PathSeparator);
-        
-        // Remove any artifcats after the last slash
-        if (lastSlash >= 0)
-        {
-            currentPathInputField = currentPathInputField.Substring(0, lastSlash + 1);
-        }
+        currentPathInputField = Util.removeAfterCharacter(currentPathInputField, Path.DirectorySeparatorChar);
 
         // If the directory exists, we can safely move there
         if (Directory.Exists(currentPathInputField))
