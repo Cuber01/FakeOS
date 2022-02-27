@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -8,7 +7,7 @@ namespace FakeOS.General;
 
 public class FontLoader
 {
-    private Dictionary<string, ImFontPtr> fonts = new Dictionary<string, ImFontPtr>();
+    private readonly Dictionary<string, ImFontPtr> fonts = new Dictionary<string, ImFontPtr>();
     private ImGuiIOPtr io;
     
     public FontLoader(string fontPath, ImGuiIOPtr io)
