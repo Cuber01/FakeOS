@@ -209,9 +209,10 @@ public class FileManager : GuiSoftware
     {
         if(goingBackHistory.Count == 0) return;
         
-        currentPath = goingBackHistory.ElementAt(0);
-        goingBackHistory.RemoveAt(0);
+        currentPath = goingBackHistory.ElementAt(goingBackHistory.Count - 1);
+        goingBackHistory.RemoveAt(goingBackHistory.Count - 1);
         
+        updateInputPath();
         getFilesAndTypes(currentPath);
     }
 
