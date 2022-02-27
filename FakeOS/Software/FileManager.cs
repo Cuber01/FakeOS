@@ -14,7 +14,7 @@ public class FileManager : GuiSoftware
     private Dictionary<string, (string, string)> filesAndTypes = new Dictionary<string, (string, string)>();
     private Dictionary<string, Action<string>> doubleClickActions;
 
-    private string currentPathInputField = "";
+    private string currentPathInputField;
     private string currentPath;
 
     private const int framesBetweenFileChecks = 500;
@@ -156,8 +156,13 @@ public class FileManager : GuiSoftware
 
     private unsafe void showUpperUI()
     {
-        ImGui.Button(AwesomeIcons.ArrowLeft, new Vector2(25,25));
+        if (ImGui.Button(AwesomeIcons.ArrowLeft, new Vector2(25, 25)))
+        {
+            goBack();
+        }
+        
         ImGui.SameLine();
+        
         ImGui.Button(AwesomeIcons.ArrowRight, new Vector2(25,25));
         ImGui.SameLine();
 
@@ -174,6 +179,19 @@ public class FileManager : GuiSoftware
             }
 
         );
+    }
+
+    private void goBack()
+    {
+        // Remove the last /
+        string tmpPath = currentPath.Substring(0, currentPath.Length - 1);
+        
+        if(tmpPath == filesystemPrefix) return;
+
+        currentPath = tmpPath;
+        currentPath = Util.removeAfterCharacter(currentPath, Path.DirectorySeparatorChar);
+        
+        getFilesAndTypes(currentPath);
     }
 
     private void useTypedPath()
