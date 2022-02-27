@@ -9,7 +9,7 @@ namespace FakeOS.Software;
 
 public class FileManager : GuiSoftware
 {
-    private Dictionary<string, string> filesAndTypes = new Dictionary<string, string>();
+    private Dictionary<string, (string, string)> filesAndTypes = new Dictionary<string, (string, string)>();
     private readonly string pathToFilesystem;
     private string currentPath = Consts.filesystemLocation;
 
@@ -96,7 +96,7 @@ public class FileManager : GuiSoftware
             {
                 if (file.Key.Contains(currentPath))
                 {
-                    displayFile((file.Key, file.Value), i);
+                    displayFile((file.Key, file.Value.Item2), i);
                 }
                 
                 i++;
@@ -113,7 +113,7 @@ public class FileManager : GuiSoftware
         ImGui.PushID(id);
 
         ImGui.AlignTextToFramePadding();
-        ImGui.Text(Path.GetFileName(file.Item1 + ' ' + file.Item2));
+        ImGui.Text(Path.GetFileName(file.Item2 + ' ' + file.Item1));
         
         ImGui.PopID();
     }
