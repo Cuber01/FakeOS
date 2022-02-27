@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using FakeOS.General;
 using FakeOS.Tools;
 using ImGuiNET;
 
@@ -40,6 +41,7 @@ public class FileManager : GuiSoftware
 
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(2, 2));
         
+        showButtons();
         
         showTable();
 
@@ -85,23 +87,18 @@ public class FileManager : GuiSoftware
         ImGui.TableSetColumnIndex(0);
         ImGui.AlignTextToFramePadding();
 
-        bool nodeOpen = ImGui.TreeNodeEx("Filesystem", ImGuiTreeNodeFlags.DefaultOpen);
 
-        if (nodeOpen)
+        for (int i = 0; i < filesAndTypes.Count; i++)
         {
+            var fileKey = filesAndTypes.Keys.ElementAt(i);
+            var fileVal = filesAndTypes.Values.ElementAt(i);
             
-            for (int i = 0; i < filesAndTypes.Count; i++)
+            if (fileKey.Contains(currentPath))
             {
-                var fileKey = filesAndTypes.Keys.ElementAt(i);
-                var fileVal = filesAndTypes.Values.ElementAt(i);
-                
-                if (fileKey.Contains(currentPath))
-                {
-                    handleFile((fileKey, fileVal.Item1, fileVal.Item2), i);
-                }
+                handleFile((fileKey, fileVal.Item1, fileVal.Item2), i);
             }
-
         }
+
 
         ImGui.PopID();
 
@@ -148,6 +145,13 @@ public class FileManager : GuiSoftware
     #endregion
     
     #region buttons
+
+    private void showButtons()
+    {
+        ImGui.Button(AwesomeIcons.ArrowLeft, new Vector2(25,25));
+        ImGui.SameLine();
+        ImGui.Button(AwesomeIcons.ArrowRight, new Vector2(25,25));
+    }
     
     #endregion
 
