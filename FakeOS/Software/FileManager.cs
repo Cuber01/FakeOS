@@ -11,6 +11,8 @@ namespace FakeOS.Software;
 public class FileManager : GuiSoftware
 {
     private Dictionary<string, (string, string)> filesAndTypes = new Dictionary<string, (string, string)>();
+    private Dictionary<string, Action<string>> doubleClickActions;
+    
     private string currentPath;
 
     private const int framesBetweenFileChecks = 500;
@@ -37,7 +39,8 @@ public class FileManager : GuiSoftware
         ImGui.Begin(name, ref running, windowFlags);
 
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(2, 2));
-
+        
+        
         showTable();
 
         ImGui.PopStyleVar();
@@ -58,16 +61,8 @@ public class FileManager : GuiSoftware
     }
     
     #endregion
-
-    private void getFilesAndTypes(string directory)
-    {
-        filesAndTypes.Clear();
-
-        foreach (string file in Directory.GetFileSystemEntries(directory))
-        {
-            filesAndTypes.Add(file, MimeTypes.GetContentType(file));
-        }
-    }
+    
+    #region fileView
 
     private void showTable()
     {
@@ -94,8 +89,7 @@ public class FileManager : GuiSoftware
 
         if (nodeOpen)
         {
-
-
+            
             for (int i = 0; i < filesAndTypes.Count; i++)
             {
                 var fileKey = filesAndTypes.Keys.ElementAt(i);
@@ -116,7 +110,6 @@ public class FileManager : GuiSoftware
     // Item1 is path, Item2 is type, Item3 is icon
     private void handleFile((string, string, string) file, int id)
     {
-
         ImGui.PushID(id);
 
         ImGui.AlignTextToFramePadding();
@@ -141,6 +134,24 @@ public class FileManager : GuiSoftware
             }
         }
     }
+    
+    private void getFilesAndTypes(string directory)
+    {
+        filesAndTypes.Clear();
+
+        foreach (string file in Directory.GetFileSystemEntries(directory))
+        {
+            filesAndTypes.Add(file, MimeTypes.GetContentType(file));
+        }
+    }
+    
+    #endregion
+    
+    #region buttons
+    
+    #endregion
+
+    #region misc
 
     private void moveToDirectory(string path)
     {
@@ -162,9 +173,7 @@ public class FileManager : GuiSoftware
             },
         };
     }
-
-    private Dictionary<string, Action<string>> doubleClickActions;
-
-
-
+    
+    #endregion
+    
 }
