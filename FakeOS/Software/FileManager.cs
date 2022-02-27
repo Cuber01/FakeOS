@@ -107,11 +107,17 @@ public class FileManager : GuiSoftware
 
     private void displayFile((string, string, string) file, int id)
     {
-        ImGui.PushID(id);
 
+        ImGui.PushID(id);
+        
         ImGui.AlignTextToFramePadding();
         ImGui.Selectable(file.Item3 + ' ' + Path.GetFileName(file.Item1));
-        
+
+        if (ImGui.IsItemHovered() && ImGui.IsMouseDoubleClicked(0))
+        {
+            Console.Write("Hello");
+        }
+
         ImGui.PopID();
     }
 
