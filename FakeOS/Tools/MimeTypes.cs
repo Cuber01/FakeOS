@@ -24,16 +24,18 @@ public class MimeTypes
     {
         if (knownTypes == null || mimeTypesAndIcons == null)
             InitializeMimeTypeLists();
-        (string, string) contentType;
-        
+
         string extension = System.IO.Path.GetExtension(fileName).Replace(".", "").ToLower();
-        mimeTypesAndIcons!.TryGetValue(extension, out contentType);
+        mimeTypesAndIcons!.TryGetValue(extension, out var contentType);
         
-        if (string.IsNullOrEmpty(contentType.Item1) || knownTypes.Contains(contentType.Item1))
+        if (string.IsNullOrEmpty(contentType.Item1) || knownTypes!.Contains(contentType.Item1))
         {
             string headerType = ScanFileForMimeType(fileName);
             if (headerType != "application/octet-stream" || string.IsNullOrEmpty(contentType.Item1))
-                contentType.Item1 = headerType;
+            {
+                contentType = (headerType, AwesomeIcons.FileO);  
+            }
+              
         }
 
         return (contentType.Item1, contentType.Item2);
