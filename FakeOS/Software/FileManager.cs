@@ -175,7 +175,7 @@ public class FileManager : GuiSoftware
                 if (ImGui.IsKeyDown(ImGuiKey.Enter))
                 {
                     // Submit the path on enter press
-                    useTypedPath();
+                    tryUseTypedPath();
                 }
 
                 return 0;
@@ -216,18 +216,31 @@ public class FileManager : GuiSoftware
         getFilesAndTypes(currentPath);
     }
 
-    private void useTypedPath()
+    private void tryUseTypedPath()
     {
-        currentPathInputField = Util.removeAfterCharacter(currentPathInputField, Path.DirectorySeparatorChar);
-
-        // If the directory exists, we can safely move there
         if (Directory.Exists(filesystemPrefix + currentPathInputField))
         {
-            currentPath = currentPathInputField;
-            currentPath = currentPath.Insert(0, filesystemPrefix);
-            
-            getFilesAndTypes(currentPath);
+            useTypedPath();
+            return;
         }
+        
+        // Remove some bullshit after the last slash if necessary
+        currentPathInputField = Util.removeAfterCharacter(currentPathInputField, Path.DirectorySeparatorChar);
+        
+        // Check without the trash after slash
+        if (Directory.Exists(filesystemPrefix + currentPathInputField))
+        {
+            useTypedPath();
+            return;
+        }
+    }
+
+    private void useTypedPath()
+    {
+        currentPath = currentPathInputField;
+        currentPath = currentPath.Insert(0, filesystemPrefix);
+            
+        getFilesAndTypes(currentPath);
     }
     
     #endregion
