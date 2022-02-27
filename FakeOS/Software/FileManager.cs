@@ -93,7 +93,7 @@ public class FileManager : GuiSoftware
             {
                 if (file.Key.Contains(currentPath))
                 {
-                    displayFile((file.Key, file.Value.Item2), i);
+                    displayFile((file.Key, file.Value.Item1, file.Value.Item2), i);
                 }
                 
                 i++;
@@ -105,12 +105,12 @@ public class FileManager : GuiSoftware
         
     }
 
-    private void displayFile((string, string) file, int id)
+    private void displayFile((string, string, string) file, int id)
     {
         ImGui.PushID(id);
 
         ImGui.AlignTextToFramePadding();
-        ImGui.Selectable(file.Item2 + ' ' + Path.GetFileName(file.Item1));
+        ImGui.Selectable(file.Item3 + ' ' + Path.GetFileName(file.Item1));
         
         ImGui.PopID();
     }

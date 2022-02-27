@@ -22,9 +22,16 @@ public class MimeTypes
 
     public static (string, string) GetContentType(string fileName)
     {
+        if (Directory.Exists(fileName))
+        {
+            return ("misc/directory", AwesomeIcons.FolderO);
+        }
+        
         if (knownTypes == null || mimeTypesAndIcons == null)
+        {
             InitializeMimeTypeLists();
-
+        }
+            
         string extension = System.IO.Path.GetExtension(fileName).Replace(".", "").ToLower();
         mimeTypesAndIcons!.TryGetValue(extension, out var contentType);
         
