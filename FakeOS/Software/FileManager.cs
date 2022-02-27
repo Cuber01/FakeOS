@@ -10,8 +10,7 @@ namespace FakeOS.Software;
 public class FileManager : GuiSoftware
 {
     private Dictionary<string, (string, string)> filesAndTypes = new Dictionary<string, (string, string)>();
-    private readonly string pathToFilesystem;
-    private string currentPath = Consts.filesystemLocation;
+    private string currentPath;
 
     private const int framesBetweenFileChecks = 1000;
     private int fileCheckTimer = 0;
@@ -19,12 +18,12 @@ public class FileManager : GuiSoftware
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
     private const ImGuiTableFlags tableFlags = ImGuiTableFlags.BordersOuter | ImGuiTableFlags.Resizable;
 
-    public FileManager(string pathToFilesystem)
+    public FileManager(string path)
     {
         name = "File Manager";
-        this.pathToFilesystem = pathToFilesystem;
+        this.currentPath = path;
         
-        getFilesAndTypes(pathToFilesystem);
+        getFilesAndTypes(currentPath);
     }
 
     public override void draw()
@@ -64,8 +63,6 @@ public class FileManager : GuiSoftware
         }
     }
 
-    
-    
     private void showTable()
     {
         if (ImGui.BeginTable("#main", 1, tableFlags))
@@ -118,30 +115,4 @@ public class FileManager : GuiSoftware
         ImGui.PopID();
     }
 
-//     for (int i = 0; i < 6; i++)
-//     {
-//         ImGui.PushID(i); // Use field index as identifier.
-//         if (i < 2)
-//         {
-//             ImGui.AlignTextToFramePadding();
-//             ImGui.TreeNodeEx("Field", fileFlags, AwesomeIcons.FolderO + " Folder" + i);
-//         }
-//         else
-//         {
-//             // Here we use a TreeNode to highlight on hover (we could use e.g. Selectable as well)
-//             ImGui.TableNextRow();
-//             ImGui.TableSetColumnIndex(0);
-//             ImGui.AlignTextToFramePadding();
-//                     
-//             ImGui.TreeNodeEx("Field", fileFlags, AwesomeIcons.FileImageO + " Field_" + i);
-//         }
-//                 
-//         ImGui.PopID();
-//     }
-//             
-//     ImGui.TreePop();
-// }
-//         
-// ImGui.PopID();
-    
 }
