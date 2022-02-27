@@ -161,8 +161,12 @@ public class FileManager : GuiSoftware
         }
         
         ImGui.SameLine();
+
+        if (ImGui.Button(AwesomeIcons.ArrowRight, new Vector2(25, 25)))
+        {
+            reverseGoingBack();
+        }
         
-        ImGui.Button(AwesomeIcons.ArrowRight, new Vector2(25,25));
         ImGui.SameLine();
 
         ImGui.InputText("", ref currentPathInputField, UInt16.MaxValue, ImGuiInputTextFlags.CallbackAlways,
@@ -203,6 +207,8 @@ public class FileManager : GuiSoftware
 
     private void reverseGoingBack()
     {
+        if(goingBackHistory.Count == 0) return;
+        
         currentPath = goingBackHistory.ElementAt(0);
         goingBackHistory.RemoveAt(0);
         
@@ -229,6 +235,8 @@ public class FileManager : GuiSoftware
 
     private void moveToDirectory(string path)
     {
+        goingBackHistory.Clear();
+        
         currentPath = path + Path.DirectorySeparatorChar;
         updateInputPath();
         
