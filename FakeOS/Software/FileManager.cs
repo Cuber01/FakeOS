@@ -221,7 +221,7 @@ public class FileManager : GuiSoftware
         currentPathInputField = Util.removeAfterCharacter(currentPathInputField, Path.DirectorySeparatorChar);
 
         // If the directory exists, we can safely move there
-        if (Directory.Exists(currentPathInputField))
+        if (Directory.Exists(filesystemPrefix + currentPathInputField))
         {
             currentPath = currentPathInputField;
             currentPath = currentPath.Insert(0, filesystemPrefix);
