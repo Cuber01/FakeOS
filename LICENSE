@@ -1,4 +1,4 @@
-# Project
+### Project ###
 
 Copyright 2022 @Cuber01
 
@@ -8,7 +8,31 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# Assets
+### Assets ###
+
+# Themes #
+
+retroDark - https://github.com/ocornut/imgui/issues/707#issuecomment-252413954
+
+lightGreen - https://github.com/ocornut/imgui/pull/1776
+
+charcoalGray - https://github.com/ocornut/imgui/issues/707#issuecomment-463758243
+
+yetAnotherDark - https://github.com/ocornut/imgui/issues/707#issuecomment-512669512
+
+deepDark - https://github.com/ocornut/imgui/issues/707#issuecomment-917151020
+
+imguiFontStudioRed - https://github.com/ocornut/imgui/issues/707#issuecomment-760220280
+
+imguiFontStudioGreen - https://github.com/ocornut/imgui/issues/707#issuecomment-760219522
+
+gold - https://github.com/ocornut/imgui/issues/707#issuecomment-622934113
+
+steam - https://github.com/ocornut/imgui/issues/707#issuecomment-576867100
+
+lightStyle - https://github.com/ocornut/imgui/issues/707#issuecomment-226993714
+
+# Fonts #
 
 # Roboto-Regular.ttf  
 # https://github.com/googlefonts/roboto                     

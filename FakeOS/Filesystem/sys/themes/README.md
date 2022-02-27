@@ -37,25 +37,3 @@ You need to edit all thing.x or thing.y to thing.X and thing.Y respectively.
 This script is mostly a dev tool, hence why it is so poor.
 
 2d Vectors should be changed from [10, 20] to {"X":10, "Y":20}
-
-# Credits
-
-retroDark - https://github.com/ocornut/imgui/issues/707#issuecomment-252413954
-
-lightGreen - https://github.com/ocornut/imgui/pull/1776
-
-charcoalGray - https://github.com/ocornut/imgui/issues/707#issuecomment-463758243
-
-yetAnotherDark - https://github.com/ocornut/imgui/issues/707#issuecomment-512669512
-
-deepDark - https://github.com/ocornut/imgui/issues/707#issuecomment-917151020
-
-imguiFontStudioRed - https://github.com/ocornut/imgui/issues/707#issuecomment-760220280
-
-imguiFontStudioGreen - https://github.com/ocornut/imgui/issues/707#issuecomment-760219522
-
-gold - https://github.com/ocornut/imgui/issues/707#issuecomment-622934113
-
-steam - https://github.com/ocornut/imgui/issues/707#issuecomment-576867100
-
-lightStyle - https://github.com/ocornut/imgui/issues/707#issuecomment-226993714
