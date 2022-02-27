@@ -26,7 +26,7 @@ public class FileManager : GuiSoftware
         getFilesAndTypes(currentPath);
     }
 
-    public override void draw()
+    public override void imGuiUpdate()
     {
         if (!running) return;
 

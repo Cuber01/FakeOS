@@ -53,7 +53,7 @@ public class TextEditor : GuiSoftware
     }
     
 
-    public override void draw()
+    public override void imGuiUpdate()
     {
         if (!running) return;
 

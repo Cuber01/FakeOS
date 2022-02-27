@@ -8,5 +8,5 @@ public abstract class GuiSoftware
     // It is very likely, I'll eventually put something in either update or draw, that's why they're virtual
     public virtual void update() { }
 
-    public virtual void draw() { }
+    public virtual void imGuiUpdate() { }
 }

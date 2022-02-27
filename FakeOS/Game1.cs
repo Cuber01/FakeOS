@@ -80,7 +80,7 @@ namespace FakeOS
             
             for (int i = 0; i < windows.Count; i++)
             {
-                windows[i].draw();
+                windows[i].imGuiUpdate();
             }
 
             ImGui.ShowDemoWindow();
