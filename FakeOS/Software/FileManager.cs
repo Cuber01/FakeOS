@@ -113,7 +113,7 @@ public class FileManager : GuiSoftware
         ImGui.PushID(id);
 
         ImGui.AlignTextToFramePadding();
-        ImGui.Text(file.Item2 + ' ' + Path.GetFileName(file.Item1));
+        ImGui.Selectable(file.Item2 + ' ' + Path.GetFileName(file.Item1));
         
         ImGui.PopID();
     }

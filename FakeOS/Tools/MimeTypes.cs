@@ -110,6 +110,7 @@ public class MimeTypes
 
         mimeTypesAndIcons = new Dictionary<string, (string, string)>
         {
+            { "ttf", ("fonts/true-type-format", AwesomeIcons.Font )},
             { "abc", ("text/vnd.abc", AwesomeIcons.FileO) },
             { "acgi", ("text/html", AwesomeIcons.FileCodeO) },
             { "afl", ("video/animaflex", AwesomeIcons.FileO) },
