@@ -13,6 +13,7 @@ public class FileManager : GuiSoftware
 {
     private Dictionary<string, (string, string)> filesAndTypes = new Dictionary<string, (string, string)>();
     private Dictionary<string, Action<string>> doubleClickActions;
+    private List<string> goingBackHistory = new List<string>();
 
     private string currentPathInputField;
     private string currentPath;
@@ -31,9 +32,7 @@ public class FileManager : GuiSoftware
         
         this.currentPath = path;
         
-        // Init the visible path but without the Filesystem prefix
-        this.currentPathInputField = path;
-        currentPathInputField = currentPathInputField[filesystemPrefix.Length..];
+        updateInputPath();
 
         initDoubleClickActions();
         getFilesAndTypes(currentPath);
@@ -186,10 +185,26 @@ public class FileManager : GuiSoftware
         // Remove the last /
         string tmpPath = currentPath.Substring(0, currentPath.Length - 1);
         
-        if(tmpPath == filesystemPrefix) return;
+        // Return if we can't go back further
+        if (tmpPath == filesystemPrefix)
+        {
+            return;
+        }
 
+        // Save the previous path
+        goingBackHistory.Add(currentPath);
+        
         currentPath = tmpPath;
         currentPath = Util.removeAfterCharacter(currentPath, Path.DirectorySeparatorChar);
+
+        updateInputPath();
+        getFilesAndTypes(currentPath);
+    }
+
+    private void reverseGoingBack()
+    {
+        currentPath = goingBackHistory.ElementAt(0);
+        goingBackHistory.RemoveAt(0);
         
         getFilesAndTypes(currentPath);
     }
@@ -214,7 +229,8 @@ public class FileManager : GuiSoftware
 
     private void moveToDirectory(string path)
     {
-        currentPath = path;
+        currentPath = path + Path.DirectorySeparatorChar;
+        updateInputPath();
         
         getFilesAndTypes(currentPath);
     }
@@ -230,6 +246,12 @@ public class FileManager : GuiSoftware
                 "text/", Util.openFileInNewTextEditor
             },
         };
+    }
+
+    private void updateInputPath()
+    {
+        currentPathInputField = currentPath;
+        currentPathInputField = currentPathInputField[filesystemPrefix.Length..];
     }
     
     #endregion
