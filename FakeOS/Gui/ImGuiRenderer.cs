@@ -11,7 +11,7 @@ namespace FakeOS.Gui
     /// <summary>
     /// ImGui renderer for use with XNA-likes (FNA & MonoGame)
     /// </summary>
-    public class ImGuiRenderer
+    public sealed class ImGuiRenderer
     {
         private Game _game;
 
@@ -68,7 +68,7 @@ namespace FakeOS.Gui
         /// <summary>
         /// Creates a texture and loads the font data from ImGui. Should be called when the <see cref="GraphicsDevice" /> is initialized but before any rendering is done
         /// </summary>
-        public virtual unsafe void RebuildFontAtlas()
+        public unsafe void RebuildFontAtlas()
         {
             // Get font texture from ImGui
             var io = ImGui.GetIO();
@@ -76,7 +76,7 @@ namespace FakeOS.Gui
 
             // Copy the data to a managed array
             var pixels = new byte[width * height * bytesPerPixel];
-            unsafe { Marshal.Copy(new IntPtr(pixelData), pixels, 0, pixels.Length); }
+            Marshal.Copy(new IntPtr(pixelData), pixels, 0, pixels.Length);
 
             // Create and register the texture as an XNA texture
             var tex2d = new Texture2D(_graphicsDevice, width, height, false, SurfaceFormat.Color);
@@ -96,7 +96,7 @@ namespace FakeOS.Gui
         /// <summary>
         /// Creates a pointer to a texture, which can be passed through ImGui calls such as <see cref="ImGui.Image" />. That pointer is then used by ImGui to let us know what texture to draw
         /// </summary>
-        public virtual IntPtr BindTexture(Texture2D texture)
+        public IntPtr BindTexture(Texture2D texture)
         {
             var id = new IntPtr(_textureId++);
 
@@ -108,7 +108,7 @@ namespace FakeOS.Gui
         /// <summary>
         /// Removes a previously created texture pointer, releasing its reference and allowing it to be deallocated
         /// </summary>
-        public virtual void UnbindTexture(IntPtr textureId)
+        public void UnbindTexture(IntPtr textureId)
         {
             _loadedTextures.Remove(textureId);
         }
@@ -116,7 +116,7 @@ namespace FakeOS.Gui
         /// <summary>
         /// Sets up ImGui for a new frame, should be called at frame start
         /// </summary>
-        public virtual void BeforeLayout(GameTime gameTime)
+        public void BeforeLayout(GameTime gameTime)
         {
             ImGui.GetIO().DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -128,11 +128,11 @@ namespace FakeOS.Gui
         /// <summary>
         /// Asks ImGui for the generated geometry data and sends it to the graphics pipeline, should be called after the UI is drawn using ImGui.** calls
         /// </summary>
-        public virtual void AfterLayout()
+        public void AfterLayout()
         {
             ImGui.Render();
 
-            unsafe { RenderDrawData(ImGui.GetDrawData()); }
+            RenderDrawData(ImGui.GetDrawData());
         }
 
         #endregion ImGuiRenderer
@@ -142,7 +142,7 @@ namespace FakeOS.Gui
         /// <summary>
         /// Maps ImGui keys to XNA keys. We use this later on to tell ImGui what keys were pressed
         /// </summary>
-        protected virtual void SetupInput()
+        private void SetupInput()
         {
             var io = ImGui.GetIO();
 
@@ -168,7 +168,7 @@ namespace FakeOS.Gui
             _keys.Add(io.KeyMap[(int)ImGuiKey.Z] = (int)Keys.Z);
 
             // MonoGame-specific //////////////////////
-            _game.Window.TextInput += (s, a) =>
+            _game.Window.TextInput += (_, a) =>
             {
                 if (a.Character == '\t') return;
 
@@ -192,7 +192,7 @@ namespace FakeOS.Gui
         /// <summary>
         /// Updates the <see cref="Effect" /> to the current matrices and texture
         /// </summary>
-        protected virtual Effect UpdateEffect(Texture2D texture)
+        private Effect UpdateEffect(Texture2D texture)
         {
             _effect = _effect ?? new BasicEffect(_graphicsDevice);
 
@@ -211,7 +211,7 @@ namespace FakeOS.Gui
         /// <summary>
         /// Sends XNA input state to ImGui
         /// </summary>
-        protected virtual void UpdateInput()
+        private void UpdateInput()
         {
             var io = ImGui.GetIO();
 
@@ -325,7 +325,7 @@ namespace FakeOS.Gui
             _indexBuffer.SetData(_indexData, 0, drawData.TotalIdxCount * sizeof(ushort));
         }
 
-        private unsafe void RenderCommandLists(ImDrawDataPtr drawData)
+        private void RenderCommandLists(ImDrawDataPtr drawData)
         {
             _graphicsDevice.SetVertexBuffer(_vertexBuffer);
             _graphicsDevice.Indices = _indexBuffer;

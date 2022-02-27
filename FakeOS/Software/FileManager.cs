@@ -19,7 +19,7 @@ public class FileManager : GuiSoftware
     private string currentPath;
 
     private const int framesBetweenFileChecks = 500;
-    private int fileCheckTimer = 0;
+    private int fileCheckTimer;
 
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
     private const ImGuiTableFlags tableFlags = ImGuiTableFlags.BordersOuter | ImGuiTableFlags.Resizable | ImGuiTableFlags.Sortable;
@@ -170,7 +170,7 @@ public class FileManager : GuiSoftware
         ImGui.SameLine();
 
         ImGui.InputText("", ref currentPathInputField, UInt16.MaxValue, ImGuiInputTextFlags.CallbackAlways,
-            data =>
+            _ =>
             {
                 if (ImGui.IsKeyDown(ImGuiKey.Enter))
                 {

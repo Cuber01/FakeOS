@@ -30,9 +30,9 @@ public class TextEditor : GuiSoftware
     private const string defaultDocName = "Unsaved Document";
         
     // ImGui can't handle 2 tabs with the same name properly
-    private int defaultDocNameCount = 0;
+    private int defaultDocNameCount;
 
-    private TextEditorTabs tabBar = new TextEditorTabs();
+    private readonly TextEditorTabs tabBar = new TextEditorTabs();
 
     private const ImGuiTabBarFlags tabBarFlags = ImGuiTabBarFlags.Reorderable | 
                                                  ImGuiTabBarFlags.FittingPolicyDefault |
@@ -147,7 +147,7 @@ public class TextEditor : GuiSoftware
 
     public class TextEditorTabs
     {
-        public List<ImGuiTab> tabs = new List<ImGuiTab>();
+        public readonly List<ImGuiTab> tabs = new List<ImGuiTab>();
 
         public class ImGuiTab
         {

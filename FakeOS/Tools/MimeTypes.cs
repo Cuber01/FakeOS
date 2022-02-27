@@ -7,7 +7,7 @@ using FakeOS.General;
 
 namespace FakeOS.Tools;
 
-public class MimeTypes
+public static class MimeTypes
 {
     private static List<string> knownTypes;
 
@@ -76,7 +76,7 @@ public class MimeTypes
 
     private static void InitializeMimeTypeLists()
     {
-        knownTypes = new string[]
+        knownTypes = new[]
         {
             "text/plain",
             "text/html",
