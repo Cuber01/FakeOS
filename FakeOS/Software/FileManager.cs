@@ -105,6 +105,7 @@ public class FileManager : GuiSoftware
 
     }
 
+    // Item1 is path, Item2 is type, Item3 is icon
     private void displayFile((string, string, string) file, int id)
     {
 
@@ -121,9 +122,16 @@ public class FileManager : GuiSoftware
         ImGui.PopID();
     }
 
+    // Item1 is path, Item2 is type
     private void handleDoubleClick((string, string) file)
     {
-
+        foreach (var entry in doubleClickActions)
+        {
+            if (file.Item2.Contains(entry.Key))
+            {
+                entry.Value.Invoke(file.Item1);
+            }
+        }
     }
 
     private static void moveToDirectory(string path)
@@ -137,9 +145,8 @@ public class FileManager : GuiSoftware
             Consts.folderType, moveToDirectory
         },
         {
-            "text/", 
+            "text/", Util.openFileInNewTextEditor
         },
-        
     };
 
 
