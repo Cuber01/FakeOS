@@ -11,7 +11,7 @@ namespace FakeOS
 {
     public class Game1 : Game
     {
-        private List<GuiSoftware> windows = new List<GuiSoftware>();
+        public static List<GuiSoftware> windows = new List<GuiSoftware>();
         
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;

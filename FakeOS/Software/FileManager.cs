@@ -14,7 +14,7 @@ public class FileManager : GuiSoftware
 
     private const int framesBetweenFileChecks = 1000;
     private int fileCheckTimer = 0;
-    
+
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
     private const ImGuiTableFlags tableFlags = ImGuiTableFlags.BordersOuter | ImGuiTableFlags.Resizable;
 
@@ -22,29 +22,29 @@ public class FileManager : GuiSoftware
     {
         name = "File Manager";
         this.currentPath = path;
-        
+
         getFilesAndTypes(currentPath);
     }
 
     public override void draw()
     {
         if (!running) return;
-        
+
         ImGui.Begin(name, ref running, windowFlags);
-        
+
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(2, 2));
-        
+
         showTable();
-        
+
         ImGui.PopStyleVar();
-        
+
         ImGui.End();
     }
-    
+
     public override void update()
     {
         if (!running) return;
-        
+
         fileCheckTimer++;
         if (fileCheckTimer == framesBetweenFileChecks)
         {
@@ -56,7 +56,7 @@ public class FileManager : GuiSoftware
     private void getFilesAndTypes(string directory)
     {
         filesAndTypes.Clear();
-        
+
         foreach (string file in Directory.GetFileSystemEntries(directory))
         {
             filesAndTypes.Add(file, MimeTypes.GetContentType(file));
@@ -68,7 +68,7 @@ public class FileManager : GuiSoftware
         if (ImGui.BeginTable("#main", 1, tableFlags))
         {
             showFiles(0);
-            
+
             ImGui.EndTable();
         }
     }
@@ -78,7 +78,7 @@ public class FileManager : GuiSoftware
 
         // Use object uid as identifier. Most commonly you could also use the object pointer as a base ID.
         ImGui.PushID(id);
-        
+
         // Text and Tree nodes are less high than framed widgets, using AlignTextToFramePadding() we add vertical spacing to make the tree lines equal high.
         ImGui.TableNextRow();
         ImGui.TableSetColumnIndex(0);
@@ -95,30 +95,53 @@ public class FileManager : GuiSoftware
                 {
                     displayFile((file.Key, file.Value.Item1, file.Value.Item2), i);
                 }
-                
+
                 i++;
             }
-            
+
         }
-        
+
         ImGui.PopID();
-        
+
     }
 
     private void displayFile((string, string, string) file, int id)
     {
 
         ImGui.PushID(id);
-        
+
         ImGui.AlignTextToFramePadding();
         ImGui.Selectable(file.Item3 + ' ' + Path.GetFileName(file.Item1));
 
         if (ImGui.IsItemHovered() && ImGui.IsMouseDoubleClicked(0))
         {
-            Console.Write("Hello");
+            handleDoubleClick((file.Item1, file.Item2));
         }
 
         ImGui.PopID();
     }
+
+    private void handleDoubleClick((string, string) file)
+    {
+
+    }
+
+    private static void moveToDirectory(string path)
+    {
+
+    }
+
+    private Dictionary<string, Action<string>> doubleClickActions = new Dictionary<string, Action<string>>()
+    {
+        {
+            Consts.folderType, moveToDirectory
+        },
+        {
+            "text/", 
+        },
+        
+    };
+
+
 
 }

@@ -42,7 +42,7 @@ public class TextEditor : GuiSoftware
     private const ImGuiInputTextFlags multilineTextFlags = ImGuiInputTextFlags.AllowTabInput;
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
 
-    public TextEditor()
+    public TextEditor(string path = null)
     {
         this.name = "Text Editor";
         this.tabBar.tabs.Add(new TextEditorTabs.ImGuiTab(defaultDocName));

@@ -19,5 +19,5 @@ public static class Consts
 
    public const int defaultFontSize = 20;
    
-   public const string folderType = "application/octet-stream";
+   public const string folderType = "misc/directory";
 } 

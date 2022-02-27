@@ -24,7 +24,7 @@ public class MimeTypes
     {
         if (Directory.Exists(fileName))
         {
-            return ("misc/directory", AwesomeIcons.FolderO);
+            return (Consts.folderType, AwesomeIcons.FolderO);
         }
         
         if (knownTypes == null || mimeTypesAndIcons == null)
