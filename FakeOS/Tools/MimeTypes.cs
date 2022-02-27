@@ -32,7 +32,7 @@ public class MimeTypes
             InitializeMimeTypeLists();
         }
             
-        string extension = System.IO.Path.GetExtension(fileName).Replace(".", "").ToLower();
+        string extension = Path.GetExtension(fileName)!.Replace(".", "").ToLower();
         mimeTypesAndIcons!.TryGetValue(extension, out var contentType);
         
         if (string.IsNullOrEmpty(contentType.Item1) || knownTypes!.Contains(contentType.Item1))

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using FakeOS.Tools;
 using ImGuiNET;
@@ -12,7 +13,7 @@ public class FileManager : GuiSoftware
     private Dictionary<string, (string, string)> filesAndTypes = new Dictionary<string, (string, string)>();
     private string currentPath;
 
-    private const int framesBetweenFileChecks = 1000;
+    private const int framesBetweenFileChecks = 500;
     private int fileCheckTimer = 0;
 
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
@@ -23,8 +24,11 @@ public class FileManager : GuiSoftware
         name = "File Manager";
         this.currentPath = path;
 
+        initDoubleClickActions();
         getFilesAndTypes(currentPath);
     }
+
+    #region mainUpdateLoops
 
     public override void imGuiUpdate()
     {
@@ -52,6 +56,8 @@ public class FileManager : GuiSoftware
             getFilesAndTypes(currentPath);
         }
     }
+    
+    #endregion
 
     private void getFilesAndTypes(string directory)
     {
@@ -88,15 +94,17 @@ public class FileManager : GuiSoftware
 
         if (nodeOpen)
         {
-            int i = 0;
-            foreach (var file in filesAndTypes)
-            {
-                if (file.Key.Contains(currentPath))
-                {
-                    displayFile((file.Key, file.Value.Item1, file.Value.Item2), i);
-                }
 
-                i++;
+
+            for (int i = 0; i < filesAndTypes.Count; i++)
+            {
+                var fileKey = filesAndTypes.Keys.ElementAt(i);
+                var fileVal = filesAndTypes.Values.ElementAt(i);
+                
+                if (fileKey.Contains(currentPath))
+                {
+                    handleFile((fileKey, fileVal.Item1, fileVal.Item2), i);
+                }
             }
 
         }
@@ -106,7 +114,7 @@ public class FileManager : GuiSoftware
     }
 
     // Item1 is path, Item2 is type, Item3 is icon
-    private void displayFile((string, string, string) file, int id)
+    private void handleFile((string, string, string) file, int id)
     {
 
         ImGui.PushID(id);
@@ -134,20 +142,28 @@ public class FileManager : GuiSoftware
         }
     }
 
-    private static void moveToDirectory(string path)
+    private void moveToDirectory(string path)
     {
-
+        currentPath = path;
+        
+        fileCheckTimer = 0;
+        getFilesAndTypes(currentPath);
     }
 
-    private Dictionary<string, Action<string>> doubleClickActions = new Dictionary<string, Action<string>>()
+    private void initDoubleClickActions()
     {
+        doubleClickActions = new Dictionary<string, Action<string>>()
         {
-            Consts.folderType, moveToDirectory
-        },
-        {
-            "text/", Util.openFileInNewTextEditor
-        },
-    };
+            {
+                Consts.folderType, moveToDirectory
+            },
+            {
+                "text/", Util.openFileInNewTextEditor
+            },
+        };
+    }
+
+    private Dictionary<string, Action<string>> doubleClickActions;
 
 
 

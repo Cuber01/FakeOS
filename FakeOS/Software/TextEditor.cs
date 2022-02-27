@@ -154,7 +154,7 @@ public class TextEditor : GuiSoftware
             private readonly string name;
 
             private bool open = true;
-            private string text = "";
+            private string text;
         
             public ImGuiTab(string name, string startingText = "")
             {
