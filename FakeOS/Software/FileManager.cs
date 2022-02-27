@@ -13,19 +13,27 @@ public class FileManager : GuiSoftware
 {
     private Dictionary<string, (string, string)> filesAndTypes = new Dictionary<string, (string, string)>();
     private Dictionary<string, Action<string>> doubleClickActions;
-    
+
+    private string currentPathInputField = "";
     private string currentPath;
 
     private const int framesBetweenFileChecks = 500;
     private int fileCheckTimer = 0;
 
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
-    private const ImGuiTableFlags tableFlags = ImGuiTableFlags.BordersOuter | ImGuiTableFlags.Resizable;
+    private const ImGuiTableFlags tableFlags = ImGuiTableFlags.BordersOuter | ImGuiTableFlags.Resizable | ImGuiTableFlags.Sortable;
+
+    private readonly string filesystemPrefix = $".{Path.PathSeparator}Filesystem";
 
     public FileManager(string path)
     {
         name = "File Manager";
+        
         this.currentPath = path;
+        
+        // Init the visible path but without the Filesystem prefix
+        this.currentPathInputField = path;
+        currentPathInputField = currentPathInputField[filesystemPrefix.Length..];
 
         initDoubleClickActions();
         getFilesAndTypes(currentPath);
@@ -41,7 +49,7 @@ public class FileManager : GuiSoftware
 
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(2, 2));
         
-        showButtons();
+        showUpperUI();
         
         showTable();
 
@@ -144,13 +152,21 @@ public class FileManager : GuiSoftware
     
     #endregion
     
-    #region buttons
+    #region upperUIBar
 
-    private void showButtons()
+    private void showUpperUI()
     {
         ImGui.Button(AwesomeIcons.ArrowLeft, new Vector2(25,25));
         ImGui.SameLine();
         ImGui.Button(AwesomeIcons.ArrowRight, new Vector2(25,25));
+        ImGui.SameLine();
+
+        ImGui.InputText("", ref currentPathInputField, UInt16.MaxValue);
+    }
+
+    private void useTypedPath()
+    {
+        int lastSlash = currentPathInputField.LastIndexOf(Path.PathSeparator);
     }
     
     #endregion
