@@ -47,7 +47,16 @@ public class TextEditor : GuiSoftware
     public TextEditor(string path = null)
     {
         this.name = "Text Editor";
-        this.tabBar.tabs.Add(new TextEditorTabs.ImGuiTab(defaultDocName));
+
+        if (path is null)
+        {
+            tabBar.tabs.Add(new TextEditorTabs.ImGuiTab(defaultDocName));
+        }
+        else
+        {
+            openFile(path);
+        }
+        
 
         defaultDocNameCount++;
     }
@@ -147,10 +156,10 @@ public class TextEditor : GuiSoftware
             private bool open = true;
             private string text = "";
         
-            public ImGuiTab(string name, string defaultText = "")
+            public ImGuiTab(string name, string startingText = "")
             {
                 this.name = name;
-                this.text = text;
+                text = startingText;
             }
 
             public void show()

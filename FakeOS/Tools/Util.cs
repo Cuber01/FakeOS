@@ -8,6 +8,6 @@ public static class Util
 
     public static void openFileInNewTextEditor(string path)
     {
-        Game1.windows.Add(new TextEditor());
+        Game1.windows.Add(new TextEditor(path));
     }
 }
