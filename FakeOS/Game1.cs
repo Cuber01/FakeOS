@@ -77,12 +77,12 @@ namespace FakeOS
             graphics.GraphicsDevice.Clear(Color.Gray);
 
             guiRenderer.BeforeLayout(gameTime);
-
-            foreach (var window in windows)
-            {
-                window.draw();
-            }
             
+            for (int i = 0; i < windows.Count; i++)
+            {
+                windows[i].draw();
+            }
+
             ImGui.ShowDemoWindow();
 
             guiRenderer.AfterLayout();
