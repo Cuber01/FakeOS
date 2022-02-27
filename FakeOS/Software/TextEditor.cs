@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
+using FakeOS.Tools;
 using ImGuiNET;
 
 namespace FakeOS.Software;
@@ -125,6 +127,13 @@ public class TextEditor : GuiSoftware
 
         
         ImGui.EndMenuBar();
+    }
+
+    private void openFile(string path)
+    {
+        string contents = FileReader.getFileString(path);
+        
+        tabBar.tabs.Add(new TextEditorTabs.ImGuiTab(Path.GetFileName(path), contents));
     }
 
     public class TextEditorTabs
