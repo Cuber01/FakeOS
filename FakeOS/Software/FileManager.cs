@@ -83,8 +83,8 @@ public class FileManager : GuiSoftware
         ImGui.TableNextRow();
         ImGui.TableSetColumnIndex(0);
         ImGui.AlignTextToFramePadding();
-        
-        bool nodeOpen = ImGui.TreeNode("#filesystem" + id, "Filesystem");
+
+        bool nodeOpen = ImGui.TreeNodeEx("Filesystem", ImGuiTreeNodeFlags.DefaultOpen);
 
         if (nodeOpen)
         {
