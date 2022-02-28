@@ -122,7 +122,14 @@ public class FileManager : GuiSoftware
         if (ImGui.IsItemHovered() && ImGui.IsMouseDoubleClicked(0))
         {
             handleDoubleClick((file.Item1, file.Item2));
+        } 
+        else
+        if (ImGui.IsItemHovered() && ImGui.GetIO().MouseClicked[1])
+        {
+            ImGui.OpenPopup("#rightClick");
         }
+        
+        rightClickMenuFile(file.Item1);
 
         ImGui.PopID();
     }
@@ -241,6 +248,22 @@ public class FileManager : GuiSoftware
         currentPath = currentPath.Insert(0, filesystemPrefix);
             
         getFilesAndTypes(currentPath);
+    }
+    
+    #endregion
+    
+    #region rightClickMenus
+
+    private void rightClickMenuFile(string path)
+    {
+
+        if (ImGui.BeginPopup("#rightClick"))
+        {
+            ImGui.Text("Aquarium");
+            ImGui.EndPopup();
+        }
+        
+        
     }
     
     #endregion
