@@ -8,15 +8,17 @@ namespace FakeOS.Software.CLI;
 public class Rm : CliSoftware
 {
     public Rm(List<string> args) : base(args) { }
-    
+
     protected override void run()
     {
+        // Check if there are any args
         if (args.Count <= 0)
         {
             write("Error: Missing operand.\n Usage: rm [optional flags] [file]");
             return;
         }
         
+        // Last arg is always the target
         string toRemove = args.ElementAt(args.Count - 1);
 
         if (!(File.Exists(toRemove) || Directory.Exists(toRemove)))
@@ -34,10 +36,32 @@ public class Rm : CliSoftware
         delete(toRemove);
 
     }
-
+    
+    protected override void handleFlags()
+    {
+        flags.Add("-r", false);
+        
+        base.handleFlags();
+    }
+    
     private void delete(string path)
     {
-        File.Delete(path);
+        if (flags["-r"])
+        {
+            Directory.Delete(path, true);
+        }
+        else
+        {
+            File.Delete(path);
+        }
+    }
+
+    private void help()
+    {
+        write("Usage: Usage: rm [optional flags] [file]\n");
+        
+        write("Flags:");
+        write("     -r  Recursively remove a directory");
     }
     
     
