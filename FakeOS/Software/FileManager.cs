@@ -11,9 +11,9 @@ namespace FakeOS.Software;
 
 public class FileManager : GuiSoftware
 {
-    private Dictionary<string, (string, string)> filesAndTypes = new Dictionary<string, (string, string)>();
+    private readonly Dictionary<string, (string, string)> filesAndTypes = new Dictionary<string, (string, string)>();
     private Dictionary<string, Action<string>> doubleClickActions;
-    private List<string> goingBackHistory = new List<string>();
+    private readonly List<string> goingBackHistory = new List<string>();
 
     private string currentPathInputField;
     private string currentPath;
@@ -24,6 +24,9 @@ public class FileManager : GuiSoftware
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
     private const ImGuiTableFlags tableFlags = ImGuiTableFlags.BordersOuter | ImGuiTableFlags.Resizable | ImGuiTableFlags.Sortable;
 
+    private const string filePopupID = "#rcFile";
+    private const string backgroundPopupID = "#rcBackground";
+    
     private readonly string filesystemPrefix = $".{Path.DirectorySeparatorChar}Filesystem";
 
     public FileManager(string path)
@@ -47,6 +50,14 @@ public class FileManager : GuiSoftware
         ImGui.Begin(name, ref running, windowFlags);
 
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(2, 2));
+        
+        // Check for right click on background, if it hits a file, it will be overriden by the file popup anyway
+        if(ImGui.GetIO().MouseClicked[1])
+        {
+            ImGui.OpenPopup(backgroundPopupID);
+        }
+        
+        backgroundPopupUpdate();
         
         showUpperUI();
         
@@ -126,10 +137,10 @@ public class FileManager : GuiSoftware
         else
         if (ImGui.IsItemHovered() && ImGui.GetIO().MouseClicked[1])
         {
-            ImGui.OpenPopup("#rightClick");
+            ImGui.OpenPopup(filePopupID);
         }
         
-        rightClickMenuFileUpdate(file.Item1);
+        filePopupUpdate(file.Item1);
 
         ImGui.PopID();
     }
@@ -254,10 +265,10 @@ public class FileManager : GuiSoftware
     
     #region rightClickMenus
 
-    private void rightClickMenuFileUpdate(string path)
+    private void filePopupUpdate(string path)
     {
         
-        if (ImGui.BeginPopup("#rightClick"))
+        if (ImGui.BeginPopup(filePopupID))
         {
             if (ImGui.Selectable("Open  "))
             {
@@ -289,6 +300,36 @@ public class FileManager : GuiSoftware
         
         
     }
+    
+    private void backgroundPopupUpdate()
+    {
+        
+        if (ImGui.BeginPopup(backgroundPopupID))
+        {
+            if (ImGui.Selectable("New Text File  "))
+            {
+                
+            }
+            
+            if (ImGui.Selectable("New Folder  "))
+            {
+                
+            }
+            
+            ImGui.Separator();
+            
+            if (ImGui.Selectable("Open in Terminal  "))
+            {
+                
+            }
+
+            ImGui.EndPopup();
+        }
+        
+        
+    }
+    
+    
     
     #endregion
 
