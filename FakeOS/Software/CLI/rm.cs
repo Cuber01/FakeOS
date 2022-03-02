@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 
 namespace FakeOS.Software.CLI;
 
@@ -11,6 +10,8 @@ public class Rm : CliSoftware
 
     protected override void run()
     {
+        base.run();
+        
         // Check if there are any args
         if (args.Count <= 0)
         {

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using FakeOS.General;
+using FakeOS.Software.CLI;
 using FakeOS.Tools;
 using ImGuiNET;
 
@@ -292,7 +293,16 @@ public class FileManager : GuiSoftware
 
             if (ImGui.Selectable("Delete  "))
             {
+                if (Directory.Exists(file.Item1))
+                {
+                    var rm = new Rm(new List<string>() { "-r", file.Item1 });    
+                } 
+                else
+                {
+                    var rm = new Rm(new List<string>() { file.Item1 });
+                }
                 
+                getFilesAndTypes(currentPath);
             }
 
             ImGui.EndPopup();

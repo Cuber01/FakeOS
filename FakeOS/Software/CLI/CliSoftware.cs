@@ -16,7 +16,7 @@ public abstract class CliSoftware
         run();
     }
 
-    protected void setFlags()
+    private void setFlags()
     {
         for(int i = 0; i < args.Count; i++)
         {
@@ -33,8 +33,11 @@ public abstract class CliSoftware
     {
         // TODO
     }
-    
-    protected abstract void run();
+
+    protected virtual void run()
+    {
+        handleFlags();
+    }
 
     protected virtual void handleFlags()
     {
