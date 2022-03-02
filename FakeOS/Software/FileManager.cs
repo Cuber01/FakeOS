@@ -132,7 +132,7 @@ public class FileManager : GuiSoftware
 
         if (ImGui.IsItemHovered() && ImGui.IsMouseDoubleClicked(0))
         {
-            handleDoubleClick((file.Item1, file.Item2));
+            openFile((file.Item1, file.Item2));
         } 
         else
         if (ImGui.IsItemHovered() && ImGui.GetIO().MouseClicked[1])
@@ -140,13 +140,13 @@ public class FileManager : GuiSoftware
             ImGui.OpenPopup(filePopupID);
         }
         
-        filePopupUpdate(file.Item1);
+        filePopupUpdate((file.Item1, file.Item2));
 
         ImGui.PopID();
     }
 
     // Item1 is path, Item2 is type
-    private void handleDoubleClick((string, string) file)
+    private void openFile((string, string) file)
     {
         foreach (var entry in doubleClickActions)
         {
@@ -265,14 +265,14 @@ public class FileManager : GuiSoftware
     
     #region rightClickMenus
 
-    private void filePopupUpdate(string path)
+    private void filePopupUpdate((string, string) file)
     {
         
         if (ImGui.BeginPopup(filePopupID))
         {
             if (ImGui.Selectable("Open  "))
             {
-                
+                openFile((file.Item1, file.Item2));
             }
             
             ImGui.Separator();
