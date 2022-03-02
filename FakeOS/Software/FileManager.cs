@@ -129,7 +129,7 @@ public class FileManager : GuiSoftware
             ImGui.OpenPopup("#rightClick");
         }
         
-        rightClickMenuFile(file.Item1);
+        rightClickMenuFileUpdate(file.Item1);
 
         ImGui.PopID();
     }
@@ -254,12 +254,36 @@ public class FileManager : GuiSoftware
     
     #region rightClickMenus
 
-    private void rightClickMenuFile(string path)
+    private void rightClickMenuFileUpdate(string path)
     {
-
+        
         if (ImGui.BeginPopup("#rightClick"))
         {
-            ImGui.Text("Aquarium");
+            if (ImGui.Selectable("Open  "))
+            {
+                
+            }
+            
+            ImGui.Separator();
+            
+            if (ImGui.Selectable("Cut  "))
+            {
+                
+            }
+
+            if (ImGui.Selectable("Copy  "))
+            {
+                
+            }
+            
+            ImGui.Separator();
+            
+
+            if (ImGui.Selectable("Delete  "))
+            {
+                
+            }
+
             ImGui.EndPopup();
         }
         

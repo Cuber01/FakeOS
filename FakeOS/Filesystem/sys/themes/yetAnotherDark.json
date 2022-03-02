@@ -1,6 +1,7 @@
 {
   "FrameRounding" : 4.0,
   "GrabRounding" : 4.0,
+  "PopupRounding" : 10.0,
   
   "Colors": {
     "Text": [
