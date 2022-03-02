@@ -28,7 +28,7 @@ public class Rm : CliSoftware
             return;
         }
         
-        if(Directory.Exists(toRemove))
+        if(flags["-r"] is false && Directory.Exists(toRemove))
         {
             write("Error: Provided path is a directory. Run with -r to recursively remove the whole directory.");
             return;

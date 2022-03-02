@@ -18,7 +18,7 @@ public abstract class CliSoftware
 
     private void setFlags()
     {
-        for(int i = 0; i < args.Count; i++)
+        for(int i = 0; i < flags.Count; i++)
         {
             string flagKey = flags.Keys.ElementAt(i);
             
@@ -31,7 +31,8 @@ public abstract class CliSoftware
     
     protected void write(string message)
     {
-        // TODO
+        // TODO Redirect this to console later on
+        Console.WriteLine(message);
     }
 
     protected virtual void run()
