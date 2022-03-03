@@ -8,7 +8,7 @@ using FakeOS.Software.CLI;
 using FakeOS.Tools;
 using ImGuiNET;
 
-namespace FakeOS.Software;
+namespace FakeOS.Software.GUI;
 
 public class FileManager : GuiSoftware
 {
@@ -29,6 +29,8 @@ public class FileManager : GuiSoftware
     private const string backgroundPopupID = "#rcBackground";
     
     private readonly string filesystemPrefix = $".{Path.DirectorySeparatorChar}Filesystem";
+
+    private List<string> filesToCopy = new List<string>();
 
     public FileManager(string path)
     {
@@ -285,7 +287,7 @@ public class FileManager : GuiSoftware
 
             if (ImGui.Selectable("Copy  "))
             {
-                
+                filesToCopy.Add(file.Item1);
             }
             
             ImGui.Separator();
@@ -324,6 +326,28 @@ public class FileManager : GuiSoftware
             if (ImGui.Selectable("New Folder  "))
             {
                 
+            }
+            
+            ImGui.Separator();
+            
+            if (ImGui.Selectable("Paste  "))
+            {
+                foreach (var file in filesToCopy)
+                {
+                    
+                    if (Directory.Exists(file))
+                    {
+                        var cp = new Cp(new List<string>() { "-r", file, currentPath + Path.GetFileName(file) });
+                    }
+                    else
+                    {
+                        var cp = new Cp(new List<string>() { file, currentPath + Path.GetFileName(file) });
+                    }
+                    
+                }
+                
+                getFilesAndTypes(currentPath);
+                filesToCopy.Clear();
             }
             
             ImGui.Separator();

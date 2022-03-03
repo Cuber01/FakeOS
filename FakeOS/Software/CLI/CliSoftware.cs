@@ -39,6 +39,8 @@ public abstract class CliSoftware
 
     protected void generateArgsWithoutFlags()
     {
+        argsWithoutFlags = new List<string>();
+        
         foreach (var arg in args)
         {
             if(flags.ContainsKey(arg)) continue;

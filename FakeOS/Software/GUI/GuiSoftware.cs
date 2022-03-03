@@ -1,4 +1,4 @@
-namespace FakeOS.Software;
+namespace FakeOS.Software.GUI;
 
 public abstract class GuiSoftware
 {

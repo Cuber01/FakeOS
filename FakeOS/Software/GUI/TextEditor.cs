@@ -5,7 +5,7 @@ using System.Numerics;
 using FakeOS.Tools;
 using ImGuiNET;
 
-namespace FakeOS.Software;
+namespace FakeOS.Software.GUI;
 
 public class TextEditor : GuiSoftware
 {

@@ -1,7 +1,7 @@
 using ImGuiNET;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace FakeOS.Gui
+namespace FakeOS.ImGuiTools
 {
     public static class DrawVertDeclaration
     {

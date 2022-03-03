@@ -1,5 +1,6 @@
 using System;
 using FakeOS.Software;
+using FakeOS.Software.GUI;
 
 namespace FakeOS.Tools;
 
