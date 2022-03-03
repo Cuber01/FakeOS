@@ -12,12 +12,15 @@ public class Cp : CliSoftware
     // copy file to dir : [file] [dir]
     // copy directory : -r [dir] [new dirname]
     // copy directory : -r [dir] [dir]
-    
+
+    private List<string> thingsToCopy = new List<string>();
+
     public Cp(List<string> args) : base(args) { }
 
     protected override void run()
     {
         base.run();
+        generateArgsWithoutFlags();
         
         // Check if there are any args
         if (args.Count <= 0)
@@ -25,31 +28,59 @@ public class Cp : CliSoftware
             write("Error: Missing operand.\n For usage run cp --help");
             return;
         }
-        
-        // Last arg is always the target
-        string toRemove = args.ElementAt(args.Count - 1);
 
-        if (!(File.Exists(toRemove) || Directory.Exists(toRemove)))
+        if (argsWithoutFlags.Count < 2)
         {
-            write("Error: Provided path does not exist.");
-            return;
-        }
-        
-        if(flags["-r"] is false && Directory.Exists(toRemove))
-        {
-            write("Error: Provided path is a directory. Run with -r to recursively remove the whole directory.");
+            write("Error: Too few arguments.");
             return;
         }
 
-        delete(toRemove);
+        for(int i = 0; i < argsWithoutFlags.Count; i++)
+        {
+            var arg = args.ElementAt(i);
+
+            if (i == 0 && !flags["-r"] && Directory.Exists(arg))
+            {
+                write("Error: Can't copy directory. Run with -r to copy the whole directory.");
+                return;
+            }
+            
+            if (File.Exists(arg))
+            {
+                thingsToCopy.Add(arg);
+            }
+            else if (flags["-r"] && Directory.Exists(arg))
+            {
+                thingsToCopy.Add(arg);
+            }
+        }
+
+        if (thingsToCopy.Count == 1)
+        {
+            string lastArg = argsWithoutFlags.ElementAt(argsWithoutFlags.Count - 1);
+            
+            if (Directory.Exists(lastArg))
+            {
+                // copy file to dir
+            } 
+            else
+            {
+                // copy file with a new name
+            }
+        }
+        else
+        {
+            // enumerate and copy to the last directory
+        }
+        
 
     }
     
     protected override void handleFlags()
     {
         flags.Add("-r", false);
-        flags.Add(null!, false);
-        
+        flags.Add("?isTargetFile", false);
+
         base.handleFlags();
     }
     
@@ -67,10 +98,10 @@ public class Cp : CliSoftware
 
     private void help()
     {
-        write("Usage: Usage: rm [optional flags] [file]\n");
+        write("Usage: Usage: cp [optional flags] [targets] [output]\n");
         
         write("Flags:");
-        write("     -r  Recursively remove a directory");
+        write("     -r  Recursively copy a directory");
     }
     
     

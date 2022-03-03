@@ -6,7 +6,9 @@ namespace FakeOS.Software.CLI;
 
 public abstract class CliSoftware
 {
-    protected List<string> args;
+    protected readonly List<string> args;
+    protected List<string> argsWithoutFlags;
+    
     protected Dictionary<string, bool> flags = new Dictionary<string, bool>();
 
     // If a key in the flags dictionary starts with this, it will not be possible to change it via a flag input through terminal by user
@@ -32,6 +34,16 @@ public abstract class CliSoftware
             {
                 flags[flagKey] = true;
             } 
+        }
+    }
+
+    protected void generateArgsWithoutFlags()
+    {
+        foreach (var arg in args)
+        {
+            if(flags.ContainsKey(arg)) continue;
+            
+            argsWithoutFlags.Add(arg);
         }
     }
     
