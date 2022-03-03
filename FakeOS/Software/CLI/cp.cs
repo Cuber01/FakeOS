@@ -35,6 +35,13 @@ public class Cp : CliSoftware
             return;
         }
 
+        gatherInfo();
+        copy();
+
+    }
+
+    private void gatherInfo()
+    {
         for(int i = 0; i < argsWithoutFlags.Count; i++)
         {
             var arg = args.ElementAt(i);
@@ -54,46 +61,74 @@ public class Cp : CliSoftware
                 thingsToCopy.Add(arg);
             }
         }
+    }
 
+    private void copy()
+    {
+        string lastArg = argsWithoutFlags.ElementAt(argsWithoutFlags.Count - 1);
+        
         if (thingsToCopy.Count == 1)
         {
-            string lastArg = argsWithoutFlags.ElementAt(argsWithoutFlags.Count - 1);
-            
+
             if (Directory.Exists(lastArg))
             {
-                // copy file to dir
+                copyDirectory(thingsToCopy.ElementAt(0), lastArg!, true);
             } 
             else
             {
-                // copy file with a new name
+                File.Copy(thingsToCopy.ElementAt(0), lastArg!);
             }
         }
         else
         {
-            // enumerate and copy to the last directory
+            foreach (var entry in thingsToCopy)
+            {
+                File.Copy(entry, lastArg);
+            }
         }
-        
-
     }
+    
+    private void copyDirectory(string sourceDir, string destinationDir, bool recursive)
+    {
+        // Get information about the source directory
+        var dir = new DirectoryInfo(sourceDir);
+
+        // Check if the source directory exists
+        if (!dir.Exists)
+            throw new DirectoryNotFoundException($"Source directory not found: {dir.FullName}");
+
+        // Cache directories before we start copying
+        DirectoryInfo[] dirs = dir.GetDirectories();
+
+        // Create the destination directory
+        Directory.CreateDirectory(destinationDir);
+
+        // Get the files in the source directory and copy to the destination directory
+        foreach (FileInfo file in dir.GetFiles())
+        {
+            string targetFilePath = Path.Combine(destinationDir, file.Name);
+            file.CopyTo(targetFilePath);
+        }
+
+        // If recursive and copying subdirectories, recursively call this method
+        if (recursive)
+        {
+            foreach (DirectoryInfo subDir in dirs)
+            {
+                string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
+                copyDirectory(subDir.FullName, newDestinationDir, true);
+            }
+        }
+    }
+
+
+    
     
     protected override void handleFlags()
     {
         flags.Add("-r", false);
-        flags.Add("?isTargetFile", false);
 
         base.handleFlags();
-    }
-    
-    private void delete(string path)
-    {
-        if (flags["-r"])
-        {
-            Directory.Delete(path, true);
-        }
-        else
-        {
-            File.Delete(path);
-        }
     }
 
     private void help()
