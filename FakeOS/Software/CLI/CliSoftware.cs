@@ -9,6 +9,9 @@ public abstract class CliSoftware
     protected List<string> args;
     protected Dictionary<string, bool> flags = new Dictionary<string, bool>();
 
+    // If a key in the flags dictionary starts with this, it will not be possible to change it via a flag input through terminal by user
+    private const char internalFlagMark = '?';
+
     protected CliSoftware(List<string> args)
     {
         this.args = args;
@@ -21,6 +24,9 @@ public abstract class CliSoftware
         for(int i = 0; i < flags.Count; i++)
         {
             string flagKey = flags.Keys.ElementAt(i);
+            
+            // Internal flags are set by the program itself
+            if(flagKey.StartsWith(internalFlagMark)) continue;
             
             if (args.Contains(flagKey))
             {
