@@ -46,7 +46,8 @@ public class Cp : CliSoftware
         {
             var arg = args.ElementAt(i);
 
-            if (i == 0 && !flags["-r"] && Directory.Exists(arg))
+            // Only last arg can be a directory, unless we're running with -r
+            if (i != argsWithoutFlags.Count - 1 && !flags["-r"] && Directory.Exists(arg))
             {
                 write("Error: Can't copy directory. Run with -r to copy the whole directory.");
                 return;
@@ -66,25 +67,46 @@ public class Cp : CliSoftware
     private void copy()
     {
         string lastArg = argsWithoutFlags.ElementAt(argsWithoutFlags.Count - 1);
-        
-        if (thingsToCopy.Count == 1)
+
+        try
         {
 
-            if (Directory.Exists(lastArg))
+            if (thingsToCopy.Count == 1)
             {
-                copyDirectory(thingsToCopy.ElementAt(0), lastArg!, true);
-            } 
+                string toCopy = thingsToCopy.ElementAt(0);
+
+                // [dir] [dir]
+                if (Directory.Exists(toCopy))
+                {
+                    copyDirectory(toCopy, lastArg!, true);
+                }
+                // [file] [dir] / [file] [new filename]
+                else
+                {
+                    File.Copy(toCopy!, lastArg!);
+                }
+            }
             else
             {
-                File.Copy(thingsToCopy.ElementAt(0), lastArg!);
+                // [files] [dir] / [dirs] [dir]
+                foreach (var entry in thingsToCopy)
+                {
+                    if (File.Exists(entry))
+                    {
+                        File.Copy(entry, lastArg);
+                    }
+                    else if (Directory.Exists(entry))
+                    {
+                        copyDirectory(entry, lastArg, true);
+                    }
+
+                }
             }
+
         }
-        else
+        catch (IOException)
         {
-            foreach (var entry in thingsToCopy)
-            {
-                File.Copy(entry, lastArg);
-            }
+            write("Error: An entry with this name already exists.");
         }
     }
     
