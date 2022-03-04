@@ -40,7 +40,7 @@ public class Cp : CliSoftware
 
     }
 
-    private void gatherInfo()
+    protected void gatherInfo()
     {
         for(int i = 0; i < argsWithoutFlags.Count; i++)
         {
@@ -64,7 +64,7 @@ public class Cp : CliSoftware
         }
     }
 
-    private void copy()
+    protected void copy()
     {
         string lastArg = argsWithoutFlags.ElementAt(argsWithoutFlags.Count - 1);
 
@@ -83,7 +83,7 @@ public class Cp : CliSoftware
                 // [file] [dir] / [file] [new filename]
                 else
                 {
-                    File.Copy(toCopy!, lastArg!);
+                    copyFile(toCopy!, lastArg!);
                 }
             }
             else
@@ -93,7 +93,7 @@ public class Cp : CliSoftware
                 {
                     if (File.Exists(entry))
                     {
-                        File.Copy(entry, lastArg);
+                        copyFile(entry, lastArg);
                     }
                     else if (Directory.Exists(entry))
                     {
@@ -109,15 +109,23 @@ public class Cp : CliSoftware
             write("Error: An entry with this name already exists.");
         }
     }
+
+    protected virtual void copyFile(string sourceDir, string destinationDir)
+    {
+        File.Copy(sourceDir, destinationDir);
+    }
     
-    private void copyDirectory(string sourceDir, string destinationDir, bool recursive)
+    protected void copyDirectory(string sourceDir, string destinationDir, bool recursive)
     {
         // Get information about the source directory
         var dir = new DirectoryInfo(sourceDir);
 
         // Check if the source directory exists
         if (!dir.Exists)
-            throw new DirectoryNotFoundException($"Source directory not found: {dir.FullName}");
+        {
+            write("Error: Source directory not found: {dir.FullName}");
+            return;
+        }
 
         // Cache directories before we start copying
         DirectoryInfo[] dirs = dir.GetDirectories();
@@ -129,7 +137,7 @@ public class Cp : CliSoftware
         foreach (FileInfo file in dir.GetFiles())
         {
             string targetFilePath = Path.Combine(destinationDir, file.Name);
-            file.CopyTo(targetFilePath);
+            copyFile(file.FullName, targetFilePath);
         }
 
         // If recursive and copying subdirectories, recursively call this method
@@ -144,8 +152,6 @@ public class Cp : CliSoftware
     }
 
 
-    
-    
     protected override void handleFlags()
     {
         flags.Add("-r", false);
