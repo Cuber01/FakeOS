@@ -32,7 +32,8 @@ public class MkFile : CliSoftware
     
     protected virtual void make(string path)
     {
-        File.Create(path);
+        var file = File.Create(path);
+        file.Close();
     }
 
     private void help()
