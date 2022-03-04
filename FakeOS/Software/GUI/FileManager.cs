@@ -30,7 +30,8 @@ public class FileManager : GuiSoftware
     
     private readonly string filesystemPrefix = $".{Path.DirectorySeparatorChar}Filesystem";
 
-    private List<string> filesToCopy = new List<string>();
+    // If true, the file should be removed upon pasting
+    private Dictionary<string, bool> filesToCopyCut = new Dictionary<string, bool>();
 
     public FileManager(string path)
     {
@@ -273,39 +274,17 @@ public class FileManager : GuiSoftware
         
         if (ImGui.BeginPopup(filePopupID))
         {
-            if (ImGui.Selectable("Open  "))
-            {
-                openFile((file.Item1, file.Item2));
-            }
-            
+            if (ImGui.Selectable("Open  ")) openFile(file);
+
             ImGui.Separator();
             
-            if (ImGui.Selectable("Cut  "))
-            {
-                
-            }
+            if (ImGui.Selectable("Cut  ")) cut(file);
 
-            if (ImGui.Selectable("Copy  "))
-            {
-                filesToCopy.Add(file.Item1);
-            }
-            
+            if (ImGui.Selectable("Copy  ")) copy(file);
+
             ImGui.Separator();
             
-
-            if (ImGui.Selectable("Delete  "))
-            {
-                if (Directory.Exists(file.Item1))
-                {
-                    var rm = new Rm(new List<string>() { "-r", file.Item1 });    
-                } 
-                else
-                {
-                    var rm = new Rm(new List<string>() { file.Item1 });
-                }
-                
-                getFilesAndTypes(currentPath);
-            }
+            if (ImGui.Selectable("Delete  ")) delete(file);
 
             ImGui.EndPopup();
         }
@@ -330,26 +309,8 @@ public class FileManager : GuiSoftware
             
             ImGui.Separator();
             
-            if (ImGui.Selectable("Paste  "))
-            {
-                foreach (var file in filesToCopy)
-                {
-                    
-                    if (Directory.Exists(file))
-                    {
-                        var cp = new Cp(new List<string>() { "-r", file, currentPath + Path.GetFileName(file) });
-                    }
-                    else
-                    {
-                        var cp = new Cp(new List<string>() { file, currentPath + Path.GetFileName(file) });
-                    }
-                    
-                }
-                
-                getFilesAndTypes(currentPath);
-                filesToCopy.Clear();
-            }
-            
+            if (ImGui.Selectable("Paste  ")) paste();
+
             ImGui.Separator();
             
             if (ImGui.Selectable("Open in Terminal  "))
@@ -362,8 +323,64 @@ public class FileManager : GuiSoftware
         
         
     }
+
+    private void cut((string, string) file)
+    {
+        filesToCopyCut.Add(file.Item1, true);
+    }
     
-    
+    private void copy((string, string) file)
+    {
+        filesToCopyCut.Add(file.Item1, false);
+    }
+
+    private void delete((string, string) file)
+    {
+        if (Directory.Exists(file.Item1))
+        {
+            var rm = new Rm(new List<string>() { "-r", file.Item1 });    
+        } 
+        else
+        {
+            var rm = new Rm(new List<string>() { file.Item1 });
+        }
+                
+        getFilesAndTypes(currentPath);
+    }
+
+    private void paste()
+    {
+        foreach (var file in filesToCopyCut)
+        {
+            if (file.Value == false)
+            {
+                if (Directory.Exists(file.Key))
+                {
+                    var cp = new Cp(new List<string>()
+                        { "-r", file.Key, currentPath + Path.GetFileName(file.Key) });
+                }
+                else
+                {
+                    var cp = new Cp(new List<string>() { file.Key, currentPath + Path.GetFileName(file.Key) });
+                }
+            }
+            else
+            {
+                if (Directory.Exists(file.Key))
+                {
+                    var mv = new Cp(new List<string>() { "-r", file.Key, currentPath + Path.GetFileName(file.Key) });
+                }
+                else
+                {
+                    var mv = new Cp(new List<string>() { file.Key, currentPath + Path.GetFileName(file.Key) });
+                }
+            }
+
+        }
+                
+        getFilesAndTypes(currentPath);
+        filesToCopyCut.Clear();
+    }
     
     #endregion
 
