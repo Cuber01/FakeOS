@@ -12,7 +12,11 @@ namespace FakeOS.Software.GUI;
 
 public class FileManager : GuiSoftware
 {
+    #region fields
+
     private readonly Dictionary<string, (string, string)> filesAndTypes = new Dictionary<string, (string, string)>();
+    private Dictionary<string, bool> selected = new Dictionary<string, bool>();
+    
     private Dictionary<string, Action<string>> doubleClickActions;
     private readonly List<string> goingBackHistory = new List<string>();
 
@@ -31,7 +35,9 @@ public class FileManager : GuiSoftware
     private readonly string filesystemPrefix = $".{Path.DirectorySeparatorChar}Filesystem";
 
     // If true, the file should be removed upon pasting
-    private Dictionary<string, bool> filesToCopyCut = new Dictionary<string, bool>();
+    private readonly Dictionary<string, bool> filesToCopyCut = new Dictionary<string, bool>();
+    
+    #endregion
 
     public FileManager(string path)
     {
@@ -109,7 +115,6 @@ public class FileManager : GuiSoftware
         ImGui.TableSetColumnIndex(0);
         ImGui.AlignTextToFramePadding();
 
-
         for (int i = 0; i < filesAndTypes.Count; i++)
         {
             var fileKey = filesAndTypes.Keys.ElementAt(i);
@@ -131,8 +136,19 @@ public class FileManager : GuiSoftware
     {
         ImGui.PushID(id);
 
+        bool isSelected = selected[file.Item1];
+        
         ImGui.AlignTextToFramePadding();
-        ImGui.Selectable(file.Item3 + ' ' + Path.GetFileName(file.Item1));
+
+        if (ImGui.Selectable(file.Item3 + ' ' + Path.GetFileName(file.Item1), ref isSelected))
+        {
+            if (!ImGui.GetIO().KeyCtrl)
+            {
+                isSelected = false;
+
+                selected = selected.Keys.ToDictionary(x => x, _ => false);
+            }
+        }
 
         if (ImGui.IsItemHovered() && ImGui.IsMouseDoubleClicked(0))
         {
@@ -145,6 +161,8 @@ public class FileManager : GuiSoftware
         }
         
         filePopupUpdate((file.Item1, file.Item2));
+        
+        selected[file.Item1] = isSelected;
 
         ImGui.PopID();
     }
@@ -164,10 +182,16 @@ public class FileManager : GuiSoftware
     private void getFilesAndTypes(string directory)
     {
         filesAndTypes.Clear();
+        selected.Clear();
 
         foreach (string file in Directory.GetFileSystemEntries(directory))
         {
             filesAndTypes.Add(file, MimeTypes.GetContentType(file));
+        }
+
+        foreach (var file in filesAndTypes)
+        {
+            selected.Add(file.Key, false);
         }
     }
     
@@ -253,7 +277,6 @@ public class FileManager : GuiSoftware
         if (Directory.Exists(filesystemPrefix + currentPathInputField))
         {
             useTypedPath();
-            return;
         }
     }
 
@@ -334,11 +357,11 @@ public class FileManager : GuiSoftware
     {
         if (Directory.Exists(file.Item1))
         {
-            var rm = new Rm(new List<string>() { "-r", file.Item1 });    
+            var unused = new Rm(new List<string>() { "-r", file.Item1 });    
         } 
         else
         {
-            var rm = new Rm(new List<string>() { file.Item1 });
+            var unused = new Rm(new List<string>() { file.Item1 });
         }
                 
         getFilesAndTypes(currentPath);
@@ -352,23 +375,23 @@ public class FileManager : GuiSoftware
             {
                 if (Directory.Exists(file.Key))
                 {
-                    var cp = new Cp(new List<string>()
+                    var unused = new Cp(new List<string>()
                         { "-r", file.Key, currentPath + Path.GetFileName(file.Key) });
                 }
                 else
                 {
-                    var cp = new Cp(new List<string>() { file.Key, currentPath + Path.GetFileName(file.Key) });
+                    var unused = new Cp(new List<string>() { file.Key, currentPath + Path.GetFileName(file.Key) });
                 }
             }
             else
             {
                 if (Directory.Exists(file.Key))
                 {
-                    var mv = new Mv(new List<string>() { "-r", file.Key, currentPath + Path.GetFileName(file.Key) });
+                    var unused = new Mv(new List<string>() { "-r", file.Key, currentPath + Path.GetFileName(file.Key) });
                 }
                 else
                 {
-                    var mv = new Mv(new List<string>() { file.Key, currentPath + Path.GetFileName(file.Key) });
+                    var unused = new Mv(new List<string>() { file.Key, currentPath + Path.GetFileName(file.Key) });
                 }
             }
 
@@ -381,14 +404,14 @@ public class FileManager : GuiSoftware
     // TODO make both of these idiot proof so you won't be able to create a file with the same name in directory
     private void newTextFile()
     {
-        var mkfile = new MkFile(new List<string>() { currentPath + "NewTextFile.txt" } );
+        var unused = new MkFile(new List<string>() { currentPath + "NewTextFile.txt" } );
         
         getFilesAndTypes(currentPath);
     }
     
     private void newDirectory()
     {
-        var mkfile = new MkDir(new List<string>() { currentPath + "NewDirectory" } );
+        var unused = new MkDir(new List<string>() { currentPath + "NewDirectory" } );
         
         getFilesAndTypes(currentPath);
     }
