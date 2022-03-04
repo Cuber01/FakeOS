@@ -13,13 +13,6 @@ public static class MimeTypes
 
     private static Dictionary<string, (string, string)> mimeTypesAndIcons;
 
-    [DllImport("urlmon.dll", CharSet = CharSet.Auto)]
-    private static extern UInt32 FindMimeFromData(
-        UInt32 pBC, [MarshalAs(UnmanagedType.LPStr)] string pwzUrl, [MarshalAs(UnmanagedType.LPArray)] byte[] pBuffer,
-        UInt32 cbSize, [MarshalAs(UnmanagedType.LPStr)] string pwzMimeProposed, UInt32 dwMimeFlags,
-        ref UInt32 ppwzMimeOut, UInt32 dwReserverd
-    );
-
     public static (string, string) GetContentType(string fileName)
     {
         if (Directory.Exists(fileName))
@@ -37,41 +30,10 @@ public static class MimeTypes
         
         if (string.IsNullOrEmpty(contentType.Item1) || knownTypes!.Contains(contentType.Item1))
         {
-            string headerType = ScanFileForMimeType(fileName);
-            if (headerType != "application/octet-stream" || string.IsNullOrEmpty(contentType.Item1))
-            {
-                contentType = (headerType, AwesomeIcons.FileO);  
-            }
-              
+            contentType = ("text/plain", AwesomeIcons.FileO);
         }
 
         return (contentType.Item1, contentType.Item2);
-    }
-
-    private static string ScanFileForMimeType(string fileName)
-    {
-        try
-        {
-            byte[] buffer = new byte[256];
-            using (FileStream fs = new FileStream(fileName, FileMode.Open))
-            {
-                int readLength = Convert.ToInt32(Math.Min(256, fs.Length));
-                fs.Read(buffer, 0, readLength);
-            }
-
-            UInt32 mimeType = default(UInt32);
-            FindMimeFromData(0, null, buffer, 256, null, 0, ref mimeType, 0);
-            IntPtr mimeTypePtr = new IntPtr(mimeType);
-            string mime = Marshal.PtrToStringUni(mimeTypePtr);
-            Marshal.FreeCoTaskMem(mimeTypePtr);
-            if (string.IsNullOrEmpty(mime))
-                mime = "application/octet-stream";
-            return mime;
-        }
-        catch (Exception)
-        {
-            return "application/octet-stream";
-        }
     }
 
     private static void InitializeMimeTypeLists()
