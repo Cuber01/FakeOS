@@ -297,16 +297,10 @@ public class FileManager : GuiSoftware
         
         if (ImGui.BeginPopup(backgroundPopupID))
         {
-            if (ImGui.Selectable("New Text File  "))
-            {
-                
-            }
-            
-            if (ImGui.Selectable("New Folder  "))
-            {
-                
-            }
-            
+            if (ImGui.Selectable("New Text File  ")) newTextFile();
+
+            if (ImGui.Selectable("New Folder  ")) newDirectory();
+
             ImGui.Separator();
             
             if (ImGui.Selectable("Paste  ")) paste();
@@ -382,6 +376,21 @@ public class FileManager : GuiSoftware
                 
         getFilesAndTypes(currentPath);
         filesToCopyCut.Clear();
+    }
+
+    // TODO make both of these idiot proof so you won't be able to create a file with the same name in directory
+    private void newTextFile()
+    {
+        var mkfile = new MkFile(new List<string>() { currentPath + "NewTextFile.txt" } );
+        
+        getFilesAndTypes(currentPath);
+    }
+    
+    private void newDirectory()
+    {
+        var mkfile = new MkDir(new List<string>() { currentPath + "NewDirectory" } );
+        
+        getFilesAndTypes(currentPath);
     }
     
     
