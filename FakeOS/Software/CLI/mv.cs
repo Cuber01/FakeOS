@@ -45,13 +45,6 @@ public class Mv : Cp
         Directory.Delete(sourceDir);
     }
 
-    protected override void handleFlags()
-    {
-        flags.Add("-r", false);
-
-        base.handleFlags();
-    }
-
     private void help()
     {
         write("Usage: Usage: mv [optional flags] [targets] [output]\n");

@@ -68,8 +68,8 @@ public class Cp : CliSoftware
     {
         string lastArg = argsWithoutFlags.ElementAt(argsWithoutFlags.Count - 1);
 
-        try
-        {
+        // try
+        // {
 
             if (thingsToCopy.Count == 1)
             {
@@ -102,12 +102,12 @@ public class Cp : CliSoftware
 
                 }
             }
-
-        }
-        catch (IOException)
-        {
-            write("Error: An entry with this name already exists.");
-        }
+        //
+        // }
+        // catch (IOException)
+        // {
+        //     write("Error: An entry with this name already exists.");
+        // }
     }
 
     protected virtual void copyFile(string sourceDir, string destinationDir)
@@ -149,6 +149,13 @@ public class Cp : CliSoftware
                 copyDirectory(subDir.FullName, newDestinationDir, true);
             }
         }
+    }
+    
+    protected override void handleFlags()
+    {
+        flags.Add("-r", false);
+
+        base.handleFlags();
     }
     
 
