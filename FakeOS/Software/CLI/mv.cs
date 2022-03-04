@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace FakeOS.Software.CLI;
 
@@ -35,16 +34,15 @@ public class Mv : Cp
     protected override void copyFile(string sourceDir, string destinationDir)
     {
         base.copyFile(sourceDir, destinationDir);
+        
+        File.Delete(sourceDir); 
+    }
 
-        if (File.Exists(sourceDir))
-        {
-            File.Delete(sourceDir);    
-        }
-        else
-        {
-            Directory.Delete(sourceDir!, true);
-        }
-            
+    protected override void copyDirectory(string sourceDir, string destinationDir, bool recursive)
+    {
+        base.copyDirectory(sourceDir, destinationDir, recursive);
+        
+        Directory.Delete(sourceDir);
     }
 
     protected override void handleFlags()

@@ -324,6 +324,8 @@ public class FileManager : GuiSoftware
         
     }
 
+    #region popupActions
+    
     private void cut((string, string) file)
     {
         filesToCopyCut.Add(file.Item1, true);
@@ -368,11 +370,11 @@ public class FileManager : GuiSoftware
             {
                 if (Directory.Exists(file.Key))
                 {
-                    var mv = new Cp(new List<string>() { "-r", file.Key, currentPath + Path.GetFileName(file.Key) });
+                    var mv = new Mv(new List<string>() { "-r", file.Key, currentPath + Path.GetFileName(file.Key) });
                 }
                 else
                 {
-                    var mv = new Cp(new List<string>() { file.Key, currentPath + Path.GetFileName(file.Key) });
+                    var mv = new Mv(new List<string>() { file.Key, currentPath + Path.GetFileName(file.Key) });
                 }
             }
 
@@ -382,6 +384,9 @@ public class FileManager : GuiSoftware
         filesToCopyCut.Clear();
     }
     
+    
+    #endregion
+
     #endregion
 
     #region misc

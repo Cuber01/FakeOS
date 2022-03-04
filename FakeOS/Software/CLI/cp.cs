@@ -115,7 +115,7 @@ public class Cp : CliSoftware
         File.Copy(sourceDir, destinationDir);
     }
     
-    protected void copyDirectory(string sourceDir, string destinationDir, bool recursive)
+    protected virtual void copyDirectory(string sourceDir, string destinationDir, bool recursive)
     {
         // Get information about the source directory
         var dir = new DirectoryInfo(sourceDir);
@@ -150,14 +150,7 @@ public class Cp : CliSoftware
             }
         }
     }
-
-
-    protected override void handleFlags()
-    {
-        flags.Add("-r", false);
-
-        base.handleFlags();
-    }
+    
 
     private void help()
     {
