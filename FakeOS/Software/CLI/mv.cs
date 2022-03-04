@@ -10,7 +10,7 @@ public class Mv : Cp
 
     protected override void run()
     {
-        base.run();
+        handleFlags();
         generateArgsWithoutFlags();
         
         // Check if there are any args

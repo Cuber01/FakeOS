@@ -44,7 +44,7 @@ public class Cp : CliSoftware
     {
         for(int i = 0; i < argsWithoutFlags.Count; i++)
         {
-            var arg = args.ElementAt(i);
+            var arg = argsWithoutFlags.ElementAt(i);
 
             // Only last arg can be a directory, unless we're running with -r
             if (i != argsWithoutFlags.Count - 1 && !flags["-r"] && Directory.Exists(arg))
