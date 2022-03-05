@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -112,7 +113,14 @@ public class Cp : CliSoftware
 
     protected virtual void copyFile(string sourceDir, string destinationDir)
     {
-        File.Copy(sourceDir, destinationDir);
+        try
+        {
+            File.Copy(sourceDir, destinationDir);
+        }
+        catch (Exception e)
+        {
+            write(e.Message);
+        }
     }
     
     protected virtual void copyDirectory(string sourceDir, string destinationDir, bool recursive)

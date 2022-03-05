@@ -1,3 +1,4 @@
 /FakeOS/bin/*
 /FakeOS/obj/*
-
+*.dll
+*.pdb
