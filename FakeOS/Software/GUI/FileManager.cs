@@ -297,13 +297,14 @@ public class FileManager : GuiSoftware
         
         if (ImGui.BeginPopup(filePopupID))
         {
+
             if (ImGui.Selectable("Open  ")) openFile(file);
 
             ImGui.Separator();
             
-            if (ImGui.Selectable("Cut  ")) cut(file);
+            if (ImGui.Selectable("Cut  ")) copy(file, true);
 
-            if (ImGui.Selectable("Copy  ")) copy(file);
+            if (ImGui.Selectable("Copy  ")) copy(file, false);
 
             ImGui.Separator();
             
@@ -342,19 +343,23 @@ public class FileManager : GuiSoftware
     }
 
     #region popupActions
-    
-    private void cut((string, string) file)
+
+    private void copy((string, string) file, bool cut)
     {
-        filesToCopyCut.Add(file.Item1, true);
-    }
-    
-    private void copy((string, string) file)
-    {
-        filesToCopyCut.Add(file.Item1, false);
+        filesToCopyCut.Add(file.Item1, cut);
+
+        foreach (var entry in 
+                 selected.Where(entry => !filesToCopyCut.ContainsKey(entry.Key)))
+        {
+            if(entry.Value is not true) continue;
+            
+            filesToCopyCut.Add(entry.Key, cut);
+        }
     }
 
     private void delete((string, string) file)
     {
+
         if (Directory.Exists(file.Item1))
         {
             var unused = new Rm(new List<string>() { "-r", file.Item1 });    
@@ -363,7 +368,19 @@ public class FileManager : GuiSoftware
         {
             var unused = new Rm(new List<string>() { file.Item1 });
         }
-                
+
+        foreach (var entry in selected.Where(entry => entry.Value is true ))
+        {
+            if (Directory.Exists(entry.Key))
+            {
+                var unused = new Rm(new List<string>() { "-r", entry.Key });    
+            } 
+            else
+            {
+                var unused = new Rm(new List<string>() { entry.Key });
+            }
+        }
+        
         getFilesAndTypes(currentPath);
     }
 
