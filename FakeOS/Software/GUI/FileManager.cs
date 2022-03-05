@@ -14,17 +14,17 @@ public class FileManager : GuiSoftware
 {
     #region fields
 
-    private readonly Dictionary<string, (string, string)> filesAndTypes = new Dictionary<string, (string, string)>();
-    private Dictionary<string, bool> selected = new Dictionary<string, bool>();
+    private readonly  Dictionary<string, (string, string)> filesAndTypes = new Dictionary<string, (string, string)>();
+    private           Dictionary<string, bool>             selected      = new Dictionary<string, bool>();
     
-    private Dictionary<string, Action<string>> doubleClickActions;
-    private readonly List<string> goingBackHistory = new List<string>();
+    private           Dictionary<string, Action<string>>   doubleClickActions;
+    private readonly  List<string>                         goingBackHistory = new List<string>();
 
-    private string currentPathInputField;
-    private string currentPath;
+    private string    currentPathInputField;
+    private string    currentPath;
 
     private const int framesBetweenFileChecks = 500;
-    private int fileCheckTimer;
+    private int       fileCheckTimer;
 
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
     private const ImGuiTableFlags tableFlags = ImGuiTableFlags.BordersOuter | ImGuiTableFlags.Resizable | ImGuiTableFlags.Sortable;
