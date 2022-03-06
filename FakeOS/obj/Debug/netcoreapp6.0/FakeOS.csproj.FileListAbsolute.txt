@@ -32,7 +32,6 @@
 /home/cubeq/RiderProjects/FakeOS/FakeOS/bin/Debug/netcoreapp6.0/FakeOS.deps.json
 /home/cubeq/RiderProjects/FakeOS/FakeOS/bin/Debug/netcoreapp6.0/FakeOS.runtimeconfig.json
 /home/cubeq/RiderProjects/FakeOS/FakeOS/bin/Debug/netcoreapp6.0/FakeOS.dll
-/home/cubeq/RiderProjects/FakeOS/FakeOS/bin/Debug/netcoreapp6.0/ref/FakeOS.dll
 /home/cubeq/RiderProjects/FakeOS/FakeOS/bin/Debug/netcoreapp6.0/FakeOS.pdb
 /home/cubeq/RiderProjects/FakeOS/FakeOS/bin/Debug/netcoreapp6.0/ImGui.NET.dll
 /home/cubeq/RiderProjects/FakeOS/FakeOS/bin/Debug/netcoreapp6.0/MonoGame.Framework.dll
@@ -59,3 +58,4 @@
 /home/cubeq/RiderProjects/FakeOS/FakeOS/obj/Debug/netcoreapp6.0/FakeOS.pdb
 /home/cubeq/RiderProjects/FakeOS/FakeOS/obj/Debug/netcoreapp6.0/FakeOS.genruntimeconfig.cache
 /home/cubeq/RiderProjects/FakeOS/FakeOS/bin/Debug/netcoreapp6.0/Newtonsoft.Json.dll
+/home/cubeq/RiderProjects/FakeOS/FakeOS/obj/Debug/netcoreapp6.0/refint/FakeOS.dll
