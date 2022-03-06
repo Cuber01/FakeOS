@@ -35,7 +35,12 @@ public class Terminal : GuiSoftware
             
             ImGui.BeginChild("ScrollingRegion", new Vector2(0, -30), false, ImGuiWindowFlags.HorizontalScrollbar);
             
-
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4, 1)); // Tighten spacing
+            
+            ImGui.Text("Hello");
+            ImGui.Text("Hello");
+            
+            ImGui.PopStyleVar();
             
             ImGui.EndChild(); 
             
