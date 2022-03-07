@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using ImGuiNET;
 
@@ -6,11 +7,13 @@ namespace FakeOS.Software.GUI;
 
 public class Terminal : GuiSoftware
 {
-    
+    private List<string> text = new List<string>();
+    private List<string> history = new List<string>();
+
     private string inputText = "";
 
-    private const ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags.None;
-    
+    private const ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags.EnterReturnsTrue | ImGuiInputTextFlags.CallbackCompletion | ImGuiInputTextFlags.CallbackHistory;
+
     public Terminal()
     {
         name = "Terminal";
@@ -31,13 +34,22 @@ public class Terminal : GuiSoftware
 
         if (ImGui.Begin(name, ref running))
         {
+            if(ImGui.Button("Add text")) text.Add("Test");
             
-            ImGui.BeginChild("ScrollingRegion", new Vector2(0, -30), false, ImGuiWindowFlags.HorizontalScrollbar);
+            ImGui.BeginChild("#main", new Vector2(0, -35), false, ImGuiWindowFlags.HorizontalScrollbar);
             
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4, 1)); // Tighten spacing
+
+            foreach (var entry in text)
+            {
+                ImGui.Text(entry);    
+            }
             
-            ImGui.Text("Hello");
-            ImGui.Text("Hello");
+            // Auto scroll
+            if(ImGui.GetScrollY() >= ImGui.GetScrollMaxY())
+            {
+                ImGui.SetScrollHereY(1.0f);    
+            }
             
             ImGui.PopStyleVar();
             
