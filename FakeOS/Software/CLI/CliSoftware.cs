@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace FakeOS.Software.CLI;
 
-public abstract class CliSoftware
+public abstract class CliSoftware : Software
 {
     protected readonly List<string> args;
     protected List<string> argsWithoutFlags;

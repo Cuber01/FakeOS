@@ -14,7 +14,7 @@ public class Cp : CliSoftware
     // copy directory : -r [dir] [new dirname]
     // copy directory : -r [dir] [dir]
 
-    private List<string> thingsToCopy = new List<string>();
+    private readonly List<string> thingsToCopy = new List<string>();
 
     public Cp(List<string> args) : base(args) { }
 

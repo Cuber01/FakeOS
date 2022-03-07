@@ -41,7 +41,7 @@ public class FileManager : GuiSoftware
 
     public FileManager(string path)
     {
-        name = "File Manager";
+        fancyName = "File Manager";
         
         this.currentPath = path;
         
@@ -57,7 +57,7 @@ public class FileManager : GuiSoftware
     {
         if (!running) return;
 
-        ImGui.Begin(name, ref running, windowFlags);
+        ImGui.Begin(fancyName, ref running, windowFlags);
 
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(2, 2));
         

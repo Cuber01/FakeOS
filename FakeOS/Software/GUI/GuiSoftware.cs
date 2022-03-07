@@ -1,8 +1,7 @@
 namespace FakeOS.Software.GUI;
 
-public abstract class GuiSoftware
+public abstract class GuiSoftware : Software
 {
-    protected string name;
     public bool running = true;
 
     // It is very likely, I'll eventually put something in either update or draw, that's why they're virtual

@@ -1,22 +1,29 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Numerics;
+using FakeOS.Software.CLI;
+using FakeOS.Tools;
 using ImGuiNET;
 
 namespace FakeOS.Software.GUI;
 
 public class Terminal : GuiSoftware
 {
+    private const ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags.EnterReturnsTrue | ImGuiInputTextFlags.CallbackCompletion | ImGuiInputTextFlags.CallbackHistory;
+    private readonly string binPath = string.Format(".{0}Filesystem{0}sys{0}bin", Path.DirectorySeparatorChar);
+    
     private List<string> text = new List<string>();
     private List<string> history = new List<string>();
 
     private string inputText = "";
-
-    private const ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags.EnterReturnsTrue | ImGuiInputTextFlags.CallbackCompletion | ImGuiInputTextFlags.CallbackHistory;
-
+    
     public Terminal()
     {
-        name = "Terminal";
+        fancyName = "Terminal";
+        
+        getCommands();
     }
 
     #region mainUpdateLoops
@@ -32,7 +39,7 @@ public class Terminal : GuiSoftware
     {
         if (!running) return;
 
-        if (ImGui.Begin(name, ref running))
+        if (ImGui.Begin(fancyName, ref running))
         {
             if(ImGui.Button("Add text")) text.Add("Test");
             
@@ -65,4 +72,28 @@ public class Terminal : GuiSoftware
     }
 
     #endregion
+
+    private void getCommands()
+    {
+        string[] dummyFiles = Directory.GetFiles(binPath);
+        List<string> fileContents = dummyFiles.Select(FileReader.getFileString).ToList();
+
+        foreach (var programName in fileContents)
+        {
+            Type type = Type.GetType(programName);
+
+            if (type is GuiSoftware)
+            {
+                Game1.windows.Add((GuiSoftware)Activator.CreateInstance(type!));
+            }
+            else if (type is CliSoftware)
+            {
+                return;
+            }
+            else
+            {
+                throw new Exception("Unknown type.");
+            }
+        }
+    }
 };

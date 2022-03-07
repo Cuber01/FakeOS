@@ -46,7 +46,7 @@ public class TextEditor : GuiSoftware
 
     public TextEditor(string path = null)
     {
-        this.name = "Text Editor";
+        this.fancyName = "Text Editor";
 
         if (path is null)
         {
@@ -66,7 +66,7 @@ public class TextEditor : GuiSoftware
     {
         if (!running) return;
 
-        ImGui.Begin(name, ref running, windowFlags);
+        ImGui.Begin(fancyName, ref running, windowFlags);
 
         ImGui.BeginTabBar("#main", tabBarFlags);
 
