@@ -9,7 +9,6 @@ public class Terminal : GuiSoftware
     
     private string inputText = "";
 
-    private const ImGuiInputTextFlags outputFlags = ImGuiInputTextFlags.ReadOnly;
     private const ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags.None;
     
     public Terminal()
