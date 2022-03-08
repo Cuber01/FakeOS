@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
+using FakeOS.Software.CLI;
 using FakeOS.Tools;
 using ImGuiNET;
 
@@ -76,8 +77,9 @@ public class Terminal : GuiSoftware
 
         foreach (var commandStub in commandStubs)
         {
-            Type thisType = this.GetType();
-            MethodInfo theMethod = thisType.GetMethod(commandStub.Value);
+            Type type = getTypeOfSoftware(commandStub.Value);
+            
+            MethodInfo theMethod = type.GetMethod(commandStub.Value);
             Action<List<string>> action = (Action<List<string>>) Delegate.CreateDelegate(typeof(Action<List<string>>), theMethod!);
             
             commands.Add(commandStub.Key, action);
@@ -120,5 +122,27 @@ public class Terminal : GuiSoftware
         
     }
     
+    #endregion
+
+    #region util
+
+    private Type getTypeOfSoftware(string name)
+    {
+        Type rv;
+            
+        try
+        {
+            var guiType = typeof(GuiSoftware);
+            rv = Type.GetType(guiType.Namespace + '.' + name, true);
+        }
+        catch (Exception)
+        {
+            var cliType = typeof(CliSoftware);
+            rv = Type.GetType(cliType.Namespace + '.' + name, true);
+        }
+
+        return rv;
+    }
+
     #endregion
 };
