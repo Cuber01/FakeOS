@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
+using System.Reflection.Emit;
 using FakeOS.Software.CLI;
 using FakeOS.Tools;
 using ImGuiNET;
@@ -17,8 +18,11 @@ public class Terminal : GuiSoftware
     
     private readonly List<string> text = new List<string>();
     private List<string> history = new List<string>();
-    private readonly Dictionary<string, Action<List<string>>> commands = new Dictionary<string, Action<List<string>>>();
-
+    
+    private readonly Dictionary<string, Action<List<string>>> builtInCommands = new Dictionary<string, Action<List<string>>>();
+    private readonly Dictionary<string, ConstructorInfo> binCommands = new Dictionary<string, ConstructorInfo>();
+    
+    
     private string inputText = "";
     
     public Terminal(List<string> args = null) : base(args)
@@ -78,15 +82,15 @@ public class Terminal : GuiSoftware
         foreach (var commandStub in commandStubs)
         {
             Type type = getTypeOfSoftware(commandStub.Value);
-            Type[] argTypes = new[] { typeof(List<string>) };
+            Type[] argTypes = { typeof(List<string>) };
             
             ConstructorInfo constructor = type.GetConstructor(argTypes);
-            constructor!.Invoke(new object[1] { new List<string>() });
-            //Action<List<string>> action = (Action<List<string>>) Delegate.CreateDelegate(typeof(Action<List<string>>), theMethod!);
 
-            //commands.Add(commandStub.Key, action);
+
+            binCommands.Add(commandStub.Key, constructor);
         }
         
+        // constructor!.Invoke(new object[1] { new List<string>() });
         // foreach (var programName in fileContents) TODO
         // {
         //     you need to provide full path here
@@ -109,8 +113,8 @@ public class Terminal : GuiSoftware
 
     private void addBuiltinCommands()
     {
-        commands.Add("cd", changeDirectory);
-        commands.Add("help", help);
+        builtInCommands.Add("cd", changeDirectory);
+        builtInCommands.Add("help", help);
     }
     
     #region Built-in Commands
