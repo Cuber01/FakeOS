@@ -81,7 +81,8 @@ public class Terminal : GuiSoftware
 
     private unsafe int inputCallback(ImGuiInputTextCallbackData* data)
     {
-        
+        inputText = completion.complete(inputText);
+        Console.WriteLine(inputText);
         
         return 0;
     }
