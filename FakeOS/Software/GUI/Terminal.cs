@@ -35,7 +35,6 @@ public class Terminal : GuiSoftware
 
     #region mainUpdateLoops
     
-    private readonly float footerHeightToReserve = ImGui.GetStyle().ItemSpacing.Y + ImGui.GetFrameHeightWithSpacing();
     public override void imGuiUpdate()
     {
         if (!running) return;
@@ -44,7 +43,7 @@ public class Terminal : GuiSoftware
         {
             if(ImGui.Button("Add text")) text.Add("Test");
             
-            ImGui.BeginChild("#main", new Vector2(0, -35), false, ImGuiWindowFlags.HorizontalScrollbar);
+            ImGui.BeginChild("#main", new Vector2(0, -35), true);
             
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4, 1)); // Tighten spacing
 
