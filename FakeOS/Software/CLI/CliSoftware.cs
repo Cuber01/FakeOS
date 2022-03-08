@@ -14,7 +14,7 @@ public abstract class CliSoftware : Software
     // If a key in the flags dictionary starts with this, it will not be possible to change it via a flag input through terminal by user
     private const char internalFlagMark = '?';
 
-    protected CliSoftware(List<string> args)
+    protected CliSoftware(List<string> args) : base(args)
     {
         this.args = args;
         

@@ -1,11 +1,16 @@
+using System.Collections.Generic;
+
 namespace FakeOS.Software.GUI;
 
 public abstract class GuiSoftware : Software
 {
+    protected GuiSoftware(List<string> args) : base(args)
+    {
+    }
+    
     public bool running = true;
 
-    // It is very likely, I'll eventually put something in either update or draw, that's why they're virtual
-    public virtual void update() { }
+    public abstract void update();
+    public abstract void imGuiUpdate();
 
-    public virtual void imGuiUpdate() { }
 }
