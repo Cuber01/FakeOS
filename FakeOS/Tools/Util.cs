@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FakeOS.Software;
 using FakeOS.Software.GUI;
 
@@ -10,7 +11,7 @@ public static class Util
 
     public static void openFileInNewTextEditor(string path)
     {
-        Game1.windows.Add(new TextEditor(path));
+        Game1.windows.Add(new TextEditor(new List<string> { path }));
     }
 
     public static string removeAfterCharacter(string input, char character)

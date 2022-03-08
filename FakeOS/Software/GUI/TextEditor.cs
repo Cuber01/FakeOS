@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using FakeOS.Tools;
 using ImGuiNET;
@@ -44,10 +45,11 @@ public class TextEditor : GuiSoftware
     private const ImGuiInputTextFlags multilineTextFlags = ImGuiInputTextFlags.AllowTabInput;
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
 
-    public TextEditor(string path = null)
+    public TextEditor(List<string> args) : base(args)
     {
         this.fancyName = "Text Editor";
 
+        string path = args.ElementAt(0);
         if (path is null)
         {
             tabBar.tabs.Add(new TextEditorTabs.ImGuiTab(defaultDocName));

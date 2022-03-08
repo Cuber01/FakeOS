@@ -20,7 +20,7 @@ public class Terminal : GuiSoftware
 
     private string inputText = "";
     
-    public Terminal()
+    public Terminal(List<string> args = null) : base(args)
     {
         fancyName = "Terminal";
         

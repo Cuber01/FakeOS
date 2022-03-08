@@ -39,11 +39,11 @@ public class FileManager : GuiSoftware
     
     #endregion
 
-    public FileManager(string path)
+    public FileManager(List<string> args) : base(args)
     {
         fancyName = "File Manager";
         
-        this.currentPath = path;
+        this.currentPath = args.ElementAt(0);
         
         updateInputPath();
 

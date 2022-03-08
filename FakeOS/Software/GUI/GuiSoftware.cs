@@ -10,7 +10,7 @@ public abstract class GuiSoftware : Software
     
     public bool running = true;
 
-    public abstract void update();
-    public abstract void imGuiUpdate();
+    public virtual void update() {}
+    public virtual void imGuiUpdate() {}
 
 }
