@@ -48,15 +48,14 @@ public class TextEditor : GuiSoftware
     public TextEditor(List<string> args) : base(args)
     {
         this.fancyName = "Text Editor";
-
-        string path = args.ElementAt(0);
-        if (path is null)
+        
+        if (args is null || args.Count == 0)
         {
             tabBar.tabs.Add(new TextEditorTabs.ImGuiTab(defaultDocName));
         }
         else
         {
-            openFile(path);
+            openFile(args.ElementAt(0));
         }
         
 

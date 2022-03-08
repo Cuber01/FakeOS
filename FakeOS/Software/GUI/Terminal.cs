@@ -78,15 +78,18 @@ public class Terminal : GuiSoftware
         foreach (var commandStub in commandStubs)
         {
             Type type = getTypeOfSoftware(commandStub.Value);
+            Type[] argTypes = new[] { typeof(List<string>) };
             
-            MethodInfo theMethod = type.GetMethod(commandStub.Value);
-            Action<List<string>> action = (Action<List<string>>) Delegate.CreateDelegate(typeof(Action<List<string>>), theMethod!);
-            
-            commands.Add(commandStub.Key, action);
+            ConstructorInfo constructor = type.GetConstructor(argTypes);
+            constructor!.Invoke(new object[1] { new List<string>() });
+            //Action<List<string>> action = (Action<List<string>>) Delegate.CreateDelegate(typeof(Action<List<string>>), theMethod!);
+
+            //commands.Add(commandStub.Key, action);
         }
         
         // foreach (var programName in fileContents) TODO
         // {
+        //     you need to provide full path here
         //     Type type = Type.GetType(programName);
         //
         //     if (type is GuiSoftware)
