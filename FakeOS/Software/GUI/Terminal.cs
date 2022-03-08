@@ -5,9 +5,11 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Reflection.Emit;
+using FakeOS.General;
 using FakeOS.Software.CLI;
 using FakeOS.Tools;
 using ImGuiNET;
+using Microsoft.Xna.Framework.Input;
 
 namespace FakeOS.Software.GUI;
 
@@ -21,21 +23,25 @@ public class Terminal : GuiSoftware
     
     private readonly Dictionary<string, Action<List<string>>> builtInCommands = new Dictionary<string, Action<List<string>>>();
     private readonly Dictionary<string, ConstructorInfo> binCommands = new Dictionary<string, ConstructorInfo>();
-    
-    
+
+    private StringCompletion completion;
     private string inputText = "";
     
     public Terminal(List<string> args = null) : base(args)
     {
         fancyName = "Terminal";
-        
+
         addBinCommands();
         addBuiltinCommands();
+
+        List<string> keys = builtInCommands.Keys.Concat(binCommands.Keys).ToList();
+
+        completion = new StringCompletion(new List<string>(keys));
     }
 
     #region mainUpdateLoops
     
-    public override void imGuiUpdate()
+    public override unsafe void imGuiUpdate()
     {
         if (!running) return;
 
@@ -64,7 +70,7 @@ public class Terminal : GuiSoftware
             
             ImGui.Separator();
 
-            ImGui.InputText("Input", ref inputText, (uint)inputText.Length + 1, inputFlags);  
+            ImGui.InputText("Input", ref inputText, byte.MaxValue, inputFlags, inputCallback);  
             
             ImGui.End();
             
@@ -72,6 +78,15 @@ public class Terminal : GuiSoftware
     }
 
     #endregion
+
+    private unsafe int inputCallback(ImGuiInputTextCallbackData* data)
+    {
+        
+        
+        return 0;
+    }
+
+    #region Add Commands
 
     private void addBinCommands()
     {
@@ -115,6 +130,8 @@ public class Terminal : GuiSoftware
         builtInCommands.Add("cd", changeDirectory);
         builtInCommands.Add("help", help);
     }
+    
+    #endregion
     
     #region Built-in Commands
 

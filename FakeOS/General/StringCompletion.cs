@@ -6,11 +6,11 @@ namespace FakeOS.General;
 
 public class StringCompletion
 {
-    public List<string> keys;
+    private readonly List<string> keys;
 
-    public StringCompletion()
+    public StringCompletion(List<string> keys)
     {
-        
+        this.keys = keys;
     }
 
     public string complete(string text)
