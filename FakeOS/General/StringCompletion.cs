@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace FakeOS.General;
 
@@ -38,22 +39,67 @@ public class StringCompletion
             }
         }
 
-        // If there are no matches, or more than one, don't change anything
+        // Predict as much as we can
         if (matches.Count != 1)
         {
-            /*string sameString;
-            
-            for (int i = 0; i < matches.Length; i++)
+            StringBuilder sameString = new StringBuilder();
+            sameString.Append(matches.ElementAt(0)[0]);
+
+            // Iterate through each character of a match entry
+            foreach (var match in matches)
             {
+                for (int i = 0; i < match.Length; i++)
+                {
+                    
+                    if (i > sameString.Length - 1 || sameString[i] != match[i])
+                    {
+                        bool add = doWeAdd((match[i], i), matches);
+
+                        // We abort on failure, so we won't end up with a situation where:
+                        // input = mk
+                        // matches = mkfile, mkdir
+                        //
+                        // Hey look i in mkfile and mkdir are at the same place, who cares if their third character is different,
+                        // let's add it!
+                        //
+                        // result: mkii
+                        if (!add)
+                        {
+                            break;
+                        }
                         
-            }*/
+                        sameString.Append(match[i]);
+                        
+                    }
+
+                }
+                
+            }
             
-            return text;
+            return sameString.ToString();
         }
         else
         {
             return matches.ElementAt(0) + ' ';
         }
-        
+
+    }
+    
+    private bool doWeAdd((char, int) charAtIndex, List<string> matches)
+    {
+        bool rv = true;
+            
+        foreach (var entry in matches)
+        {
+            
+            // If the matches contradict themselves, we do not add the character
+            if (charAtIndex.Item2 > entry.Length - 1 || entry[charAtIndex.Item2] != charAtIndex.Item1)
+            {
+                rv = false;
+            }
+            
+        }
+
+        return rv;
     }
 }
