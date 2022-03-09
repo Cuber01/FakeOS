@@ -21,6 +21,7 @@ public class Terminal : GuiSoftware
     private readonly List<string> consoleOutput = new List<string>();
     
     private List<string> history = new List<string>();
+    private int currentHistoryPos;
 
     private readonly Dictionary<string, Action<List<string>>> builtInCommands = new Dictionary<string, Action<List<string>>>();
     private readonly Dictionary<string, ConstructorInfo> binCommands = new Dictionary<string, ConstructorInfo>();
@@ -46,8 +47,6 @@ public class Terminal : GuiSoftware
     public override unsafe void imGuiUpdate()
     {
         if (!running) return;
-        
-        
 
         if (ImGui.Begin(fancyName, ref running))
         {
@@ -91,7 +90,7 @@ public class Terminal : GuiSoftware
         }
 
     }
-    
+
     private unsafe int inputCallback(ImGuiInputTextCallbackData* data)
     {
         switch (data->EventFlag)
@@ -109,6 +108,24 @@ public class Terminal : GuiSoftware
             
             case ImGuiInputTextFlags.CallbackHistory:
             {
+                if (data->EventKey == ImGuiKey.UpArrow)
+                {
+                    if (currentHistoryPos == -1)
+                        currentHistoryPos = history.Count - 1;
+                    else if (currentHistoryPos > 0)
+                        currentHistoryPos--;
+                } 
+                else if (data->EventKey == ImGuiKey.DownArrow)
+                {
+
+                        if (currentHistoryPos != -1)
+                            if (++currentHistoryPos >= history.Count)
+                                currentHistoryPos = -1;
+
+                }
+                
+                replaceInput(data, history.ElementAt(currentHistoryPos));
+                
                 break;    
             }
             
@@ -197,6 +214,9 @@ public class Terminal : GuiSoftware
 
     private void submitCommand()
     {
+        history.Add(inputText);
+        currentHistoryPos = history.Count - 1;
+        
         if (inputText.Length != 0)
         {
             string cleanedInput = inputText.Trim();
