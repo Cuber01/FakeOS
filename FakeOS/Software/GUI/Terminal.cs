@@ -74,12 +74,10 @@ public class Terminal : GuiSoftware
             ImGui.EndChild(); 
             
             ImGui.Separator();
-
-
-
+            
             if (ImGui.InputText("Input", ref inputText, byte.MaxValue, inputFlags, inputCallback))
             {
-                
+                submitCommand();    
             }
             
             ImGui.End();
@@ -180,6 +178,11 @@ public class Terminal : GuiSoftware
         
         consoleOutput.Add(message);
     }
+    
+    private void echo(string message)
+    {
+        consoleOutput.Add(message);
+    }
 
     
     #endregion
@@ -207,7 +210,7 @@ public class Terminal : GuiSoftware
     private unsafe void replaceInput(ImGuiInputTextCallbackData* data, string newText)
     {
         
-        Marshal.Copy(System.Text.Encoding.UTF8.GetBytes(newText), 0, (IntPtr)data->Buf, newText.Length);
+        Marshal.Copy(Encoding.UTF8.GetBytes(newText), 0, (IntPtr)data->Buf, newText.Length);
         data->BufTextLen = newText.Length;
         data->BufSize = newText.Length;
         data->BufDirty = 1;
@@ -244,7 +247,7 @@ public class Terminal : GuiSoftware
             string cleanedInput = inputText.Trim();
             cleanedInput = removeCloseDuplicates(cleanedInput, ' ');
                     
-            List<string> command = inputText.Split(' ').ToList();
+            List<string> command = cleanedInput.Split(' ').ToList();
             bool commandFound = false;
 
             foreach (var entry in binCommands)
@@ -271,7 +274,7 @@ public class Terminal : GuiSoftware
 
             if (!commandFound)
             {
-                
+                echo("Unknown command: " + inputText);
             }
 
         }
@@ -279,7 +282,7 @@ public class Terminal : GuiSoftware
     
     private void execCommand(List<string> command)
     {
-        Console.WriteLine(command.ElementAt(0));
+        echo(command.ElementAt(0));
     }
     
     #endregion
