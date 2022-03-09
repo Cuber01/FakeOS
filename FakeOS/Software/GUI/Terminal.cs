@@ -78,6 +78,12 @@ public class Terminal : GuiSoftware
             if (ImGui.InputText("Input", ref inputText, byte.MaxValue, inputFlags, inputCallback))
             {
                 submitCommand();    
+             
+                // While the focus is gone we can use the chance to easily clear inputText
+                inputText = String.Empty;
+                
+                // ImGui removes keyboard focus after pressing enter by default, -1 sets it back to the last element touched
+                ImGui.SetKeyboardFocusHere(-1);
             }
             
             ImGui.End();
@@ -85,9 +91,7 @@ public class Terminal : GuiSoftware
         }
 
     }
-
-    #endregion
-
+    
     private unsafe int inputCallback(ImGuiInputTextCallbackData* data)
     {
         switch (data->EventFlag)
@@ -112,6 +116,8 @@ public class Terminal : GuiSoftware
 
         return 0;
     }
+
+    #endregion
 
     #region Add Commands
 
@@ -187,6 +193,55 @@ public class Terminal : GuiSoftware
     
     #endregion
 
+    #region handling commands
+
+    private void submitCommand()
+    {
+        if (inputText.Length != 0)
+        {
+            string cleanedInput = inputText.Trim();
+            cleanedInput = removeCloseDuplicates(cleanedInput, ' ');
+                    
+            List<string> command = cleanedInput.Split(' ').ToList();
+            bool commandFound = false;
+
+            foreach (var entry in binCommands)
+            {
+                if (command.ElementAt(0) == entry.Key)
+                {
+                    execCommand(command);
+                    commandFound = true;
+                }
+            }
+
+            if (!commandFound)
+            {
+                        
+                foreach (var entry in builtInCommands)
+                {
+                    if (command.ElementAt(0) == entry.Key)
+                    {
+                        execCommand(command);
+                    }
+                }
+                        
+            }
+
+            if (!commandFound)
+            {
+                echo("Unknown command: " + inputText);
+            }
+
+        }
+    }
+    
+    private void execCommand(List<string> command)
+    {
+        echo(command.ElementAt(0));
+    }
+    
+    #endregion
+    
     #region util
 
     private Type getTypeOfSoftware(string name)
@@ -234,55 +289,6 @@ public class Terminal : GuiSoftware
         }
 
         return rv.ToString();
-    }
-    
-    #endregion
-
-    #region handling commands
-
-    private void submitCommand()
-    {
-        if (inputText.Length != 0)
-        {
-            string cleanedInput = inputText.Trim();
-            cleanedInput = removeCloseDuplicates(cleanedInput, ' ');
-                    
-            List<string> command = cleanedInput.Split(' ').ToList();
-            bool commandFound = false;
-
-            foreach (var entry in binCommands)
-            {
-                if (command.ElementAt(0) == entry.Key)
-                {
-                    execCommand(command);
-                    commandFound = true;
-                }
-            }
-
-            if (!commandFound)
-            {
-                        
-                foreach (var entry in builtInCommands)
-                {
-                    if (command.ElementAt(0) == entry.Key)
-                    {
-                        execCommand(command);
-                    }
-                }
-                        
-            }
-
-            if (!commandFound)
-            {
-                echo("Unknown command: " + inputText);
-            }
-
-        }
-    }
-    
-    private void execCommand(List<string> command)
-    {
-        echo(command.ElementAt(0));
     }
     
     #endregion
