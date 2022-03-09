@@ -17,6 +17,7 @@ public class StringCompletion
     public string complete(string text)
     {
         if (keys.Count == 0) throw new Exception("No keys for autocompletion provided.");
+        if (text.Length == 0) return text;
 
         List<string> matches = new List<string>(keys);
         
