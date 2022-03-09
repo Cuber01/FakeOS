@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 using FakeOS.General;
 using FakeOS.Software.CLI;
 using FakeOS.Tools;
@@ -24,8 +25,10 @@ public class Terminal : GuiSoftware
     private readonly Dictionary<string, Action<List<string>>> builtInCommands = new Dictionary<string, Action<List<string>>>();
     private readonly Dictionary<string, ConstructorInfo> binCommands = new Dictionary<string, ConstructorInfo>();
 
-    private StringCompletion completion;
+    private readonly StringCompletion completion;
     private string inputText = "";
+
+    private bool reclaimFocus;
     
     public Terminal(List<string> args = null) : base(args)
     {
@@ -38,18 +41,22 @@ public class Terminal : GuiSoftware
 
         completion = new StringCompletion(new List<string>(keys));
     }
-
+    
+    
     #region mainUpdateLoops
     
     public override unsafe void imGuiUpdate()
     {
         if (!running) return;
+        
+        
 
         if (ImGui.Begin(fancyName, ref running))
         {
+
             if(ImGui.Button("Add text")) text.Add("Test");
             
-            ImGui.BeginChild("#main", new Vector2(0, -35), true);
+            ImGui.BeginChild("#main", new Vector2(0, -35), true); // TODO this has to be calculated
             
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4, 1)); // Tighten spacing
 
@@ -70,20 +77,29 @@ public class Terminal : GuiSoftware
             
             ImGui.Separator();
 
-            ImGui.InputText("Input", ref inputText, byte.MaxValue, inputFlags, inputCallback);  
+
+           
+            ImGui.InputText("Input", ref inputText, byte.MaxValue, inputFlags, inputCallback);
+
+
+                
             
             ImGui.End();
             
         }
+
     }
 
     #endregion
 
     private unsafe int inputCallback(ImGuiInputTextCallbackData* data)
     {
-        inputText = completion.complete(inputText);
-        Console.WriteLine(inputText);
-        
+        // We don't auto complete args and all other commands containing a space are invalid
+        if (inputText.Contains(' ')) return 0;
+
+        string newText = completion.complete(inputText);
+        replaceInput(data, newText);
+
         return 0;
     }
 
@@ -166,6 +182,17 @@ public class Terminal : GuiSoftware
         }
 
         return rv;
+    }
+
+    private unsafe void replaceInput(ImGuiInputTextCallbackData* data, string newText)
+    {
+        
+        Marshal.Copy(System.Text.Encoding.UTF8.GetBytes(newText), 0, (IntPtr)data->Buf, newText.Length);
+        data->BufTextLen = newText.Length;
+        data->BufSize = newText.Length;
+        data->BufDirty = 1;
+        data->CursorPos = data->SelectionStart = data->SelectionEnd = newText.Length;
+        
     }
 
     #endregion

@@ -41,11 +41,18 @@ public class StringCompletion
         // If there are no matches, or more than one, don't change anything
         if (matches.Count != 1)
         {
+            /*string sameString;
+            
+            for (int i = 0; i < matches.Length; i++)
+            {
+                        
+            }*/
+            
             return text;
         }
         else
         {
-            return matches.ElementAt(0);
+            return matches.ElementAt(0) + ' ';
         }
         
     }
