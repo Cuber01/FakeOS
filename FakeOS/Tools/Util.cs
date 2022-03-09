@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using FakeOS.Software;
 using FakeOS.Software.GUI;
 
 namespace FakeOS.Tools;

@@ -4,13 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
-using System.Reflection.Emit;
 using System.Runtime.InteropServices;
+using System.Text;
 using FakeOS.General;
 using FakeOS.Software.CLI;
 using FakeOS.Tools;
 using ImGuiNET;
-using Microsoft.Xna.Framework.Input;
 
 namespace FakeOS.Software.GUI;
 
@@ -19,17 +18,16 @@ public class Terminal : GuiSoftware
     private const ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags.EnterReturnsTrue | ImGuiInputTextFlags.CallbackCompletion | ImGuiInputTextFlags.CallbackHistory;
     private readonly string binPath = string.Format(".{0}Filesystem{0}sys{0}bin", Path.DirectorySeparatorChar);
     
-    private readonly List<string> text = new List<string>();
-    private List<string> history = new List<string>();
+    private readonly List<string> consoleOutput = new List<string>();
     
+    private List<string> history = new List<string>();
+
     private readonly Dictionary<string, Action<List<string>>> builtInCommands = new Dictionary<string, Action<List<string>>>();
     private readonly Dictionary<string, ConstructorInfo> binCommands = new Dictionary<string, ConstructorInfo>();
 
     private readonly StringCompletion completion;
     private string inputText = "";
 
-    private bool reclaimFocus;
-    
     public Terminal(List<string> args = null) : base(args)
     {
         fancyName = "Terminal";
@@ -44,7 +42,7 @@ public class Terminal : GuiSoftware
     
     
     #region mainUpdateLoops
-    
+
     public override unsafe void imGuiUpdate()
     {
         if (!running) return;
@@ -54,13 +52,13 @@ public class Terminal : GuiSoftware
         if (ImGui.Begin(fancyName, ref running))
         {
 
-            if(ImGui.Button("Add text")) text.Add("Test");
+            if(ImGui.Button("Add text")) consoleOutput.Add("Test");
             
             ImGui.BeginChild("#main", new Vector2(0, -35), true); // TODO this has to be calculated
             
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4, 1)); // Tighten spacing
 
-            foreach (var entry in text)
+            foreach (var entry in consoleOutput)
             {
                 ImGui.Text(entry);    
             }
@@ -78,11 +76,11 @@ public class Terminal : GuiSoftware
             ImGui.Separator();
 
 
-           
-            ImGui.InputText("Input", ref inputText, byte.MaxValue, inputFlags, inputCallback);
 
-
+            if (ImGui.InputText("Input", ref inputText, byte.MaxValue, inputFlags, inputCallback))
+            {
                 
+            }
             
             ImGui.End();
             
@@ -94,11 +92,25 @@ public class Terminal : GuiSoftware
 
     private unsafe int inputCallback(ImGuiInputTextCallbackData* data)
     {
-        // We don't auto complete args and all other commands containing a space are invalid
-        if (inputText.Contains(' ')) return 0;
+        switch (data->EventFlag)
+        {
+            case ImGuiInputTextFlags.CallbackCompletion:
+            {
+                // We don't auto complete args and all other commands containing a space are invalid
+                if (inputText.Contains(' ')) return 0;
 
-        string newText = completion.complete(inputText);
-        replaceInput(data, newText);
+                string newText = completion.complete(inputText);
+                replaceInput(data, newText);
+                
+                break;
+            }
+            
+            case ImGuiInputTextFlags.CallbackHistory:
+            {
+                break;    
+            }
+            
+        }
 
         return 0;
     }
@@ -162,6 +174,14 @@ public class Terminal : GuiSoftware
         
     }
     
+    private void echo(List<string> args)
+    {
+        string message = String.Join(String.Empty, args);
+        
+        consoleOutput.Add(message);
+    }
+
+    
     #endregion
 
     #region util
@@ -195,5 +215,73 @@ public class Terminal : GuiSoftware
         
     }
 
+    private string removeCloseDuplicates(string s, char charToRemove)
+    {
+        StringBuilder rv = new StringBuilder(s);
+        
+        for (int i = 0; i < rv.Length - 1; i++)
+        {
+            if (rv[i] == charToRemove)
+            {
+                if (rv[i + 1] == charToRemove)
+                {
+                    rv.Remove(i + 1, 1);
+                }
+            }
+        }
+
+        return rv.ToString();
+    }
+    
     #endregion
+
+    #region handling commands
+
+    private void submitCommand()
+    {
+        if (inputText.Length != 0)
+        {
+            string cleanedInput = inputText.Trim();
+            cleanedInput = removeCloseDuplicates(cleanedInput, ' ');
+                    
+            List<string> command = inputText.Split(' ').ToList();
+            bool commandFound = false;
+
+            foreach (var entry in binCommands)
+            {
+                if (command.ElementAt(0) == entry.Key)
+                {
+                    execCommand(command);
+                    commandFound = true;
+                }
+            }
+
+            if (!commandFound)
+            {
+                        
+                foreach (var entry in builtInCommands)
+                {
+                    if (command.ElementAt(0) == entry.Key)
+                    {
+                        execCommand(command);
+                    }
+                }
+                        
+            }
+
+            if (!commandFound)
+            {
+                
+            }
+
+        }
+    }
+    
+    private void execCommand(List<string> command)
+    {
+        Console.WriteLine(command.ElementAt(0));
+    }
+    
+    #endregion
+
 };
