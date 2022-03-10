@@ -20,8 +20,8 @@ public class Terminal : GuiSoftware
     
     private readonly List<string> consoleOutput = new List<string>();
     
-    private List<string> history = new List<string>();
-    private int currentHistoryPos;
+    private Stack<string> history = new Stack<string>();
+    private int currentHistoryPos = -1;
 
     private readonly Dictionary<string, Action<List<string>>> builtInCommands = new Dictionary<string, Action<List<string>>>();
     private readonly Dictionary<string, ConstructorInfo> binCommands = new Dictionary<string, ConstructorInfo>();
@@ -110,25 +110,29 @@ public class Terminal : GuiSoftware
             {
                 if (data->EventKey == ImGuiKey.UpArrow)
                 {
-                    if (currentHistoryPos > -1)
+                    if (currentHistoryPos < history.Count - 1)
                     {
-                        currentHistoryPos--;
+                        currentHistoryPos++;
+                        replaceInput(data, history.ElementAt(currentHistoryPos));
                     }
                 } 
                 else if (data->EventKey == ImGuiKey.DownArrow)
                 {
-                    if (currentHistoryPos < history.Count - 1)
+                    if (currentHistoryPos > -1)
                     {
-                        currentHistoryPos++;
+                        currentHistoryPos--;
+
+                        if (currentHistoryPos != -1)
+                        {
+                            replaceInput(data, history.ElementAt(currentHistoryPos));    
+                        }
+                        else
+                        {
+                            replaceInput(data, "");
+                        }
+                        
                     }
                 }
-
-                try
-                {
-                    replaceInput(data, history.ElementAt(currentHistoryPos));
-                }
-                catch (Exception e) { /* Ignored */ }
-
 
                 break;    
             }
@@ -218,9 +222,9 @@ public class Terminal : GuiSoftware
 
     private void submitCommand()
     {
-        history.Add(inputText);
-        currentHistoryPos = history.Count - 1;
-        
+        history.Push(inputText);
+        currentHistoryPos = -1;
+
         if (inputText.Length != 0)
         {
             string cleanedInput = inputText.Trim();
