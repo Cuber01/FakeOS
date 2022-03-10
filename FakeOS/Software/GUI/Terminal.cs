@@ -110,22 +110,26 @@ public class Terminal : GuiSoftware
             {
                 if (data->EventKey == ImGuiKey.UpArrow)
                 {
-                    if (currentHistoryPos == -1)
-                        currentHistoryPos = history.Count - 1;
-                    else if (currentHistoryPos > 0)
+                    if (currentHistoryPos > -1)
+                    {
                         currentHistoryPos--;
+                    }
                 } 
                 else if (data->EventKey == ImGuiKey.DownArrow)
                 {
-
-                        if (currentHistoryPos != -1)
-                            if (++currentHistoryPos >= history.Count)
-                                currentHistoryPos = -1;
-
+                    if (currentHistoryPos < history.Count - 1)
+                    {
+                        currentHistoryPos++;
+                    }
                 }
-                
-                replaceInput(data, history.ElementAt(currentHistoryPos));
-                
+
+                try
+                {
+                    replaceInput(data, history.ElementAt(currentHistoryPos));
+                }
+                catch (Exception e) { /* Ignored */ }
+
+
                 break;    
             }
             

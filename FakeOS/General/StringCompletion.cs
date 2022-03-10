@@ -40,6 +40,12 @@ public class StringCompletion
             }
         }
 
+        // If there are no matches, return the original text
+        if (matches.Count == 0)
+        {
+            return text;
+        }
+
         // Predict as much as we can
         if (matches.Count != 1)
         {
