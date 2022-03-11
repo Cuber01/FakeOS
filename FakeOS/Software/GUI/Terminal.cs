@@ -250,6 +250,7 @@ public class Terminal : GuiSoftware
                     if (command.ElementAt(0) == entry.Key)
                     {
                         execCommand(command);
+                        commandFound = true;
                     }
                 }
                         
