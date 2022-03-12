@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 
 namespace FakeOS.Software;
 
 public abstract class Software
 {
-    public Software(List<string> args)
+    protected Software(List<string> args, Action<string> echo)
     {
         
     }

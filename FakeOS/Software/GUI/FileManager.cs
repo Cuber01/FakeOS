@@ -39,7 +39,7 @@ public class FileManager : GuiSoftware
     
     #endregion
 
-    public FileManager(List<string> args) : base(args)
+    public FileManager(List<string> args, Action<string> echo) : base(args, echo)
     {
         fancyName = "File Manager";
         

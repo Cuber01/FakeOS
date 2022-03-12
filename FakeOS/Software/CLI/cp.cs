@@ -15,7 +15,7 @@ public class Cp : CliSoftware
 
     private readonly List<string> thingsToCopy = new List<string>();
 
-    public Cp(List<string> args) : base(args) { }
+    public Cp(List<string> args, Action<string> echo) : base(args, echo) { }
 
     protected override void run()
     {

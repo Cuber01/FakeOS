@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,7 +7,7 @@ namespace FakeOS.Software.CLI;
 
 public class MkFile : CliSoftware
 {
-    public MkFile(List<string> args) : base(args) { }
+    public MkFile(List<string> args, Action<string> echo) : base(args, echo) { }
 
     protected override void run()
     {

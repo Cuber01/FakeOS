@@ -33,7 +33,7 @@ public class Terminal : GuiSoftware
     // other
     private readonly StringCompletion completionModule;
 
-    public Terminal(List<string> args = null) : base(args)
+    public Terminal(Action<string> echo, List<string> args = null) : base(args, echo)
     {
         fancyName = "Terminal";
 

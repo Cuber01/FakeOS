@@ -11,7 +11,7 @@ public abstract class CliSoftware : Software
     
     protected Dictionary<string, bool> flags = new Dictionary<string, bool>();
 
-    protected CliSoftware(List<string> args) : base(args)
+    protected CliSoftware(List<string> args, Action<string> echo) : base(args, echo)
     {
         this.args = args;
         

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -6,7 +7,7 @@ namespace FakeOS.Software.CLI;
 public class Mv : Cp
 {
     private readonly List<string> thingsToMove = new List<string>();
-    public Mv(List<string> args) : base(args) { }
+    public Mv(List<string> args, Action<string> echo) : base(args, echo) { }
 
     protected override void run()
     {
