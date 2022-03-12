@@ -183,7 +183,38 @@ public class Terminal : GuiSoftware
 
     private void help(List<string> args)
     {
-        
+        if (args.Count is 0)
+        {
+            echo("Fake Shell\n");
+            
+            echo("");
+
+            echo("Built-in commands:");
+            foreach (var entry in builtInCommands)
+            {
+                echo("- " + entry.Key);
+            }
+
+            echo("");
+
+            echo("For a list of all non-built-in commands run: help --list-bin");
+        }
+        else if(args.ElementAt(0) == "--list-bin")
+        {
+            echo("Fake Shell");
+            
+            echo("");
+
+            echo("Additional commands:");
+            foreach (var entry in binCommands)
+            {
+                echo("- " + entry.Key);
+            }
+        }
+        else
+        {
+            echo("Unknown argument: " + args.ElementAt(0));
+        }
     }
     
     private void echol(List<string> args)
