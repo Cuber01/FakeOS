@@ -246,7 +246,7 @@ public class Terminal : GuiSoftware
             {
                 if (command.ElementAt(0) == entry.Key)
                 {
-                    execCommand(command);
+                    execCommand(command, false);
                     commandFound = true;
                 }
             }
@@ -258,7 +258,7 @@ public class Terminal : GuiSoftware
                 {
                     if (command.ElementAt(0) == entry.Key)
                     {
-                        execCommand(command);
+                        execCommand(command, true);
                         commandFound = true;
                     }
                 }
@@ -273,9 +273,29 @@ public class Terminal : GuiSoftware
         }
     }
     
-    private void execCommand(List<string> command)
+    private void execCommand(List<string> command, bool builtin)
     {
-        echo(command.ElementAt(0));
+        echo("# " + command.ElementAt(0));
+        
+        // Init args
+        string commandName = command.ElementAt(0);
+        
+        List<string> args = command;
+        args.Remove(commandName);
+
+        if (builtin)
+        {
+            Action<List<string>> action;
+            bool success = builtInCommands.TryGetValue(commandName, out action);
+
+            if (!success) throw new Exception("Do smth here");
+            
+            action.Invoke(args);
+        }
+        else
+        {
+            
+        }
     }
     
     #endregion
