@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Numerics;
 
 namespace FakeOS;
 
@@ -20,4 +21,6 @@ public static class Consts
    public const int defaultFontSize = 20;
    
    public const string folderType = "misc/directory";
+   
+   public static readonly Vector4 highlightColor = new Vector4(255, 218, 57, 255);
 } 

@@ -20,7 +20,7 @@ public class Terminal : GuiSoftware
     
     private readonly List<string> consoleOutput = new List<string>();
     
-    private Stack<string> history = new Stack<string>();
+    private readonly Stack<string> history = new Stack<string>();
     private int currentHistoryPos = -1;
 
     private readonly Dictionary<string, Action<List<string>>> builtInCommands = new Dictionary<string, Action<List<string>>>();
@@ -51,15 +51,24 @@ public class Terminal : GuiSoftware
         if (ImGui.Begin(fancyName, ref running))
         {
 
-            if(ImGui.Button("Add text")) consoleOutput.Add("Test");
-            
             ImGui.BeginChild("#main", new Vector2(0, -35), true); // TODO this has to be calculated
             
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4, 1)); // Tighten spacing
 
             foreach (var entry in consoleOutput)
             {
-                ImGui.Text(entry);    
+                if (entry.StartsWith('#'))
+                {
+                    ImGui.PushStyleColor(ImGuiCol.Text, Consts.highlightColor);
+                    
+                    ImGui.Text(entry);        
+                    
+                    ImGui.PopStyleColor();
+                }
+                else
+                {
+                    ImGui.Text(entry);        
+                }
             }
             
             // Auto scroll
