@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using FakeOS.General;
@@ -222,8 +221,6 @@ public class Terminal : GuiSoftware
     {
         string[] files = Directory.GetFileSystemEntries(currentPath);
         
-        echo("");
-
         foreach (var file in files)
         {
             (string, string) ficon = MimeTypes.GetContentType(file);
@@ -339,7 +336,7 @@ public class Terminal : GuiSoftware
     
     private void execCommand(List<string> command, bool builtin)
     {
-        echo("> " + command.ElementAt(0));
+        echo("> " + String.Join(" ", command));
         
         // Init args
         string commandName = command.ElementAt(0);
@@ -380,6 +377,8 @@ public class Terminal : GuiSoftware
                 throw new Exception("Unknown type.");
             }
         }
+        
+        echo("");
     }
     
     
