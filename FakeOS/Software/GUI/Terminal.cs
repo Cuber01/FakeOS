@@ -15,19 +15,23 @@ namespace FakeOS.Software.GUI;
 
 public class Terminal : GuiSoftware
 {
+    // flags
     private const ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags.EnterReturnsTrue | ImGuiInputTextFlags.CallbackCompletion | ImGuiInputTextFlags.CallbackHistory;
-    private readonly string binPath = string.Format(".{0}Filesystem{0}sys{0}bin", Path.DirectorySeparatorChar);
-    
+
+    // input, output
+    private string inputText = "";
     private readonly List<string> consoleOutput = new List<string>();
     
+    // history
     private readonly Stack<string> history = new Stack<string>();
     private int currentHistoryPos = -1;
 
+    // command lists
     private readonly Dictionary<string, Action<List<string>>> builtInCommands = new Dictionary<string, Action<List<string>>>();
-    private readonly Dictionary<string, ConstructorInfo> binCommands = new Dictionary<string, ConstructorInfo>();
+    private Dictionary<string, string> binCommands = new Dictionary<string, string>();
 
-    private readonly StringCompletion completion;
-    private string inputText = "";
+    // other
+    private readonly StringCompletion completionModule;
 
     public Terminal(List<string> args = null) : base(args)
     {
@@ -38,7 +42,7 @@ public class Terminal : GuiSoftware
 
         List<string> keys = builtInCommands.Keys.Concat(binCommands.Keys).ToList();
 
-        completion = new StringCompletion(new List<string>(keys));
+        completionModule = new StringCompletion(new List<string>(keys));
     }
     
     
@@ -109,7 +113,7 @@ public class Terminal : GuiSoftware
                 // We don't auto complete args and all other commands containing a space are invalid
                 if (inputText.Contains(' ')) return 0;
 
-                string newText = completion.complete(inputText);
+                string newText = completionModule.complete(inputText);
                 replaceInput(data, newText);
                 
                 break;
@@ -157,20 +161,8 @@ public class Terminal : GuiSoftware
 
     private void addBinCommands()
     {
-        string[] dummyFiles = Directory.GetFiles(binPath);
-        Dictionary<string, string> commandStubs = dummyFiles.ToDictionary(Path.GetFileNameWithoutExtension, FileReader.getFileString);
-
-        foreach (var commandStub in commandStubs)
-        {
-            Type type = getTypeOfSoftware(commandStub.Value);
-            Type[] argTypes = { typeof(List<string>) };
-            
-            ConstructorInfo constructor = type.GetConstructor(argTypes);
-
-
-            binCommands.Add(commandStub.Key, constructor);
-        }
-        
+        string[] dummyFiles = Directory.GetFiles(Consts.binLocation);
+        binCommands = dummyFiles.ToDictionary(Path.GetFileNameWithoutExtension, FileReader.getFileString);
     }
 
     private void addBuiltinCommands()
@@ -279,32 +271,31 @@ public class Terminal : GuiSoftware
         }
         else
         {
-            bool success = binCommands.TryGetValue(commandName, out var constructor);
+            bool success = binCommands.TryGetValue(commandName, out var className);
 
             if (!success) throw new Exception("Do smth here");
-            
-            constructor.Invoke(new object[] { args });
-
-            // foreach (var programName in fileContents) 
-            // {
-            //     // you need to provide full path here
-            //     Type type = Type.GetType(programName);
             //
-            //     if (type is GuiSoftware)
-            //     {
-            //         Game1.windows.Add((GuiSoftware)Activator.CreateInstance(type!));
-            //     }
-            //     else if (type is CliSoftware)
-            //     {
-            //         return;
-            //     }
-            //     else
-            //     {
-            //         throw new Exception("Unknown type.");
-            //     }
-            // }
+            // constructor.Invoke(new object[] { args });
+
+            // you need to provide full path here
+            Type type = getTypeOfSoftware(className);
+
+            if (type.AssemblyQualifiedName!.Contains("FakeOS.Software.GUI"))
+            {
+                Game1.windows.Add((GuiSoftware)Activator.CreateInstance(type!, args));
+                echo("Opening a window...");
+            }
+            else if (type.AssemblyQualifiedName!.Contains("FakeOS.Software.CLI"))
+            {
+                return;
+            }
+            else
+            {
+                throw new Exception("Unknown type.");
+            }
         }
     }
+    
     
     #endregion
     
