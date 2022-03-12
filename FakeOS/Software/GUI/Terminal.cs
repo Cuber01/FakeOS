@@ -175,6 +175,7 @@ public class Terminal : GuiSoftware
         builtInCommands.Add("help", help);
         builtInCommands.Add("echo", echol);
         builtInCommands.Add("clear", clear);
+        builtInCommands.Add("ls", list);
     }
     
     #endregion
@@ -188,15 +189,46 @@ public class Terminal : GuiSoftware
             echo("[error]: Wrong number of arguments, should be one.");
             return;
         }
-        
-        if(!Directory.Exists(currentPath + args.ElementAt(0)))
+
+        if (args.ElementAt(0) == "..")
+        {
+            // Remove the last /
+            string tmpPath = currentPath.Substring(0, currentPath.Length - 1);
+
+            // Return if we can't go back further
+            if (tmpPath == Consts.filesystemPrefix)
+            {
+                return;
+            }
+
+            currentPath = tmpPath;
+            currentPath = Util.removeAfterCharacter(currentPath, Path.DirectorySeparatorChar);
+        }
+        else if(Directory.Exists(currentPath + Path.DirectorySeparatorChar + args.ElementAt(0)))
+        {
+            currentPath     += Path.DirectorySeparatorChar + args.ElementAt(0);
+            fakeCurrentPath += Path.DirectorySeparatorChar + args.ElementAt(0);
+        }
+        else
         {
             echo("[error]: Provided directory does not exist.");
-            return;
         }
+        
 
-        currentPath     += args.ElementAt(0);
-        fakeCurrentPath += args.ElementAt(0);
+
+    }
+
+    private void list(List<string> args)
+    {
+        string[] files = Directory.GetFileSystemEntries(currentPath);
+        
+        echo("");
+
+        foreach (var file in files)
+        {
+            (string, string) ficon = MimeTypes.GetContentType(file);
+            echo(ficon.Item2 + " " + Path.GetFileName(file));
+        }
     }
 
     private void help(List<string> args)

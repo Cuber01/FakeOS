@@ -438,7 +438,7 @@ public class FileManager : GuiSoftware
 
     #region misc
 
-    private void moveToDirectory(string path)
+    private void changeDirectory(string path)
     {
         goingBackHistory.Clear();
         
@@ -453,7 +453,7 @@ public class FileManager : GuiSoftware
         doubleClickActions = new Dictionary<string, Action<string>>()
         {
             {
-                Consts.folderType, moveToDirectory
+                Consts.folderType, changeDirectory
             },
             {
                 "text/", Util.openFileInNewTextEditor

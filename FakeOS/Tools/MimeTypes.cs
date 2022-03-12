@@ -31,6 +31,7 @@ public static class MimeTypes
             contentType = ("text/plain", AwesomeIcons.FileO);
         }
 
+        // 1 is type, 2 is icon
         return (contentType.Item1, contentType.Item2);
     }
 
