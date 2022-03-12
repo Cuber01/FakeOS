@@ -7,6 +7,7 @@ namespace FakeOS.Software.CLI;
 public abstract class CliSoftware : Software
 {
     protected readonly List<string> args;
+    protected readonly Action<string> echo;
     protected List<string> argsWithoutFlags;
     
     protected Dictionary<string, bool> flags = new Dictionary<string, bool>();
@@ -14,6 +15,7 @@ public abstract class CliSoftware : Software
     protected CliSoftware(List<string> args, Action<string> echo) : base(args, echo)
     {
         this.args = args;
+        this.echo = echo;
         
         run();
     }

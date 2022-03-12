@@ -45,7 +45,7 @@ namespace FakeOS
 
             styleManager.setTheme("yetAnotherDark");
 
-            windows.Add(new Terminal());
+            windows.Add(new Terminal(null));
 
         }
 

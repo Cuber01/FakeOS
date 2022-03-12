@@ -10,7 +10,7 @@ public static class Util
 
     public static void openFileInNewTextEditor(string path)
     {
-        Game1.windows.Add(new TextEditor(new List<string> { path }));
+        Game1.windows.Add(new TextEditor(new List<string> { path }, null));
     }
 
     public static string removeAfterCharacter(string input, char character)
