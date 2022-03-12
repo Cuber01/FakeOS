@@ -59,9 +59,9 @@ public class Terminal : GuiSoftware
             {
                 if (entry.StartsWith('#'))
                 {
-                    ImGui.PushStyleColor(ImGuiCol.Text, Consts.highlightColor);
+                    ImGui.PushStyleColor(ImGuiCol.Text, Consts.highlightColor); // TODO this doesnt work
                     
-                    ImGui.Text(entry);        
+                    ImGui.TextUnformatted(entry);        
                     
                     ImGui.PopStyleColor();
                 }
@@ -171,31 +171,13 @@ public class Terminal : GuiSoftware
             binCommands.Add(commandStub.Key, constructor);
         }
         
-        // constructor!.Invoke(new object[1] { new List<string>() });
-        // foreach (var programName in fileContents) TODO
-        // {
-        //     you need to provide full path here
-        //     Type type = Type.GetType(programName);
-        //
-        //     if (type is GuiSoftware)
-        //     {
-        //         Game1.windows.Add((GuiSoftware)Activator.CreateInstance(type!));
-        //     }
-        //     else if (type is CliSoftware)
-        //     {
-        //         return;
-        //     }
-        //     else
-        //     {
-        //         throw new Exception("Unknown type.");
-        //     }
-        // }
     }
 
     private void addBuiltinCommands()
     {
         builtInCommands.Add("cd", changeDirectory);
         builtInCommands.Add("help", help);
+        builtInCommands.Add("echo", echo);
     }
     
     #endregion
@@ -214,7 +196,7 @@ public class Terminal : GuiSoftware
     
     private void echo(List<string> args)
     {
-        string message = String.Join(String.Empty, args);
+        string message = String.Join(' ', args);
         
         consoleOutput.Add(message);
     }
@@ -248,6 +230,8 @@ public class Terminal : GuiSoftware
                 {
                     execCommand(command, false);
                     commandFound = true;
+                    
+                    break;
                 }
             }
 
@@ -260,6 +244,8 @@ public class Terminal : GuiSoftware
                     {
                         execCommand(command, true);
                         commandFound = true;
+                        
+                        break;
                     }
                 }
                         
@@ -294,7 +280,31 @@ public class Terminal : GuiSoftware
         }
         else
         {
+            ConstructorInfo constructor;
+            bool success = binCommands.TryGetValue(commandName, out constructor);
+
+            if (!success) throw new Exception("Do smth here");
             
+            constructor.Invoke(new object[] { args });
+
+            // foreach (var programName in fileContents) 
+            // {
+            //     // you need to provide full path here
+            //     Type type = Type.GetType(programName);
+            //
+            //     if (type is GuiSoftware)
+            //     {
+            //         Game1.windows.Add((GuiSoftware)Activator.CreateInstance(type!));
+            //     }
+            //     else if (type is CliSoftware)
+            //     {
+            //         return;
+            //     }
+            //     else
+            //     {
+            //         throw new Exception("Unknown type.");
+            //     }
+            // }
         }
     }
     
