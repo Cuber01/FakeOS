@@ -170,6 +170,7 @@ public class Terminal : GuiSoftware
         builtInCommands.Add("cd", changeDirectory);
         builtInCommands.Add("help", help);
         builtInCommands.Add("echo", echol);
+        builtInCommands.Add("clear", clear);
     }
     
     #endregion
@@ -215,6 +216,11 @@ public class Terminal : GuiSoftware
         {
             echo("Unknown argument: " + args.ElementAt(0));
         }
+    }
+
+    private void clear(List<string> args)
+    {
+        consoleOutput.Clear();
     }
     
     private void echol(List<string> args)
