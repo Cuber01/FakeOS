@@ -26,7 +26,7 @@ public class FontLoader
         }
     }
 
-    // TODO fontAwesome is 1 smaller than other fonts. Not sure if it's a good idea at this point in time but it looked off.
+    // fontAwesome is 1 smaller than other fonts!
     private void mergeFontAwesome() => mergeIconFont(Consts.fontAwesomeLocation, Consts.defaultFontSize - 1, (AwesomeIcons.IconMin, AwesomeIcons.IconMax));
     
     private unsafe ImFontPtr mergeIconFont(string path, int size, (ushort, ushort) range)

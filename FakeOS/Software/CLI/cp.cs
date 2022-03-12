@@ -7,7 +7,6 @@ namespace FakeOS.Software.CLI;
 
 public class Cp : CliSoftware
 {
-    // TODO
     // copy multiple files : [file] [file] [dir]
     // copy file : [file] [new filename]
     // copy file to dir : [file] [dir]

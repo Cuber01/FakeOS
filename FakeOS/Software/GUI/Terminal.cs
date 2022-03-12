@@ -271,8 +271,7 @@ public class Terminal : GuiSoftware
 
         if (builtin)
         {
-            Action<List<string>> action;
-            bool success = builtInCommands.TryGetValue(commandName, out action);
+            bool success = builtInCommands.TryGetValue(commandName, out var action);
 
             if (!success) throw new Exception("Do smth here");
             
@@ -280,8 +279,7 @@ public class Terminal : GuiSoftware
         }
         else
         {
-            ConstructorInfo constructor;
-            bool success = binCommands.TryGetValue(commandName, out constructor);
+            bool success = binCommands.TryGetValue(commandName, out var constructor);
 
             if (!success) throw new Exception("Do smth here");
             
