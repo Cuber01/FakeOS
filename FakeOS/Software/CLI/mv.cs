@@ -17,13 +17,13 @@ public class Mv : Cp
         // Check if there are any args
         if (args.Count <= 0)
         {
-            write("Error: Missing operand.\nFor usage run cp --help");
+            write("[error]: Missing operand.\nFor usage run cp --help");
             return;
         }
 
         if (argsWithoutFlags.Count < 2)
         {
-            write("Error: Too few arguments.");
+            write("[error]: Too few arguments.");
             return;
         }
 

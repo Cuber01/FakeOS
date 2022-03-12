@@ -30,6 +30,10 @@ public class Terminal : GuiSoftware
     private readonly Dictionary<string, Action<List<string>>> builtInCommands = new Dictionary<string, Action<List<string>>>();
     private Dictionary<string, string> binCommands = new Dictionary<string, string>();
 
+    // directories
+    private string currentPath = Consts.filesystemPrefix + String.Format("{0}home{0}", Path.DirectorySeparatorChar);
+    private string fakeCurrentPath = String.Format("{0}home{0}", Path.DirectorySeparatorChar);
+    
     // other
     private readonly StringCompletion completionModule;
 
@@ -179,7 +183,20 @@ public class Terminal : GuiSoftware
 
     private void changeDirectory(List<string> args)
     {
+        if (args.Count != 1)
+        {
+            echo("[error]: Wrong number of arguments, should be one.");
+            return;
+        }
         
+        if(!Directory.Exists(currentPath + args.ElementAt(0)))
+        {
+            echo("[error]: Provided directory does not exist.");
+            return;
+        }
+
+        currentPath     += args.ElementAt(0);
+        fakeCurrentPath += args.ElementAt(0);
     }
 
     private void help(List<string> args)
@@ -290,7 +307,7 @@ public class Terminal : GuiSoftware
     
     private void execCommand(List<string> command, bool builtin)
     {
-        echo("# " + command.ElementAt(0));
+        echo("> " + command.ElementAt(0));
         
         // Init args
         string commandName = command.ElementAt(0);

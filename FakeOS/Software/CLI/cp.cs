@@ -25,13 +25,13 @@ public class Cp : CliSoftware
         // Check if there are any args
         if (args.Count <= 0)
         {
-            write("Error: Missing operand.\nFor usage run cp --help");
+            write("[error]: Missing operand.\nFor usage run cp --help");
             return;
         }
 
         if (argsWithoutFlags.Count < 2)
         {
-            write("Error: Too few arguments.");
+            write("[error]: Too few arguments.");
             return;
         }
 
@@ -49,7 +49,7 @@ public class Cp : CliSoftware
             // Only last arg can be a directory, unless we're running with -r
             if (i != argsWithoutFlags.Count - 1 && !flags["-r"] && Directory.Exists(arg))
             {
-                write("Error: Can't copy directory. Run with -r to copy the whole directory.");
+                write("[error]: Can't copy directory. Run with -r to copy the whole directory.");
                 return;
             }
             
@@ -106,7 +106,7 @@ public class Cp : CliSoftware
         // }
         // catch (IOException)
         // {
-        //     write("Error: An entry with this name already exists.");
+        //     write("[error]: An entry with this name already exists.");
         // }
     }
 
@@ -130,7 +130,7 @@ public class Cp : CliSoftware
         // Check if the source directory exists
         if (!dir.Exists)
         {
-            write("Error: Source directory not found: {dir.FullName}");
+            write("[error]: Source directory not found: {dir.FullName}");
             return;
         }
 

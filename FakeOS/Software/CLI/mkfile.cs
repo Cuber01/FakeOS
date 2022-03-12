@@ -15,7 +15,7 @@ public class MkFile : CliSoftware
         
         if (args.Count != 1)
         {
-            write("Error: Wrong number of arguments.\nUsage: mkfile [file]");
+            write("[error]: Wrong number of arguments.\nUsage: mkfile [file]");
             return;
         } 
         
@@ -23,7 +23,7 @@ public class MkFile : CliSoftware
 
         if (File.Exists(toMake) || Directory.Exists(toMake))
         {
-            write("Error: Provided entry already exists.");
+            write("[error]: Provided entry already exists.");
             return;
         }
 

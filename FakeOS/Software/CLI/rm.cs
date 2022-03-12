@@ -16,7 +16,7 @@ public class Rm : CliSoftware
         // Check if there are any args
         if (args.Count <= 0)
         {
-            write("Error: Missing operand.\nUsage: rm [optional flags] [file]");
+            write("[error]: Missing operand.\nUsage: rm [optional flags] [file]");
             return;
         }
         
@@ -25,13 +25,13 @@ public class Rm : CliSoftware
 
         if (!(File.Exists(toRemove) || Directory.Exists(toRemove)))
         {
-            write("Error: Provided path does not exist.");
+            write("[error]: Provided path does not exist.");
             return;
         }
         
         if(flags["-r"] is false && Directory.Exists(toRemove))
         {
-            write("Error: Provided path is a directory. Run with -r to recursively remove the whole directory.");
+            write("[error]: Provided path is a directory. Run with -r to recursively remove the whole directory.");
             return;
         }
 

@@ -31,8 +31,6 @@ public class FileManager : GuiSoftware
 
     private const string filePopupID = "#rcFile";
     private const string backgroundPopupID = "#rcBackground";
-    
-    private readonly string filesystemPrefix = $".{Path.DirectorySeparatorChar}Filesystem";
 
     // If true, the file should be removed upon pasting
     private readonly Dictionary<string, bool> filesToCopyCut = new Dictionary<string, bool>();
@@ -236,7 +234,7 @@ public class FileManager : GuiSoftware
         string tmpPath = currentPath.Substring(0, currentPath.Length - 1);
         
         // Return if we can't go back further
-        if (tmpPath == filesystemPrefix)
+        if (tmpPath == Consts.filesystemPrefix)
         {
             return;
         }
@@ -264,7 +262,7 @@ public class FileManager : GuiSoftware
 
     private void tryUseTypedPath()
     {
-        if (Directory.Exists(filesystemPrefix + currentPathInputField))
+        if (Directory.Exists(Consts.filesystemPrefix + currentPathInputField))
         {
             useTypedPath();
             return;
@@ -274,7 +272,7 @@ public class FileManager : GuiSoftware
         currentPathInputField = Util.removeAfterCharacter(currentPathInputField, Path.DirectorySeparatorChar);
         
         // Check without the trash after slash
-        if (Directory.Exists(filesystemPrefix + currentPathInputField))
+        if (Directory.Exists(Consts.filesystemPrefix + currentPathInputField))
         {
             useTypedPath();
         }
@@ -283,7 +281,7 @@ public class FileManager : GuiSoftware
     private void useTypedPath()
     {
         currentPath = currentPathInputField;
-        currentPath = currentPath.Insert(0, filesystemPrefix);
+        currentPath = currentPath.Insert(0, Consts.filesystemPrefix);
             
         getFilesAndTypes(currentPath);
     }
@@ -466,7 +464,7 @@ public class FileManager : GuiSoftware
     private void updateInputPath()
     {
         currentPathInputField = currentPath;
-        currentPathInputField = currentPathInputField[filesystemPrefix.Length..];
+        currentPathInputField = currentPathInputField[Consts.filesystemPrefix.Length..];
     }
     
     #endregion
