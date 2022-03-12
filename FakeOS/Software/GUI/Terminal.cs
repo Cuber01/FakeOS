@@ -169,7 +169,7 @@ public class Terminal : GuiSoftware
     {
         builtInCommands.Add("cd", changeDirectory);
         builtInCommands.Add("help", help);
-        builtInCommands.Add("echo", echo);
+        builtInCommands.Add("echo", echol);
     }
     
     #endregion
@@ -186,7 +186,7 @@ public class Terminal : GuiSoftware
         
     }
     
-    private void echo(List<string> args)
+    private void echol(List<string> args)
     {
         string message = String.Join(' ', args);
         
@@ -282,12 +282,12 @@ public class Terminal : GuiSoftware
 
             if (type.AssemblyQualifiedName!.Contains("FakeOS.Software.GUI"))
             {
-                Game1.windows.Add((GuiSoftware)Activator.CreateInstance(type!, args));
+                Game1.windows.Add((GuiSoftware)Activator.CreateInstance(type!, args, null));
                 echo("Opening a window...");
             }
             else if (type.AssemblyQualifiedName!.Contains("FakeOS.Software.CLI"))
             {
-                return;
+                var unused = (CliSoftware)Activator.CreateInstance(type!, args, echo);
             }
             else
             {

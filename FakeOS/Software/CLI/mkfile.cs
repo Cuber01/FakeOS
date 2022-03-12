@@ -15,7 +15,7 @@ public class MkFile : CliSoftware
         
         if (args.Count != 1)
         {
-            write("Error: Wrong number of arguments.\n Usage: mkfile [file]");
+            write("Error: Wrong number of arguments.\nUsage: mkfile [file]");
             return;
         } 
         

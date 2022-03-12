@@ -17,7 +17,7 @@ public class Mv : Cp
         // Check if there are any args
         if (args.Count <= 0)
         {
-            write("Error: Missing operand.\n For usage run cp --help");
+            write("Error: Missing operand.\nFor usage run cp --help");
             return;
         }
 

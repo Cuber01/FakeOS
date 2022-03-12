@@ -16,7 +16,7 @@ public class Rm : CliSoftware
         // Check if there are any args
         if (args.Count <= 0)
         {
-            write("Error: Missing operand.\n Usage: rm [optional flags] [file]");
+            write("Error: Missing operand.\nUsage: rm [optional flags] [file]");
             return;
         }
         

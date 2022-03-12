@@ -47,8 +47,14 @@ public abstract class CliSoftware : Software
     
     protected void write(string message)
     {
-        // TODO Redirect this to console later on
-        Console.WriteLine(message);
+        if (echo is null)
+        {
+            Console.WriteLine(message);    
+        }
+        else
+        {
+            echo.Invoke(message);
+        }
     }
 
     protected virtual void run()
