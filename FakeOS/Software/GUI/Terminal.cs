@@ -61,7 +61,8 @@ public class Terminal : GuiSoftware
 
         if (ImGui.Begin(fancyName, ref running))
         {
-            ImGui.Text("Current Directory: " + fakeCurrentPath);
+            ImGui.Text("FCurrent Directory: " + fakeCurrentPath);
+            ImGui.Text("Current Directory: " + currentPath);
 
             ImGui.BeginChild("#main", new Vector2(0, -35), true); // TODO this has to be calculated
             
@@ -196,22 +197,13 @@ public class Terminal : GuiSoftware
 
         if (args.ElementAt(0) == "..")
         {
-            // Remove the last /
-            string tmpPath = currentPath.Substring(0, currentPath.Length - 1);
-
-            // Return if we can't go back further
-            if (tmpPath == Consts.filesystemPrefix)
-            {
-                return;
-            }
-
-            currentPath = tmpPath;
-            currentPath = Util.removeAfterCharacter(currentPath, Path.DirectorySeparatorChar);
+            currentPath = pathGoBack(currentPath);
+            fakeCurrentPath = pathGoBack(fakeCurrentPath);
         }
         else if(Directory.Exists(currentPath + Path.DirectorySeparatorChar + args.ElementAt(0)))
         {
-            currentPath     += Path.DirectorySeparatorChar + args.ElementAt(0);
-            fakeCurrentPath += Path.DirectorySeparatorChar + args.ElementAt(0);
+            currentPath     += args.ElementAt(0) + Path.DirectorySeparatorChar;
+            fakeCurrentPath += args.ElementAt(0) + Path.DirectorySeparatorChar;
         }
         else
         {
@@ -422,6 +414,20 @@ public class Terminal : GuiSoftware
         data->BufDirty = 1;
         data->CursorPos = data->SelectionStart = data->SelectionEnd = newText.Length;
         
+    }
+
+    private string pathGoBack(string path)
+    {
+        // Remove the last /
+        string tmpPath = path.Substring(0, path.Length - 1);
+
+        // Return if we can't go back further
+        if (tmpPath == Consts.filesystemPrefix)
+        {
+            return path;
+        }
+        
+        return Util.removeAfterCharacter(tmpPath, Path.DirectorySeparatorChar);
     }
 
     private string removeCloseDuplicates(string s, char charToRemove)
