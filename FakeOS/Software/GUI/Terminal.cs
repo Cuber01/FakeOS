@@ -14,6 +14,8 @@ namespace FakeOS.Software.GUI;
 
 public class Terminal : GuiSoftware
 {
+    #region fields
+    
     // flags
     private const ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags.EnterReturnsTrue | ImGuiInputTextFlags.CallbackCompletion | ImGuiInputTextFlags.CallbackHistory;
 
@@ -35,6 +37,8 @@ public class Terminal : GuiSoftware
     
     // other
     private readonly StringCompletion completionModule;
+    
+    #endregion
 
     public Terminal(Action<string> echo, List<string> args = null) : base(args, echo)
     {
@@ -57,6 +61,7 @@ public class Terminal : GuiSoftware
 
         if (ImGui.Begin(fancyName, ref running))
         {
+            ImGui.Text("Current Directory: " + fakeCurrentPath);
 
             ImGui.BeginChild("#main", new Vector2(0, -35), true); // TODO this has to be calculated
             
@@ -174,7 +179,7 @@ public class Terminal : GuiSoftware
         builtInCommands.Add("help", help);
         builtInCommands.Add("echo", echol);
         builtInCommands.Add("clear", clear);
-        builtInCommands.Add("ls", list);
+        builtInCommands.Add("ls", listFiles);
     }
     
     #endregion
@@ -212,14 +217,18 @@ public class Terminal : GuiSoftware
         {
             echo("[error]: Provided directory does not exist.");
         }
-        
-
 
     }
 
-    private void list(List<string> args)
+    private void listFiles(List<string> args)
     {
         string[] files = Directory.GetFileSystemEntries(currentPath);
+
+        if (files.Length is 0)
+        {
+            echo("Nothing to show.");
+            return;
+        }
         
         foreach (var file in files)
         {
