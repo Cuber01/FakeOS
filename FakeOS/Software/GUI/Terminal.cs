@@ -422,7 +422,7 @@ public class Terminal : GuiSoftware
         string tmpPath = path.Substring(0, path.Length - 1);
 
         // Return if we can't go back further
-        if (tmpPath == Consts.filesystemPrefix)
+        if (tmpPath == Consts.filesystemPrefix || tmpPath.Length is 0)
         {
             return path;
         }
