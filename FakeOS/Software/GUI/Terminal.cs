@@ -37,6 +37,7 @@ public class Terminal : GuiSoftware
     
     // other
     private readonly StringCompletion completionModule;
+    private float searchBarWindowOffset = (ImGui.GetStyle().ItemSpacing.Y + ImGui.GetFrameHeightWithSpacing()) * 2.45f;
     
     #endregion
 
@@ -63,7 +64,7 @@ public class Terminal : GuiSoftware
         {
             ImGui.Text("Current Directory: " + fakeCurrentPath);
 
-            ImGui.BeginChild("#main", new Vector2(0, -35), true); // TODO this has to be calculated
+            ImGui.BeginChild("#main", new Vector2(0, -searchBarWindowOffset), true); // TODO this has to be calculated
             
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4, 1)); // Tighten spacing
 
@@ -343,7 +344,7 @@ public class Terminal : GuiSoftware
         {
             bool success = builtInCommands.TryGetValue(commandName, out var action);
 
-            if (!success) throw new Exception("Do smth here"); // todo
+            if (!success) throw new Exception("Failed to get command from builtInCommands."); // todo
             
             action.Invoke(args);
         }
@@ -351,11 +352,8 @@ public class Terminal : GuiSoftware
         {
             bool success = binCommands.TryGetValue(commandName, out var className);
 
-            if (!success) throw new Exception("Do smth here");
-            //
-            // constructor.Invoke(new object[] { args });
+            if (!success) throw new Exception("Failed to get command from binCommands.");
 
-            // you need to provide full path here
             Type type = getTypeOfSoftware(className);
 
             if (type.AssemblyQualifiedName!.Contains("FakeOS.Software.GUI"))
