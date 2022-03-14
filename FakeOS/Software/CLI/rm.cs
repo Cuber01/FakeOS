@@ -21,7 +21,7 @@ public class Rm : CliSoftware
         }
         
         // Last arg is always the target
-        string toRemove = argsWithoutFlags.ElementAt(args.Count - 1);
+        string toRemove = argsWithoutFlags.ElementAt(argsWithoutFlags.Count - 1);
 
         if (!File.Exists(toRemove) && !Directory.Exists(toRemove))
         {
