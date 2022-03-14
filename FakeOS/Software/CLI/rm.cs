@@ -12,6 +12,12 @@ public class Rm : CliSoftware
     protected override void run()
     {
         base.run();
+
+        if (args.Contains("--help"))
+        {
+            help();
+            return;
+        }
         
         // Check if there are any args
         if (args.Count <= 0)

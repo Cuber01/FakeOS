@@ -12,6 +12,12 @@ public class Mv : Cp
     protected override void run()
     {
         handleFlags();
+        
+        if (args.Contains("--help"))
+        {
+            help();
+            return;
+        }
 
         // Check if there are any args
         if (args.Count <= 0)

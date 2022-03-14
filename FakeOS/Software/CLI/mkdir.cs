@@ -12,4 +12,10 @@ public class MkDir : MkFile
     {
         Directory.CreateDirectory(path);
     }
+    
+    protected override void help()
+    {
+        write("Usage: Usage: mkdir [dir]");
+    }
+
 }

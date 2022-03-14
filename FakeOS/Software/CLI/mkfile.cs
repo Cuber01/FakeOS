@@ -13,6 +13,12 @@ public class MkFile : CliSoftware
     {
         base.run();
         
+        if (args.Contains("--help"))
+        {
+            help();
+            return;
+        }
+        
         if (args.Count != 1)
         {
             write("[error]: Wrong number of arguments.\nUsage: mkfile [file]");
@@ -37,9 +43,9 @@ public class MkFile : CliSoftware
         file.Close();
     }
 
-    private void help()
+    protected virtual void help()
     {
-        write("Usage: Usage: mkfile [file]\n");
+        write("Usage: Usage: mkfile [file]");
     }
     
     
