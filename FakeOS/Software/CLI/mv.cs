@@ -7,7 +7,7 @@ namespace FakeOS.Software.CLI;
 public class Mv : Cp
 {
     private readonly List<string> thingsToMove = new List<string>();
-    public Mv(List<string> args, Action<string> echo) : base(args, echo) { }
+    public Mv(List<string> args, Action<string> echo = null, string executionDirectory = null) : base(args, echo, executionDirectory) { }
 
     protected override void run()
     {

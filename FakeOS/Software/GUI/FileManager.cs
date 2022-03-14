@@ -37,7 +37,7 @@ public class FileManager : GuiSoftware
     
     #endregion
 
-    public FileManager(List<string> args, Action<string> echo) : base(args, echo)
+    public FileManager(List<string> args, Action<string> echo = null, string executionDirectory = null) : base(args, echo, executionDirectory)
     {
         fancyName = "File Manager";
         
@@ -360,22 +360,22 @@ public class FileManager : GuiSoftware
 
         if (Directory.Exists(file.Item1))
         {
-            var unused = new Rm(new List<string>() { "-r", file.Item1 }, null);    
+            var unused = new Rm(new List<string>() { "-r", file.Item1 });    
         } 
         else
         {
-            var unused = new Rm(new List<string>() { file.Item1 }, null);
+            var unused = new Rm(new List<string>() { file.Item1 });
         }
 
-        foreach (var entry in selected.Where(entry => entry.Value is true ))
+        foreach (var entry in selected.Where(entry => entry.Value ))
         {
             if (Directory.Exists(entry.Key))
             {
-                var unused = new Rm(new List<string>() { "-r", entry.Key }, null);    
+                var unused = new Rm(new List<string>() { "-r", entry.Key });    
             } 
             else
             {
-                var unused = new Rm(new List<string>() { entry.Key }, null);
+                var unused = new Rm(new List<string>() { entry.Key });
             }
         }
         
@@ -391,22 +391,22 @@ public class FileManager : GuiSoftware
                 if (Directory.Exists(file.Key))
                 {
                     var unused = new Cp(new List<string>()
-                        { "-r", file.Key, currentPath + Path.GetFileName(file.Key) }, null);
+                        { "-r", file.Key, currentPath + Path.GetFileName(file.Key) });
                 }
                 else
                 {
-                    var unused = new Cp(new List<string>() { file.Key, currentPath + Path.GetFileName(file.Key) }, null);
+                    var unused = new Cp(new List<string>() { file.Key, currentPath + Path.GetFileName(file.Key) });
                 }
             }
             else
             {
                 if (Directory.Exists(file.Key))
                 {
-                    var unused = new Mv(new List<string>() { "-r", file.Key, currentPath + Path.GetFileName(file.Key) }, null);
+                    var unused = new Mv(new List<string>() { "-r", file.Key, currentPath + Path.GetFileName(file.Key) });
                 }
                 else
                 {
-                    var unused = new Mv(new List<string>() { file.Key, currentPath + Path.GetFileName(file.Key) }, null);
+                    var unused = new Mv(new List<string>() { file.Key, currentPath + Path.GetFileName(file.Key) });
                 }
             }
 
@@ -419,14 +419,14 @@ public class FileManager : GuiSoftware
     // TODO make both of these idiot proof so you won't be able to create a file with the same name in directory
     private void newTextFile()
     {
-        var unused = new MkFile(new List<string>() { currentPath + "NewTextFile.txt" }, null);
+        var unused = new MkFile(new List<string>() { currentPath + "NewTextFile.txt" });
         
         getFilesAndTypes(currentPath);
     }
     
     private void newDirectory()
     {
-        var unused = new MkDir(new List<string>() { currentPath + "NewDirectory" }, null);
+        var unused = new MkDir(new List<string>() { currentPath + "NewDirectory" });
         
         getFilesAndTypes(currentPath);
     }

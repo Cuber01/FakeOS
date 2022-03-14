@@ -45,7 +45,7 @@ public class TextEditor : GuiSoftware
     private const ImGuiInputTextFlags multilineTextFlags = ImGuiInputTextFlags.AllowTabInput;
     private const ImGuiWindowFlags windowFlags = ImGuiWindowFlags.Modal | ImGuiWindowFlags.MenuBar;
 
-    public TextEditor(List<string> args, Action<string> echo) : base(args, echo)
+    public TextEditor(List<string> args, Action<string> echo = null, string executionDirectory = null) : base(args, echo, executionDirectory)
     {
         this.fancyName = "Text Editor";
         

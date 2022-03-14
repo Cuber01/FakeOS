@@ -5,7 +5,7 @@ namespace FakeOS.Software.GUI;
 
 public abstract class GuiSoftware : Software
 {
-    protected GuiSoftware(List<string> args, Action<string> echo) : base(args, echo)
+    protected GuiSoftware(List<string> args, Action<string> echo = null, string executionDirectory = null) : base(args, echo, executionDirectory)
     {
     }
     

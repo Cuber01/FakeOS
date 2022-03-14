@@ -7,7 +7,7 @@ namespace FakeOS.Software.CLI;
 
 public class MkFile : CliSoftware
 {
-    public MkFile(List<string> args, Action<string> echo) : base(args, echo) { }
+    public MkFile(List<string> args, Action<string> echo = null, string executionDirectory = null) : base(args, echo, executionDirectory) { }
 
     protected override void run()
     {

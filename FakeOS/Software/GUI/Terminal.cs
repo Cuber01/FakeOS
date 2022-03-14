@@ -40,7 +40,7 @@ public class Terminal : GuiSoftware
     
     #endregion
 
-    public Terminal(Action<string> echo, List<string> args = null) : base(args, echo)
+    public Terminal(Action<string> echo, List<string> args = null, string executionDirectory = null) : base(args, echo, executionDirectory)
     {
         fancyName = "Terminal";
 
@@ -61,8 +61,7 @@ public class Terminal : GuiSoftware
 
         if (ImGui.Begin(fancyName, ref running))
         {
-            ImGui.Text("FCurrent Directory: " + fakeCurrentPath);
-            ImGui.Text("Current Directory: " + currentPath);
+            ImGui.Text("Current Directory: " + fakeCurrentPath);
 
             ImGui.BeginChild("#main", new Vector2(0, -35), true); // TODO this has to be calculated
             
@@ -70,7 +69,7 @@ public class Terminal : GuiSoftware
 
             foreach (var entry in consoleOutput)
             {
-                if (entry.StartsWith('#'))
+                if (entry.StartsWith('>'))
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, Consts.highlightColor); // TODO this doesnt work
                     
@@ -144,15 +143,10 @@ public class Terminal : GuiSoftware
                     {
                         currentHistoryPos--;
 
-                        if (currentHistoryPos != -1)
-                        {
-                            replaceInput(data, history.ElementAt(currentHistoryPos));    
-                        }
-                        else
-                        {
-                            replaceInput(data, "");
-                        }
-                        
+                        replaceInput(data, 
+                            currentHistoryPos != -1 
+                                ? history.ElementAt(currentHistoryPos)
+                                : "");
                     }
                 }
 

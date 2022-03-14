@@ -5,7 +5,7 @@ namespace FakeOS.Software;
 
 public abstract class Software
 {
-    protected Software(List<string> args, Action<string> echo)
+    protected Software(List<string> args, Action<string> echo, string executionDirectory)
     {
         
     }
