@@ -20,8 +20,7 @@ public class Cp : CliSoftware
     protected override void run()
     {
         base.run();
-        generateArgsWithoutFlags();
-        
+
         // Check if there are any args
         if (args.Count <= 0)
         {

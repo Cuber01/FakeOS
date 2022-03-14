@@ -343,7 +343,7 @@ public class Terminal : GuiSoftware
         {
             bool success = builtInCommands.TryGetValue(commandName, out var action);
 
-            if (!success) throw new Exception("Do smth here");
+            if (!success) throw new Exception("Do smth here"); // todo
             
             action.Invoke(args);
         }
@@ -365,7 +365,7 @@ public class Terminal : GuiSoftware
             }
             else if (type.AssemblyQualifiedName!.Contains("FakeOS.Software.CLI"))
             {
-                var unused = (CliSoftware)Activator.CreateInstance(type!, args, echo);
+                var unused = (CliSoftware)Activator.CreateInstance(type!, args, echo, currentPath);
             }
             else
             {

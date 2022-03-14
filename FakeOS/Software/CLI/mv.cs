@@ -12,8 +12,7 @@ public class Mv : Cp
     protected override void run()
     {
         handleFlags();
-        generateArgsWithoutFlags();
-        
+
         // Check if there are any args
         if (args.Count <= 0)
         {

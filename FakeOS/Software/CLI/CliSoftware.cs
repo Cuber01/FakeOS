@@ -8,6 +8,7 @@ public abstract class CliSoftware : Software
 {
     protected readonly List<string> args;
     protected readonly Action<string> echo;
+    protected readonly string executionDirectory;
     protected List<string> argsWithoutFlags;
     
     protected Dictionary<string, bool> flags = new Dictionary<string, bool>();
@@ -16,6 +17,7 @@ public abstract class CliSoftware : Software
     {
         this.args = args;
         this.echo = echo;
+        this.executionDirectory = executionDirectory;
         
         run();
     }
@@ -33,7 +35,7 @@ public abstract class CliSoftware : Software
         }
     }
 
-    protected void generateArgsWithoutFlags()
+    private void generateArgsWithoutFlags()
     {
         argsWithoutFlags = new List<string>();
         
@@ -41,7 +43,7 @@ public abstract class CliSoftware : Software
         {
             if(flags.ContainsKey(arg)) continue;
             
-            argsWithoutFlags.Add(arg);
+            argsWithoutFlags.Add(executionDirectory != null ? executionDirectory+arg : arg);
         }
     }
     
@@ -60,6 +62,7 @@ public abstract class CliSoftware : Software
     protected virtual void run()
     {
         handleFlags();
+        generateArgsWithoutFlags();
     }
 
     protected virtual void handleFlags()
