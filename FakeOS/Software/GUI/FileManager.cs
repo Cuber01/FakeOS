@@ -416,17 +416,17 @@ public class FileManager : GuiSoftware
         filesToCopyCut.Clear();
     }
 
-    // TODO make both of these idiot proof so you won't be able to create a file with the same name in directory
     private void newTextFile()
     {
-        var unused = new MkFile(new List<string>() { currentPath + "NewTextFile.txt" });
+        // The chance of getting the same number is so small that it's negligible (it's not)
+        var unused = new MkFile(new List<string>() { currentPath + $"NewTextFile{Util.rnd.Next(Consts.fat32MaxFilesInDirectory)}.txt" });
         
         getFilesAndTypes(currentPath);
     }
     
     private void newDirectory()
     {
-        var unused = new MkDir(new List<string>() { currentPath + "NewDirectory" });
+        var unused = new MkDir(new List<string>() { currentPath + $"NewDirectory{Util.rnd.Next(Consts.fat32MaxFilesInDirectory)}" });
         
         getFilesAndTypes(currentPath);
     }

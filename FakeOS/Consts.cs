@@ -21,6 +21,7 @@ public static class Consts
    public static readonly string fontAwesomeLocation = (String.Format(".{0}Filesystem{0}sys{0}fonts{0}misc{0}fontawesome-webfont.ttf", Path.DirectorySeparatorChar));
 
    public const int defaultFontSize = 20;
+   public const int fat32MaxFilesInDirectory = 268173300; // I used fat because it has the lowest amount of files per one directory among any mildly popular filesystems
    
    public const string folderType = "misc/directory";
    

@@ -37,7 +37,7 @@ public class Terminal : GuiSoftware
     
     // other
     private readonly StringCompletion completionModule;
-    private float searchBarWindowOffset = (ImGui.GetStyle().ItemSpacing.Y + ImGui.GetFrameHeightWithSpacing()) * 2.45f;
+    private readonly float searchBarWindowOffset = (ImGui.GetStyle().ItemSpacing.Y + ImGui.GetFrameHeightWithSpacing()) * 2.45f;
     
     #endregion
 
@@ -64,7 +64,7 @@ public class Terminal : GuiSoftware
         {
             ImGui.Text("Current Directory: " + fakeCurrentPath);
 
-            ImGui.BeginChild("#main", new Vector2(0, -searchBarWindowOffset), true); // TODO this has to be calculated
+            ImGui.BeginChild("#main", new Vector2(0, -searchBarWindowOffset), true);
             
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4, 1)); // Tighten spacing
 
@@ -344,7 +344,7 @@ public class Terminal : GuiSoftware
         {
             bool success = builtInCommands.TryGetValue(commandName, out var action);
 
-            if (!success) throw new Exception("Failed to get command from builtInCommands."); // todo
+            if (!success) throw new Exception("Failed to get command from builtInCommands.");
             
             action.Invoke(args);
         }
