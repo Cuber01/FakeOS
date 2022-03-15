@@ -10,23 +10,7 @@ namespace FakeOS.Software.GUI;
 
 public class TextEditor : GuiSoftware
 {
-    /*  menu at the top of the screen
-    
-        if(ImGui.BeginMainMenuBar())
-        {
-            if (ImGui.BeginMenu("File"))
-            {
-                if(ImGui.MenuItem("New"))
-                {
-                    //Do something
-                }
-                ImGui.EndMenu();
-            }
-        
-            ImGui.EndMainMenuBar();
-        }
-    
-    */
+
 
     private const string defaultDocName = "Unsaved Document";
         

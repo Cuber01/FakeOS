@@ -45,8 +45,7 @@ namespace FakeOS
 
             styleManager.setTheme("yetAnotherDark");
 
-            windows.Add(new FileManager(new List<string>() { "./Filesystem/home/" }));
-            windows.Add(new Terminal(null));
+            windows.Add(new SystemBar(null));
 
         }
 
