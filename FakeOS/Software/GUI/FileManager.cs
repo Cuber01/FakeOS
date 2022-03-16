@@ -40,8 +40,15 @@ public class FileManager : GuiSoftware
     public FileManager(List<string> args, Action<string> echo = null, string executionDirectory = null) : base(args, echo, executionDirectory)
     {
         fancyName = "File Manager";
-        
-        this.currentPath = args.ElementAt(0);
+
+        if (args is not null && args.Count >= 1)
+        {
+            this.currentPath = Consts.filesystemPrefix + args.ElementAt(0);
+        }
+        else
+        {
+            this.currentPath = Consts.filesystemPrefix + "/home/";
+        }
         
         updateInputPath();
 

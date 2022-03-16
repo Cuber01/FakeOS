@@ -360,7 +360,7 @@ public class Terminal : GuiSoftware
 
             if (type.AssemblyQualifiedName!.Contains("FakeOS.Software.GUI"))
             {
-                Game1.windows.Add((GuiSoftware)Activator.CreateInstance(type!, args, null));
+                Game1.windows.Add((GuiSoftware)Activator.CreateInstance(type!, args, null, null));
                 echo("Opening a window...");
             }
             else if (type.AssemblyQualifiedName!.Contains("FakeOS.Software.CLI"))

@@ -1,8 +1,26 @@
 # FakeOS
 
-FakeOS is a project with the goal of providing a very simple fake operating system. 
-Operating system as in a high-level/end-user sense, what it really aims to provide is a GUI shell with a window manager and basic apps.
+FakeOS is a project with the goal of providing a fake "operating system". 
 Made using C#, Monogame and ImGui with the ImGui.NET plugin.
+
+# State
+
+It currently contains 4 GUI and 5 CLI apps:
+
+Terminal - Lacks any highlighting, finished otherwise.
+File Manager - Finished. Could use more features including tree view, renaming files and shift file selection.
+Text Editor - Contains unfinished features.
+Theme settings - Contains unfinished features.
+
+All CLI apps are finished.
+
+Both GUI and CLI apps can be run via the terminal that appears on startup, type help for more details.
+
+# Gallery
+
+![](./img/fm.png)
+![](./img/terminal.png)
+![](./img/text.png)
 
 # Credits
 
