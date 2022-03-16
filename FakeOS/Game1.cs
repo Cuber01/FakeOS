@@ -45,7 +45,7 @@ namespace FakeOS
 
             styleManager.setTheme("yetAnotherDark");
 
-            windows.Add(new ThemeSettings(null, styleManager));
+            windows.Add(new Terminal(null));
 
         }
 
@@ -80,8 +80,6 @@ namespace FakeOS
             {
                 windows[i].imGuiUpdate();
             }
-
-            ImGui.ShowDemoWindow();
 
             guiRenderer.AfterLayout();
             

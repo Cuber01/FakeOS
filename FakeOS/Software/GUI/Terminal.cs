@@ -49,6 +49,8 @@ public class Terminal : GuiSoftware
         addBuiltinCommands();
 
         List<string> keys = builtInCommands.Keys.Concat(binCommands.Keys).ToList();
+        
+        consoleOutput.Add("Welcome to FakeOS! Type help to get started.");
 
         completionModule = new StringCompletion(new List<string>(keys));
     }
